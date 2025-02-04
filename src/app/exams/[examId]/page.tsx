@@ -1,7 +1,9 @@
 "use client";
+import { LoadingScreen } from "@/components/ui/loading";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 const examTitles: { [key: string]: string } = {
 	M11: "M1.1 Introduction to SQL",
@@ -11,9 +13,22 @@ const examTitles: { [key: string]: string } = {
 };
 
 export default function ExamPage() {
+	const [isLoading, setIsLoading] = useState(true);
 	const pathname = usePathname();
 	const examId = pathname.split("/").pop() || "";
 	const examTitle = examTitles[examId] || "Exam";
+
+	useEffect(() => {
+		// Simulate loading or do actual data fetching
+		const timer = setTimeout(() => {
+			setIsLoading(false);
+		}, 1000);
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (isLoading) {
+		return <LoadingScreen />;
+	}
 
 	return (
 		<section className="space-y-8">
