@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 const examTitles: { [key: string]: string } = {
@@ -8,8 +10,10 @@ const examTitles: { [key: string]: string } = {
 	M31: "M3.1 Pandas 101",
 };
 
-export default function ExamPage({ params }: { params: { examId: string } }) {
-	const examTitle = examTitles[params.examId] || "Exam";
+export default function ExamPage() {
+	const pathname = usePathname();
+	const examId = pathname.split("/").pop() || "";
+	const examTitle = examTitles[examId] || "Exam";
 
 	return (
 		<section className="space-y-8">
@@ -92,7 +96,7 @@ export default function ExamPage({ params }: { params: { examId: string } }) {
 				</div>
 
 				<div className="text-center mt-8">
-					<Link href={`/exams/${params.examId}/multichoice/1`}>
+					<Link href={`/exams/${examId}/multichoice/1`}>
 						<Button size="lg" className="px-8 uppercase">
 							start exam
 						</Button>
