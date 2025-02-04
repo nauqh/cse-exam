@@ -1,8 +1,5 @@
 "use client";
 import { ReactNode } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
 
 export default function ExamsLayout({ children }: { children: ReactNode }) {
 	return (
