@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
 import { BiHelpCircle, BiCodeAlt, BiMessageRoundedDots } from "react-icons/bi";
@@ -8,7 +8,7 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
-
+import { usePathname, useRouter } from "next/navigation";
 import {
 	Select,
 	SelectContent,
@@ -17,13 +17,60 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import ProblemDescription from "@/components/ProblemDescription";
-
+import { getExamProblemQuestions } from "@/lib/questions";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Home() {
+	const { toast } = useToast();
+	const router = useRouter();
+	const pathname = usePathname();
 	const [code, setCode] = useState<string>("");
 	const [output, setOutput] = useState<string | React.ReactElement>("");
-	const [language, setLanguage] = useState("python");
+	const [language, setLanguage] = useState("sql");
+	const [problems, setProblems] = useState<any[]>([]);
+	const [answeredProblems, setAnsweredProblems] = useState<{
+		[problemId: number]: { code: string; language: string };
+	}>({});
+	const [showSummary, setShowSummary] = useState(false);
+
+	// Extract examId and questionId from pathname
+	const paths = pathname?.split("/") || [];
+	const examId = paths[paths.length - 3];
+	const currentPage = parseInt(paths[paths.length - 1]) || 1;
+
+	useEffect(() => {
+		const fetchProblems = async () => {
+			if (examId) {
+				const fetchedProblems = await getExamProblemQuestions(examId);
+				setProblems(fetchedProblems);
+			}
+		};
+		fetchProblems();
+	}, [examId]);
+
+	useEffect(() => {
+		const savedAnswers = localStorage.getItem("problemAnswers");
+		if (savedAnswers) {
+			setAnsweredProblems(JSON.parse(savedAnswers));
+		}
+	}, []);
+
+	useEffect(() => {
+		if (answeredProblems[currentPage]) {
+			setCode(answeredProblems[currentPage].code);
+			setLanguage(answeredProblems[currentPage].language);
+		} else {
+			setCode("");
+		}
+	}, [currentPage, answeredProblems]);
+
+	const currentProblem = problems[currentPage - 1];
+
+	const handlePageChange = (page: number) => {
+		router.push(`/exams/${examId}/problem/${page}`);
+	};
 
 	const handleCodeChange = useCallback((value: string) => {
 		setCode(value);
@@ -58,39 +105,141 @@ export default function Home() {
 		}
 	};
 
+	const handleSubmit = () => {
+		if (!code) {
+			toast({
+				description: "Please write some code before submitting",
+				className: "bg-yellow-100 text-yellow-900",
+				duration: 3000,
+			});
+			return;
+		}
+
+		const newAnswers = {
+			...answeredProblems,
+			[currentPage]: { code, language },
+		};
+
+		setAnsweredProblems(newAnswers);
+		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
+
+		if (currentPage < problems.length) {
+			router.push(`/exams/${examId}/problem/${currentPage + 1}`);
+		}
+	};
+
+	const handleReset = () => {
+		const newAnswers = { ...answeredProblems };
+		delete newAnswers[currentPage];
+		setAnsweredProblems(newAnswers);
+		setCode("");
+		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
+	};
+
+	const handleShowSummary = () => {
+		setShowSummary(true);
+	};
+
+	const handleFinishSection = () => {
+		const examResults = {
+			multichoice: JSON.parse(
+				localStorage.getItem("multichoiceAnswers") || "{}"
+			),
+			problems: JSON.parse(
+				localStorage.getItem("problemAnswers") || "{}"
+			),
+		};
+
+		const formattedResults = Object.entries(examResults)
+			.map(
+				([section, answers]) =>
+					`${section}:\n${JSON.stringify(answers, null, 2)}`
+			)
+			.join("\n\n");
+
+		toast({
+			description: (
+				<div className="max-h-[500px] overflow-y-auto">
+					{formattedResults}
+				</div>
+			),
+			className:
+				"bg-blue-100 text-blue-900 whitespace-pre-wrap font-mono",
+			duration: 5000,
+		});
+		// router.push(`/exams/${examId}/review`);
+	};
+
 	return (
-		<div className="h-full p-2">
+		<div className="p-2">
 			<ResizablePanelGroup direction="horizontal">
 				<ResizablePanel defaultSize={50} minSize={30}>
-					<div className="h-full">
-						<Tabs defaultValue="description">
-							<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none">
-								<TabsTrigger
-									value="description"
-									className="hover:bg-gray-100 flex items-center gap-2"
+					<div className="h-full flex flex-col border rounded-sm">
+						<div className="flex-1">
+							<Tabs defaultValue="description">
+								<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none">
+									<TabsTrigger
+										value="description"
+										className="hover:bg-gray-100 flex items-center gap-2"
+									>
+										<BiHelpCircle className="w-4 h-4" />
+										Description
+									</TabsTrigger>
+									<TabsTrigger
+										value="solutions"
+										className="hover:bg-gray-100 flex items-center gap-2"
+									>
+										<BiCodeAlt className="w-4 h-4" />
+										Solutions
+									</TabsTrigger>
+									<TabsTrigger
+										value="discussion"
+										className="hover:bg-gray-100 flex items-center gap-2"
+									>
+										<BiMessageRoundedDots className="w-4 h-4" />
+										Discussion
+									</TabsTrigger>
+								</TabsList>
+								<ProblemDescription
+									name="description"
+									content={currentProblem?.question}
+								/>
+								<ProblemDescription
+									name="solutions"
+									content={currentProblem?.solution}
+								/>
+								<ProblemDescription
+									name="discussion"
+									content={currentProblem?.discussion}
+								/>
+							</Tabs>
+						</div>
+						<div className="flex items-center justify-center gap-2 p-2 border-b">
+							{Array.from(
+								{ length: problems.length },
+								(_, i) => i + 1
+							).map((page) => (
+								<button
+									key={page}
+									onClick={() => handlePageChange(page)}
+									className={`
+										w-8 h-8 rounded-sm flex items-center justify-center relative
+										${
+											currentPage === page
+												? "bg-primary text-primary-foreground"
+												: "hover:bg-muted"
+										}
+										${
+											answeredProblems[page]
+												? 'after:content-["●"] after:absolute after:text-[8px] after:text-green-500 after:top-0 after:right-1'
+												: ""
+										}
+									`}
 								>
-									<BiHelpCircle className="w-4 h-4" />
-									Description
-								</TabsTrigger>
-								<TabsTrigger
-									value="solutions"
-									className="hover:bg-gray-100 flex items-center gap-2"
-								>
-									<BiCodeAlt className="w-4 h-4" />
-									Solutions
-								</TabsTrigger>
-								<TabsTrigger
-									value="discussion"
-									className="hover:bg-gray-100 flex items-center gap-2"
-								>
-									<BiMessageRoundedDots className="w-4 h-4" />
-									Discussion
-								</TabsTrigger>
-							</TabsList>
-							<ProblemDescription name="description" />
-							<ProblemDescription name="solutions" />
-							<ProblemDescription name="discussion" />
-						</Tabs>
+									{page}
+								</button>
+							))}
+						</div>
 					</div>
 				</ResizablePanel>
 
@@ -99,7 +248,7 @@ export default function Home() {
 				<ResizablePanel defaultSize={50} minSize={30}>
 					<ResizablePanelGroup
 						direction="vertical"
-						className="h-full flex flex-col border rounded-md"
+						className="h-full flex flex-col border rounded-sm"
 					>
 						<ResizablePanel
 							defaultSize={65}
@@ -149,18 +298,73 @@ export default function Home() {
 								{output}
 							</div>
 							<div className="flex gap-4 justify-end mt-auto pt-2">
+								<Button variant="outline" onClick={handleReset}>
+									Reset
+								</Button>
 								<Button
 									variant="outline"
 									onClick={handleRunCode}
 								>
 									Run Code
 								</Button>
-								<Button>Submit</Button>
+								<Button onClick={handleSubmit}>Submit</Button>
+								{Object.keys(answeredProblems).length ===
+									problems.length && (
+									<Button
+										onClick={handleShowSummary}
+										className="bg-green-600 hover:bg-green-700"
+									>
+										Review Answers
+									</Button>
+								)}
 							</div>
 						</ResizablePanel>
 					</ResizablePanelGroup>
 				</ResizablePanel>
 			</ResizablePanelGroup>
+
+			{showSummary && (
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+					<div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+						<h2 className="text-2xl font-bold mb-4">
+							Answer Summary
+						</h2>
+						<div className="space-y-4">
+							{problems.map((problem, index) => (
+								<div key={index + 1} className="border-b pb-2">
+									<p className="font-semibold">
+										Problem {index + 1}:
+									</p>
+									<p className="text-gray-600">
+										Language:{" "}
+										{answeredProblems[index + 1]
+											?.language || "Not answered"}
+									</p>
+									<pre className="bg-gray-50 p-2 mt-1 rounded">
+										{answeredProblems[index + 1]?.code ||
+											"No code submitted"}
+									</pre>
+								</div>
+							))}
+						</div>
+						<div className="flex gap-2 mt-4">
+							<Button
+								variant="outline"
+								onClick={() => setShowSummary(false)}
+							>
+								Close
+							</Button>
+							<Button
+								onClick={handleFinishSection}
+								className="bg-green-600 hover:bg-green-700"
+							>
+								Finish Problem Section
+							</Button>
+						</div>
+					</div>
+				</div>
+			)}
+			<Toaster />
 		</div>
 	);
 }
