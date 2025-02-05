@@ -14,8 +14,18 @@ const ProblemDescription = ({
 			className="h-[calc(100vh-180px)] overflow-y-auto"
 		>
 			<div className="p-4">
-				<h2 className="text-2xl font-bold mb-4 capitalize">{name}</h2>
-				<div className="my-8">{content}</div>
+				{name === "description" ? (
+					<>
+						<h2 className="text-2xl font-bold mb-4 capitalize">
+							{name}
+						</h2>
+						<div className="my-4">{content}</div>
+					</>
+				) : (
+					<div className="text-center text-gray-500">
+						No {name} available
+					</div>
+				)}
 			</div>
 		</TabsContent>
 	);
