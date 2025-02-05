@@ -4,6 +4,7 @@ import { LoadingScreen } from "@/components/ui/loading";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ExamContent({
 	examId,
@@ -12,6 +13,7 @@ export default function ExamContent({
 	examId: string;
 	examTitle: string;
 }) {
+	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -20,6 +22,10 @@ export default function ExamContent({
 		}, 1000);
 		return () => clearTimeout(timer);
 	}, []);
+
+	const handleStartExam = () => {
+		router.push(`/exams/${examId}/multichoice/1`);
+	};
 
 	if (isLoading) {
 		return <LoadingScreen />;
@@ -106,11 +112,13 @@ export default function ExamContent({
 				</div>
 
 				<div className="text-center mt-8">
-					<Link href={`/exams/${examId}/multichoice/1`}>
-						<Button size="lg" className="px-8 uppercase">
-							start exam
-						</Button>
-					</Link>
+					<Button
+						size="lg"
+						className="px-8 uppercase"
+						onClick={handleStartExam}
+					>
+						start exam
+					</Button>
 					<p className="mt-8 text-2xl font-bold text-green-600 animate-pulse">
 						🍀 Good Luck! 🍀
 					</p>
