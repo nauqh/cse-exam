@@ -24,7 +24,7 @@ export default function ExamContent({
 	}, []);
 
 	const handleStartExam = () => {
-		router.push(`/exams/${examId}/multichoice/1`);
+		router.push(`/exams/${examId}/multichoice`);
 	};
 
 	if (isLoading) {
