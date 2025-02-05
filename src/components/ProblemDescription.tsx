@@ -1,5 +1,6 @@
 import React from "react";
 import { TabsContent } from "@/components/ui/tabs";
+import ProblemDescriptionFormatter from "./ProblemDescriptionFormatter";
 
 const ProblemDescription = ({
 	name,
@@ -19,7 +20,17 @@ const ProblemDescription = ({
 						<h2 className="text-2xl font-bold mb-4 capitalize">
 							{name}
 						</h2>
-						<div className="my-4">{content}</div>
+						<div className="my-4">
+							{content ? (
+								<ProblemDescriptionFormatter
+									content={content}
+								/>
+							) : (
+								<div className="text-center text-gray-500">
+									No description available
+								</div>
+							)}
+						</div>
 					</>
 				) : (
 					<div className="text-center text-gray-500">
