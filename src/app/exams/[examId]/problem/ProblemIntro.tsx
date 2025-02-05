@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import PandasProblemIntro from "./components/PandasProblemIntro";
-import PythonProblemIntro from "./components/PythonProblemIntro";
-import SQLProblemIntro from "./components/SQLProblemIntro";
+import PandasProblemIntro from "@/components/problem/PandasProblemIntro";
+import PythonProblemIntro from "@/components/problem/PythonProblemIntro";
+import SQLProblemIntro from "@/components/problem/SQLProblemIntro";
 
 export default function ProblemIntro({ examId }: { examId: string }) {
 	const router = useRouter();
