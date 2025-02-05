@@ -16,17 +16,15 @@ const processMarkdown = (content: string) => {
 	return processedContent.replace(/<img[^>]*>/g, "");
 };
 
-interface MultiChoiceClientProps {
-	questions: Question[];
-	examId: string;
-	initialQuestionId: number;
-}
-
 export default function MultiChoiceClient({
 	questions,
 	examId,
 	initialQuestionId,
-}: MultiChoiceClientProps) {
+}: {
+	questions: Question[];
+	examId: string;
+	initialQuestionId: number;
+}) {
 	const router = useRouter();
 	const [id, setId] = useState(initialQuestionId);
 	const [selectedOption, setSelectedOption] = useState<string>("");
