@@ -31,7 +31,7 @@ export default function ExamPage() {
 	}
 
 	return (
-		<section className="space-y-8">
+		<section className="container mx-auto px-4 py-8 space-y-8">
 			<div className="text-center space-y-4">
 				<h1 className="text-4xl font-bold">{examTitle} Final Exam</h1>
 				<p className="text-2xl text-primary">
