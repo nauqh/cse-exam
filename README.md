@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Devlog
 
-## Getting Started
+## Day 1: Implement Problem Submit Code Page
 
-First, run the development server:
+- **Objective**: Divide the page into two sections: left for problem description, right for code submission.
+- **Tasks**:
+  - Create a layout with two sections.
+  - Implement a code editor at the top of the right section.
+  - Add an output area below the code editor.
+- **Relevant Code**:
+  - The layout and sections can be implemented in [src/app/exams/[examId]/problem/[id]/page.tsx](src/app/exams/[examId]/problem/[id]/page.tsx).
+  - Use components like `CodeEditor` and `OutputArea` from [src/components/ui](src/components/ui).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Day 2: Build Code Interpreter
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Objective**: Build a code interpreter server that processes user-submitted code and returns the output.
+- **Tasks**:
+  - Set up a server to handle code submissions.
+  - Implement code execution and return the output.
+  - Format traceback errors for better readability.
+- **Relevant Code**:
+  - The server implementation can be found in [src/server/codeInterpreter.ts](src/server/codeInterpreter.ts).
+  - Use the `executeCode` function to handle code execution and error formatting.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Day 3: Implement Multichoice Page
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Objective**: Create a multichoice page for exams.
+- **Tasks**:
+  - Design the layout for the multichoice questions.
+  - Implement the logic to fetch and display questions.
+  - Handle user selections and submissions.
+- **Relevant Code**:
+  - The multichoice page implementation is in [src/app/exams/[examId]/multichoice/[id]/page.tsx](src/app/exams/[examId]/multichoice/[id]/page.tsx).
+  - Use components like `RadioGroup` and `Button` from [src/components/ui](src/components/ui).
 
-## Learn More
+## Day 4: Implement Main Page
 
-To learn more about Next.js, take a look at the following resources:
+- **Objective**: Create the main page for the application.
+- **Tasks**:
+  - Design the main page layout.
+  - Add navigation links to different sections of the application.
+  - Display a list of available exams.
+- **Relevant Code**:
+  - The main page implementation is in [src/app/page.tsx](src/app/page.tsx).
+  - Use components like `Link` and `Button` from [src/components/ui](src/components/ui).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Day 5: Build Routing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Objective**: Set up routing for the application.
+- **Tasks**:
+  - Define routes for different pages (e.g., main page, problem page, multichoice page).
+  - Move multichoice/ and problem/ to exams/
+  - Implement navigation logic.
+  - Ensure smooth transitions between pages.
+- **Relevant Code**:
+  - Routing configuration can be found in [next.config.ts](next.config.ts).
+  - Use the `usePathname` and `useRouter` hooks from `next/navigation` for navigation logic.
