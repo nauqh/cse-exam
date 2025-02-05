@@ -29,7 +29,7 @@ export default function ProblemIntro({ examId }: { examId: string }) {
 					<SQLProblemIntro />
 				) : examId === "M21" ? (
 					<PythonProblemIntro />
-				) : examId === "M22" ? (
+				) : examId === "M31" ? (
 					<PandasProblemIntro />
 				) : null}
 				<div className="text-center mt-8">
