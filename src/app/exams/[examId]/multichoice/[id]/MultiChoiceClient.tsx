@@ -12,7 +12,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Question } from "@/lib/questions";
 
 const processMarkdown = (content: string) => {
-	return content.replace(/<img[^>]*>/g, "");
+	const processedContent = content.replace(/<br\/>/g, "\n");
+	return processedContent.replace(/<img[^>]*>/g, "");
 };
 
 interface MultiChoiceClientProps {
@@ -78,6 +79,23 @@ export default function MultiChoiceClient({
 
 		if (id < questions.length) {
 			router.push(`/exams/${examId}/multichoice/${id + 1}`);
+		}
+	};
+
+	const handleSubmission = () => {
+		const answers = localStorage.getItem("multichoiceAnswers");
+		if (answers) {
+			toast({
+				description: JSON.stringify(JSON.parse(answers), null, 2),
+				className: "bg-blue-100 text-blue-900",
+				duration: 5000,
+			});
+		} else {
+			toast({
+				description: "No answers found",
+				className: "bg-yellow-100 text-yellow-900",
+				duration: 3000,
+			});
 		}
 	};
 
@@ -196,6 +214,9 @@ export default function MultiChoiceClient({
 								Save Answer
 							</Button>
 						</div>
+						<Button onClick={handleSubmission} className="w-full">
+							Test get submission
+						</Button>
 					</div>
 					<Toaster />
 				</div>
