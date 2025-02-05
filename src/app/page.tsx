@@ -43,20 +43,20 @@ export default function Home() {
 					</p>
 				</section>
 
-				<section className="grid gap-6 md:grid-cols-2">
+				<section className="grid gap-8 md:grid-cols-2">
 					{courses.map((course) => (
 						<div
 							key={course.id}
-							className="p-6 border rounded-lg space-y-4 hover:border-primary transition-colors"
+							className="group p-8 border rounded-xl space-y-4 hover:scale-105 hover:shadow-lg transition-all duration-300 bg-card"
 						>
-							<h2 className="text-2xl font-semibold">
+							<h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
 								{course.title}
 							</h2>
-							<p className="text-muted-foreground">
+							<p className="text-muted-foreground text-lg">
 								{course.description}
 							</p>
-							<Link href={course.path}>
-								<Button className="w-full my-2">
+							<Link href={course.path} className="block">
+								<Button className="w-full mt-4 text-lg py-6 shadow-sm hover:shadow-md transition-shadow">
 									Take Exam
 								</Button>
 							</Link>
