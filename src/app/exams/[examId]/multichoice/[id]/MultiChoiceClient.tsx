@@ -115,7 +115,7 @@ export default function MultiChoiceClient({
 	};
 
 	const handleFinishSection = () => {
-		router.push(`/exams/${examId}/problem/1`);
+		router.push(`/exams/${examId}/problem`);
 	};
 
 	return (
