@@ -31,6 +31,7 @@ export default function MultiChoiceClient({
 	const [answeredQuestions, setAnsweredQuestions] = useState<{
 		[questionId: number]: string;
 	}>({});
+	const [showSummary, setShowSummary] = useState(false);
 
 	const currentQuestion = questions[id - 1];
 	const totalQuestions = questions.length;
@@ -107,6 +108,14 @@ export default function MultiChoiceClient({
 
 	const handlePageChange = (pageNumber: number) => {
 		router.push(`/exams/${examId}/multichoice/${pageNumber}`);
+	};
+
+	const handleShowSummary = () => {
+		setShowSummary(true);
+	};
+
+	const handleFinishSection = () => {
+		router.push(`/exams/${examId}/problem/1`);
 	};
 
 	return (
@@ -211,11 +220,59 @@ export default function MultiChoiceClient({
 							<Button onClick={handleSubmit} className="w-full">
 								Save Answer
 							</Button>
+							{Object.keys(answeredQuestions).length ===
+								questions.length && (
+								<Button
+									onClick={handleShowSummary}
+									className="w-full bg-green-600 hover:bg-green-700"
+								>
+									Review Answers
+								</Button>
+							)}
 						</div>
-						<Button onClick={handleSubmission} className="w-full">
-							Test get submission
-						</Button>
 					</div>
+
+					{showSummary && (
+						<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+							<div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+								<h2 className="text-2xl font-bold mb-4">
+									Answer Summary
+								</h2>
+								<div className="space-y-4">
+									{questions.map((question, index) => (
+										<div
+											key={index + 1}
+											className="border-b pb-2"
+										>
+											<p className="font-semibold">
+												Question {index + 1}:
+											</p>
+											<p className="text-gray-600">
+												Selected:{" "}
+												{answeredQuestions[index + 1] ||
+													"Not answered"}
+											</p>
+										</div>
+									))}
+								</div>
+								<div className="flex gap-2 mt-4">
+									<Button
+										variant="outline"
+										onClick={() => setShowSummary(false)}
+									>
+										Close
+									</Button>
+									<Button
+										onClick={handleFinishSection}
+										className="bg-green-600 hover:bg-green-700"
+									>
+										Finish Multichoice Section
+									</Button>
+								</div>
+							</div>
+						</div>
+					)}
+
 					<Toaster />
 				</div>
 			) : (
