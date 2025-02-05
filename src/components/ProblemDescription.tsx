@@ -10,7 +10,15 @@ const ProblemDescription = ({ name }: { name: string }) => {
 			<div className="p-4">
 				<h2 className="text-2xl font-bold mb-4">{name}</h2>
 				<div>
-					<p>{name + " x 100"}</p>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Quae tempore, laborum recusandae ipsum totam nam debitis
+						at saepe quis dolorum voluptates tempora quaerat
+						temporibus ratione quibusdam iste? Asperiores, vel
+						laboriosam sed consectetur nemo quisquam ipsa quo
+						voluptate quae possimus labore minima nulla perspiciatis
+						nam. Itaque accusamus quia necessitatibus aliquam in.
+					</p>
 				</div>
 			</div>
 		</TabsContent>

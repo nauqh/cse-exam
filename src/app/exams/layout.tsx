@@ -2,9 +2,5 @@
 import { ReactNode } from "react";
 
 export default function ExamsLayout({ children }: { children: ReactNode }) {
-	return (
-		<div className="container mx-auto px-4 py-8">
-			<div className="space-y-8">{children}</div>
-		</div>
-	);
+	return <div className="space-y-8">{children}</div>;
 }

@@ -6,5 +6,9 @@ export default function MultichoiceLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <div className="rounded-lg shadow-sm border p-6">{children}</div>;
+	return (
+		<div className="container mx-auto px-4 py-8">
+			<div className="rounded-lg shadow-sm border p-6">{children}</div>
+		</div>
+	);
 }
