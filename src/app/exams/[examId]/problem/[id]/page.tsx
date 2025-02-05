@@ -21,6 +21,7 @@ import { getExamProblemQuestions } from "@/lib/questions";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { Question } from "@/lib/questions";
 
 export default function Home() {
 	const { toast } = useToast();
@@ -29,7 +30,7 @@ export default function Home() {
 	const [code, setCode] = useState<string>("");
 	const [output, setOutput] = useState<string | React.ReactElement>("");
 	const [language, setLanguage] = useState("sql");
-	const [problems, setProblems] = useState<any[]>([]);
+	const [problems, setProblems] = useState<Question[]>([]);
 	const [answeredProblems, setAnsweredProblems] = useState<{
 		[problemId: number]: { code: string; language: string };
 	}>({});
@@ -204,14 +205,8 @@ export default function Home() {
 									name="description"
 									content={currentProblem?.question}
 								/>
-								<ProblemDescription
-									name="solutions"
-									content={currentProblem?.solution}
-								/>
-								<ProblemDescription
-									name="discussion"
-									content={currentProblem?.discussion}
-								/>
+								<ProblemDescription name="solutions" />
+								<ProblemDescription name="discussion" />
 							</Tabs>
 						</div>
 						<div className="flex items-center justify-center gap-2 p-2 border-b">

@@ -6,7 +6,7 @@ const ProblemDescription = ({
 	content,
 }: {
 	name: string;
-	content: string;
+	content?: string;
 }) => {
 	return (
 		<TabsContent
