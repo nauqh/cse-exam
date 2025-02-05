@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Nav() {
 	return (
-		<nav className="flex items-center justify-between bg-black text-white p-4 shadow-sm">
+		<nav className="flex items-center justify-between bg-white text-black p-4 shadow-md">
 			<div className="text-xl font-bold">
-				<Link href="/">Exam Platform</Link>
+				<Link href="/">
+					<Image src="/logo.png" alt="Logo" width={200} height={40} />
+				</Link>
 			</div>
 			<div className="flex gap-4">
 				<Button variant="ghost">

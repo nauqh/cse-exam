@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
 	title: "Coderschool e-Exam",
 	description: "Final Assessment Platform for Coderschool Students",
+	icons: {
+		icon: "/icon.svg",
+	},
 };
 
 export default function RootLayout({
