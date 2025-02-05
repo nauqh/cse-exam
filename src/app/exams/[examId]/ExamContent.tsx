@@ -24,6 +24,7 @@ export default function ExamContent({
 	}, []);
 
 	const handleStartExam = () => {
+		localStorage.clear();
 		router.push(`/exams/${examId}/multichoice`);
 	};
 
