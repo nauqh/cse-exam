@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 const courses = [
 	{
@@ -33,6 +35,10 @@ const courses = [
 ];
 
 export default function Home() {
+	useEffect(() => {
+		localStorage.clear();
+	}, []);
+
 	return (
 		<main className="container mx-auto px-4 py-8">
 			<div className="max-w-6xl mx-auto space-y-8">

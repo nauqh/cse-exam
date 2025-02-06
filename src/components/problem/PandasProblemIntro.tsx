@@ -30,7 +30,7 @@ export default function PandasProblemIntro() {
 
 			<div className="mt-6">
 				<h3 className="font-bold text-lg">Examples:</h3>
-				<pre className="bg-slate-800 text-white p-4 rounded-md overflow-x-auto">
+				<pre className="bg-zinc-950 text-zinc-50 p-4 font-mono text-sm rounded-md overflow-x-auto">
 					{`>>> 5 + 3               # Evaluates to 8
 >>> len("hello")        # Evaluates to 5
 >>> df['Salary'] > 50000  # Evaluates to a boolean series
@@ -42,7 +42,7 @@ export default function PandasProblemIntro() {
 			<h3 className="font-bold text-lg">
 				Examples of not an expression:
 			</h3>
-			<pre className="bg-slate-800 text-white p-4 rounded-md overflow-x-auto">
+			<pre className="bg-zinc-950 text-zinc-50 p-4 font-mono text-sm rounded-md overflow-x-auto">
 				{`>>> x = y + 2
 >>> df = pd.DataFrame({'Name': ['Alice', 'Bob'], 'Age': [25, 30]})
 >>> df.drop(columns=['Salary'], inplace=True)

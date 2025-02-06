@@ -1,19 +1,21 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import ZoomableImage from "./ZoomableImage";
 
 const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
-	// Split content into sections based on code blocks
-	const parts = content.split("```");
+	const processedContent = content.replace(/<br\/>/g, "\n\n");
+	// Split content while preserving delimiters
+	const parts = processedContent.split(/(```[^`]*```)/g);
 
 	return (
 		<div className="prose dark:prose-invert max-w-none">
 			{parts.map((part, index) => {
-				if (index % 2 === 0) {
-					// Text content
+				if (!part.startsWith("```")) {
 					return (
 						<ReactMarkdown
 							key={index}
+							className="my-2"
 							components={{
 								strong: ({ children }) => (
 									<span className="font-bold text-primary">
@@ -21,7 +23,7 @@ const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
 									</span>
 								),
 								blockquote: ({ children }) => (
-									<blockquote className="border-l-4 border-primary/50 pl-4 italic">
+									<blockquote className="border-l-4 border-primary/50 pl-4 italic my-2">
 										{children}
 									</blockquote>
 								),
@@ -30,22 +32,49 @@ const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
 										{children}
 									</code>
 								),
+								img: ({ src }) =>
+									src && <ZoomableImage src={src} />,
+								// <img
+								// 	src={src}
+								// 	alt={alt || ""}
+								// 	className="rounded-lg border border-border my-4"
+								// 	style={{
+								// 		width: width || "auto",
+								// 		height: height || "auto",
+								// 		maxWidth: "100%",
+								// 	}}
+								// />
+								em: ({ children }) => (
+									<em className="not-italic my-2">
+										{children}
+									</em>
+								),
+								ul: ({ children }) => (
+									<ul className="list-disc pl-6 space-y-2 my-2">
+										{children}
+									</ul>
+								),
 							}}
 						>
 							{part}
 						</ReactMarkdown>
 					);
 				} else {
-					// Code block
 					return (
 						<pre
 							key={index}
 							className={cn(
 								"bg-zinc-950 text-zinc-50 p-4 rounded-lg my-4",
-								"font-mono text-sm overflow-x-auto"
+								"font-mono text-sm overflow-x-auto",
+								"border border-border"
 							)}
 						>
-							<code>{part.trim()}</code>
+							<code>
+								{part
+									.replace(/```/g, "")
+									.replace("...", "")
+									.trim()}
+							</code>
 						</pre>
 					);
 				}

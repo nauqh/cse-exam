@@ -109,27 +109,27 @@
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Write a single line of code to return **all information** of employees whose TotalPay are higher than the average TotalPay. \n\n*Your output should look like this*\n\n<img src='https://i.imgur.com/5u2IcMS.png' width=1000>"
+        "question": "Write a single line of code to return **all information** of employees whose TotalPay are higher than the average TotalPay. \n\n*Your output should look like this*\n\n![](https://i.imgur.com/5u2IcMS.png)"
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Write a single line of code to find the top 5 job titles with the highest total OvertimePay across all years.\n\n*Your output should look like this*\n\n<img src='https://i.imgur.com/9wRrXk1.png' width=600>"
+        "question": "Write a single line of code to find the top 5 job titles with the highest total OvertimePay across all years.\n\n*Your output should look like this*\n\n![](https://i.imgur.com/9wRrXk1.png)"
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Write a single line of code to determine the top 3 employees with the highest TotalPayBenefits. \n\n*Your output should look like this*\n\n<img src='https://i.imgur.com/wqkFzMR.png' width=600>"
+        "question": "Write a single line of code to determine the top 3 employees with the highest TotalPayBenefits. \n\n*Your output should look like this*\n\n![](https://i.imgur.com/wqkFzMR.png)"
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Write a single line of code to calculate the average **Benefits** for each JobTitle and filter out titles where the average Benefits is less than $1,000. \n\n*Your output should contains **24 records** in total*\n\n<img src='https://i.imgur.com/OqGGt4H.png' width=600>"
+        "question": "Write a single line of code to calculate the average **Benefits** for each JobTitle and filter out titles where the average Benefits is less than $1,000. \n\n*Your output should contains **24 records** in total*\n\n![](https://i.imgur.com/OqGGt4H.png)"
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Write a single line of code to list the job titles that have more than 1000 employees across all years.\n\n*Your output should contains **22 records** in total*\n\n<img src='https://i.imgur.com/3tIcC8p.png' width=600>"
+        "question": "Write a single line of code to list the job titles that have more than 1000 employees across all years.\n\n*Your output should contains **22 records** in total*\n\n![](https://i.imgur.com/3tIcC8p.png)"
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Write a single line of code to determine the percentage contribution of **OvertimePay** to **TotalPay** for each employee, and retrieve those where the contribution is more than 50%.\n\n*Your output should look like this*\n\n<img src='https://i.imgur.com/CCKZ54h.png' width=600>"
+        "question": "Write a single line of code to determine the percentage contribution of **OvertimePay** to **TotalPay** for each employee, and retrieve those where the contribution is more than 50%.\n\n*Your output should look like this*\n\n![](https://i.imgur.com/CCKZ54h.png)"
     },
     {
         "resultType": "EXPRESSION",
@@ -137,6 +137,6 @@
     },
     {
         "resultType": "EXPRESSION",
-        "question": "Among those 5 most common Job Titles of the whole dataset, how have the avarage Base Pay, Overtime Pay, and Total Pay changed over 4 years of the dataset?\n\nHint: Start by identifying the most common jobs, then filter the dataset before computing the summary. \n\nYou may use functions like `isin()`, `value_counts()`.\n\n*Your output should look like this.*\n\n<img src='https://i.imgur.com/YUANVVF.png' width=1000>"
+        "question": "Among those 5 most common Job Titles of the whole dataset, how have the avarage Base Pay, Overtime Pay, and Total Pay changed over 4 years of the dataset?\n\nHint: Start by identifying the most common jobs, then filter the dataset before computing the summary. \n\nYou may use functions like `isin()`, `value_counts()`.\n\n*Your output should look like this.*\n\n![](https://i.imgur.com/YUANVVF.png)"
     }
 ]

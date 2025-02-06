@@ -11,12 +11,13 @@ export default function ZoomableImage({ src }: { src: string }) {
 
 	return (
 		<div className="mb-4 relative hover:cursor-pointer">
-			<div className="relative h-48 w-full group">
+			<div className="relative h-auto w-full group">
 				<Image
 					src={src}
 					alt="Question diagram"
-					fill
-					className="object-contain"
+					width={800}
+					height={600}
+					className="object-contain w-full"
 					onClick={toggleZoom}
 				/>
 				<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center pointer-events-none">

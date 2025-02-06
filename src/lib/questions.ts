@@ -9,7 +9,7 @@ export async function getExamQuestions(examId: string): Promise<Question[]> {
   try {
     const questionsData = await import(`@/docs/${examId}.json`);
     const multichoiceQuestions = questionsData.default.filter(
-      (q: Question) => q.resultType === "MULTICHOICE_SINGLE"
+      (q: Question) => ["MULTICHOICE_MANY","MULTICHOICE_SINGLE"].includes(q.resultType)
     );
     return multichoiceQuestions;
   } catch (error) {
@@ -22,7 +22,7 @@ export async function getExamProblemQuestions(examId: string): Promise<Question[
   try {
     const questionsData = await import(`@/docs/${examId}.json`);
     const multichoiceQuestions = questionsData.default.filter(
-      (q: Question) => q.resultType != "MULTICHOICE_SINGLE"
+      (q: Question) => ["SQL", "FUNCTION", "EXPRESSION"].includes(q.resultType)
     );
     return multichoiceQuestions;
   } catch (error) {
