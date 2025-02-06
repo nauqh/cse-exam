@@ -29,7 +29,7 @@ export default function Nav() {
 					variant="ghost"
 					className="text-gray-800 hover:bg-red-50 hover:text-red-500"
 				>
-					<Link href="/">Profile</Link>
+					<Link href="/profile/1">Profile</Link>
 				</Button>
 			</div>
 		</nav>
