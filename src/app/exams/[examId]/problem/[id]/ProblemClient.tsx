@@ -21,6 +21,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Question } from "@/lib/questions";
+import Dataframe from "@/components/Dataframe";
 
 export default function ProblemClient({
 	problems,
@@ -34,7 +35,13 @@ export default function ProblemClient({
 	const { toast } = useToast();
 	const router = useRouter();
 	const [code, setCode] = useState<string>("");
-	const [output, setOutput] = useState<string | React.ReactElement>("");
+	const [output, setOutput] = useState<{
+		output: string | any;
+		language: string;
+	}>({
+		output: "",
+		language: "",
+	});
 	const [language, setLanguage] = useState("sql");
 	const [currentPage, setCurrentPage] = useState(initialProblemId);
 	const [answeredProblems, setAnsweredProblems] = useState<{
@@ -77,26 +84,32 @@ export default function ProblemClient({
 
 	const handleRunCode = async () => {
 		try {
-			setOutput("Executing...");
+			setOutput({ output: "Executing...", language });
 			const response = await fetch(
 				"https://cspyclient.up.railway.app/execute",
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ code }),
+					body: JSON.stringify({
+						code: code,
+						language: language,
+					}),
 				}
 			);
 
 			if (!response.ok) {
 				const errorData = await response.json();
-				setOutput(`Error: ${errorData.detail}`);
+				setOutput({ output: `Error: ${errorData.detail}`, language });
 				return;
 			}
 
 			const data = await response.json();
-			setOutput(data.output);
+			setOutput({ output: data.output, language });
 		} catch (error) {
-			setOutput("Error connecting to the server. Please try again.");
+			setOutput({
+				output: "Error connecting to the server. Please try again.",
+				language,
+			});
 		}
 	};
 
@@ -155,6 +168,7 @@ export default function ProblemClient({
 	return (
 		<div className="p-2">
 			<ResizablePanelGroup direction="horizontal">
+				{/* Problem description pannel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
 					<div className="h-full flex flex-col border rounded-sm">
 						<div className="flex-1">
@@ -221,11 +235,13 @@ export default function ProblemClient({
 
 				<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
+				{/* Code editor and output pannel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
 					<ResizablePanelGroup
 						direction="vertical"
 						className="h-full flex flex-col border rounded-sm"
 					>
+						{/* Code editor pannel */}
 						<ResizablePanel
 							defaultSize={65}
 							minSize={10}
@@ -262,6 +278,7 @@ export default function ProblemClient({
 
 						<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
+						{/* Output pannel */}
 						<ResizablePanel
 							defaultSize={35}
 							minSize={35}
@@ -270,9 +287,15 @@ export default function ProblemClient({
 							<div className="text-lg mb-2 font-semibold">
 								Output
 							</div>
-							<div className="min-h-[150px] h-fit overflow-auto bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex">
-								{output}
-							</div>
+							{output.language === "python" ? (
+								<div className="min-h-[150px] h-fit overflow-auto bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex">
+									{output.output}
+								</div>
+							) : (
+								<Dataframe data={output.output} />
+							)}
+
+							{/* Action buttons  */}
 							<div className="flex gap-4 justify-end mt-auto pt-2">
 								<Button variant="outline" onClick={handleReset}>
 									Reset
