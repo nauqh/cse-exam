@@ -7,18 +7,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Code } from "lucide-react";
 
-const CodeOutput = ({
-	data,
-}: {
-	data: Record<string, string>[] | string | null;
-}) => {
-	if (!data) {
+const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
+	if (data === "") {
 		return (
-			<div className="min-h-[150px] flex items-center justify-center text-gray-500">
-				Loading...
-			</div>
+			<div className="min-h-[150px] bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto"></div>
 		);
 	}
 

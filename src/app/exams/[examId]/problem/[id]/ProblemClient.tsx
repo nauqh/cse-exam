@@ -24,7 +24,7 @@ import { Question } from "@/lib/questions";
 import CodeOutput from "@/components/CodeOutput";
 
 type OutputType = {
-	output: Record<string, string>[] | string | null;
+	output: Record<string, string>[] | string;
 	language: string;
 };
 
