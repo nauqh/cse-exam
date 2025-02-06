@@ -143,6 +143,7 @@ export default function ProblemClient({
 		delete newAnswers[currentPage];
 		setAnsweredProblems(newAnswers);
 		setCode("");
+		setOutput({ output: "", language });
 		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
 	};
 
