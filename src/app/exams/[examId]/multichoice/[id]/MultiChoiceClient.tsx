@@ -109,7 +109,10 @@ export default function MultiChoiceClient({
 					<Button
 						variant="outline"
 						size="sm"
-						onClick={() => router.push(`/exams/${examId}/problem`)}
+						onClick={() => {
+							dismiss();
+							router.push(`/exams/${examId}/problem`);
+						}}
 					>
 						Yes
 					</Button>
