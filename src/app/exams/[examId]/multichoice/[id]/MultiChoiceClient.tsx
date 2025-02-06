@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 
 const processMarkdown = (content: string) => {
 	const processedContent = content.replace(/<br\/>/g, "\n\n");
-	// Split content while preserving delimiters
 	return processedContent.split(/(```[^`]*```)/g);
 };
 
@@ -37,7 +36,7 @@ export default function MultiChoiceClient({
 
 	const currentQuestion = questions[id - 1];
 	const totalQuestions = questions.length;
-	const { toast } = useToast();
+	const { toast, dismiss } = useToast();
 
 	useEffect(() => {
 		const savedAnswers = localStorage.getItem("multichoiceAnswers");
@@ -83,23 +82,6 @@ export default function MultiChoiceClient({
 		}
 	};
 
-	const handleSubmission = () => {
-		const answers = localStorage.getItem("multichoiceAnswers");
-		if (answers) {
-			toast({
-				description: JSON.stringify(JSON.parse(answers), null, 2),
-				className: "bg-blue-100 text-blue-900",
-				duration: 5000,
-			});
-		} else {
-			toast({
-				description: "No answers found",
-				className: "bg-yellow-100 text-yellow-900",
-				duration: 3000,
-			});
-		}
-	};
-
 	const handleReset = () => {
 		const newAnswers = { ...answeredQuestions };
 		delete newAnswers[id];
@@ -117,7 +99,34 @@ export default function MultiChoiceClient({
 	};
 
 	const handleFinishSection = () => {
-		router.push(`/exams/${examId}/problem`);
+		toast({
+			title: "Warning",
+			description:
+				"Once you proceed, you won't be able to return and edit your answers in this section. Do you want to continue?",
+			className: "bg-yellow-100 text-yellow-900",
+			action: (
+				<div className="flex gap-2">
+					<Button
+						variant="outline"
+						size="sm"
+						onClick={() => router.push(`/exams/${examId}/problem`)}
+					>
+						Yes
+					</Button>
+					<Button
+						variant="outline"
+						size="sm"
+						onClick={() => {
+							setShowSummary(false);
+							dismiss();
+						}}
+					>
+						No
+					</Button>
+				</div>
+			),
+			duration: 0,
+		});
 	};
 
 	const parts = processMarkdown(currentQuestion.question);
@@ -277,7 +286,7 @@ export default function MultiChoiceClient({
 								Reset
 							</Button>
 							<Button onClick={handleSubmit} className="w-full">
-								Save Answer
+								Save
 							</Button>
 							{Object.keys(answeredQuestions).length ===
 								questions.length && (
@@ -285,7 +294,7 @@ export default function MultiChoiceClient({
 									onClick={handleShowSummary}
 									className="w-full bg-green-600 hover:bg-green-700"
 								>
-									Review Answers
+									Review
 								</Button>
 							)}
 						</div>
@@ -325,7 +334,7 @@ export default function MultiChoiceClient({
 										onClick={handleFinishSection}
 										className="bg-green-600 hover:bg-green-700"
 									>
-										Finish Multichoice Section
+										Finish multiple choices section
 									</Button>
 								</div>
 							</div>

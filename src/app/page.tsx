@@ -43,7 +43,7 @@ export default function Home() {
 		<main className="container mx-auto px-4 py-8">
 			<div className="max-w-6xl mx-auto space-y-8">
 				<section className="text-center space-y-4">
-					<h1 className="text-4xl font-bold">Coderschool e-Exam</h1>
+					<h1 className="text-4xl font-bold">Coderschool eExams</h1>
 					<p className="text-xl text-muted-foreground">
 						Select a course to start your assessment
 					</p>
@@ -51,22 +51,22 @@ export default function Home() {
 
 				<section className="grid gap-8 md:grid-cols-2">
 					{courses.map((course) => (
-						<div
+						<Link
 							key={course.id}
-							className="group p-8 border rounded-xl space-y-4 hover:scale-105 hover:shadow-lg transition-all duration-300 bg-card"
+							href={course.path}
+							className="block"
 						>
-							<h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
-								{course.title}
-							</h2>
-							<p className="text-muted-foreground text-lg">
-								{course.description}
-							</p>
-							<Link href={course.path} className="block">
-								<Button className="w-full mt-4 text-lg py-6 shadow-sm hover:shadow-md transition-shadow">
-									Take Exam
-								</Button>
-							</Link>
-						</div>
+							<div className="group p-8 border rounded-xl space-y-4 hover:shadow-lg transition-all duration-300 bg-card">
+								<h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
+									{course.title}
+								</h2>
+								<p className="text-muted-foreground text-lg">
+									{course.description}
+								</p>
+
+								<Button variant="destructive">Take exam</Button>
+							</div>
+						</Link>
 					))}
 				</section>
 			</div>

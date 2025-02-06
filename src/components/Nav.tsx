@@ -13,13 +13,22 @@ export default function Nav() {
 				</Link>
 			</div>
 			<div className="flex gap-4">
-				<Button variant="ghost">
+				<Button
+					variant="ghost"
+					className="text-gray-800 font-medium hover:bg-red-50 hover:text-red-500"
+				>
 					<Link href="/problem">Problems</Link>
 				</Button>
-				<Button variant="ghost">
+				<Button
+					variant="ghost"
+					className="text-gray-800 hover:bg-red-50 hover:text-red-500"
+				>
 					<Link href="/">Submission</Link>
 				</Button>
-				<Button variant="ghost">
+				<Button
+					variant="ghost"
+					className="text-gray-800 hover:bg-red-50 hover:text-red-500"
+				>
 					<Link href="/">Profile</Link>
 				</Button>
 			</div>

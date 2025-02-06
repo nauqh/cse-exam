@@ -13,7 +13,7 @@ export default function MultiChoiceIntroClient({ examId }: { examId: string }) {
 	return (
 		<>
 			<div className="text-center space-y-4">
-				<h1 className="text-3xl font-bold">Multiple Choice Section</h1>
+				<h1 className="text-3xl font-bold">I. Multiple Choices</h1>
 				<p className="text-xl">
 					Please read the instructions carefully before starting
 				</p>
@@ -49,12 +49,8 @@ export default function MultiChoiceIntroClient({ examId }: { examId: string }) {
 				</div>
 
 				<div className="text-center mt-8">
-					<Button
-						size="lg"
-						className="px-8 uppercase"
-						onClick={handleStart}
-					>
-						Start Multiple Choice Section
+					<Button size="lg" className="px-8" onClick={handleStart}>
+						Start multiple choices section
 					</Button>
 				</div>
 			</div>
