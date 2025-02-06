@@ -21,7 +21,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Question } from "@/lib/questions";
-import Dataframe from "@/components/Dataframe";
+import CodeOutput from "@/components/CodeOutput";
+
+type OutputType = {
+	output: Record<string, string>[] | string | null;
+	language: string;
+};
 
 export default function ProblemClient({
 	problems,
@@ -35,10 +40,7 @@ export default function ProblemClient({
 	const { toast } = useToast();
 	const router = useRouter();
 	const [code, setCode] = useState<string>("");
-	const [output, setOutput] = useState<{
-		output: string | any;
-		language: string;
-	}>({
+	const [output, setOutput] = useState<OutputType>({
 		output: "",
 		language: "",
 	});
@@ -287,13 +289,8 @@ export default function ProblemClient({
 							<div className="text-lg mb-2 font-semibold">
 								Output
 							</div>
-							{output.language === "python" ? (
-								<div className="min-h-[150px] h-fit overflow-auto bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex">
-									{output.output}
-								</div>
-							) : (
-								<Dataframe data={output.output} />
-							)}
+
+							<CodeOutput data={output.output} />
 
 							{/* Action buttons  */}
 							<div className="flex gap-4 justify-end mt-auto pt-2">

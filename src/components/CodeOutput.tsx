@@ -7,12 +7,13 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { Code } from "lucide-react";
 
-interface DataframeProps {
-	data: Record<string, any>[] | string | null;
-}
-
-const Dataframe = ({ data }: DataframeProps) => {
+const CodeOutput = ({
+	data,
+}: {
+	data: Record<string, string>[] | string | null;
+}) => {
 	if (!data) {
 		return (
 			<div className="min-h-[150px] flex items-center justify-center text-gray-500">
@@ -65,4 +66,4 @@ const Dataframe = ({ data }: DataframeProps) => {
 	);
 };
 
-export default Dataframe;
+export default CodeOutput;
