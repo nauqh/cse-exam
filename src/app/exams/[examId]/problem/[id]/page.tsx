@@ -16,7 +16,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import ProblemDescription from "@/components/ProblemDescription";
+import ProblemDescription from "@/components/problem/ProblemDescription";
 import { getExamProblemQuestions } from "@/lib/questions";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";

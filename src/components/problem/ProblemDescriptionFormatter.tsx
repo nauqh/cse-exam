@@ -1,11 +1,10 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
-import ZoomableImage from "./ZoomableImage";
+import ZoomableImage from "../ZoomableImage";
 
 const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
 	const processedContent = content.replace(/<br\/>/g, "\n\n");
-	// Split content while preserving delimiters
 	const parts = processedContent.split(/(```[^`]*```)/g);
 
 	return (
@@ -34,16 +33,7 @@ const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
 								),
 								img: ({ src }) =>
 									src && <ZoomableImage src={src} />,
-								// <img
-								// 	src={src}
-								// 	alt={alt || ""}
-								// 	className="rounded-lg border border-border my-4"
-								// 	style={{
-								// 		width: width || "auto",
-								// 		height: height || "auto",
-								// 		maxWidth: "100%",
-								// 	}}
-								// />
+
 								em: ({ children }) => (
 									<em className="not-italic my-2">
 										{children}
