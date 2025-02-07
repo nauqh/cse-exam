@@ -6,9 +6,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import SubmittingOverlay from "@/components/SubmittingOverlay";
 import { ExamResults, MultiChoiceAnswer, ProblemAnswer } from "@/types/exam";
+import ReactMarkdown from "react-markdown";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [response, setResponse] = useState<any>(null);
 	const { toast } = useToast();
 	const router = useRouter();
 
@@ -41,16 +43,16 @@ export default function FinalClient({ examId }: { examId: string }) {
 
 		try {
 			console.log(JSON.stringify(examResults));
-			const response = await fetch(
-				"http://127.0.0.1:8000/submissions2/",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(examResults),
-				}
-			);
+			const response = await fetch("http://127.0.0.1:8000/submissions/", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(examResults),
+			});
+
+			const data = await response.json();
+			setResponse(data);
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
@@ -142,6 +144,29 @@ export default function FinalClient({ examId }: { examId: string }) {
 					</Button>
 				</div>
 			</div>
+
+			{response && (
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+					<div className="bg-white p-6 rounded-lg max-w-2xl w-full mx-4">
+						<h2 className="text-xl font-semibold mb-4">
+							API Response
+						</h2>
+						<div className="relative">
+							<pre className="bg-gray-50 p-4 rounded h-[400px] overflow-y-auto">
+								<ReactMarkdown className="my-2">
+									{response}
+								</ReactMarkdown>
+							</pre>
+						</div>
+						<Button
+							onClick={() => setResponse(null)}
+							className="mt-4"
+						>
+							Close
+						</Button>
+					</div>
+				</div>
+			)}
 
 			{isSubmitting && <SubmittingOverlay />}
 			<Toaster />
