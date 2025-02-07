@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ExamHistory } from "./ExamCard";
-import { statusFilters } from "@/app/profile/[id]/page";
+import { statusFilters } from "@/types/exam";
 
 interface StatusFiltersProps {
 	selectedStatus: ExamHistory["status"] | null;

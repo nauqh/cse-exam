@@ -6,13 +6,6 @@ import { ExamCard } from "@/components/exam/ExamCard";
 import { ExamHistory } from "@/components/exam/ExamCard";
 import { DateFilter } from "@/components/exam/DateFilter";
 
-export const statusFilters = [
-	{ status: "completed", label: "Completed" },
-	{ status: "failed", label: "Failed" },
-	{ status: "marking", label: "Marking" },
-	{ status: "incomplete", label: "Incomplete" },
-] as const;
-
 export default function ProfilePage() {
 	const [examHistory, setExamHistory] = useState<ExamHistory[]>([]);
 	const [selectedExam, setSelectedExam] = useState<string | null>(null);
