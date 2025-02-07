@@ -294,7 +294,7 @@ export default function ProblemClient({
 										onClick={() => setShowSummary(true)}
 										className="bg-green-600 hover:bg-green-700"
 									>
-										Review All Answers
+										Review
 									</Button>
 								)}
 							</div>
