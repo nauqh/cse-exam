@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import SubmittingOverlay from "@/components/SubmittingOverlay";
 import { ExamResults, MultiChoiceAnswer, ProblemAnswer } from "@/types/exam";
-import ReactMarkdown from "react-markdown";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -156,9 +155,9 @@ export default function FinalClient({ examId }: { examId: string }) {
 						</h2>
 						<div className="relative">
 							<pre className="bg-gray-50 p-4 rounded h-[400px] overflow-y-auto">
-								<ReactMarkdown className="my-2">
-									{response}
-								</ReactMarkdown>
+								{/* <ReactMarkdown className="my-2"> */}
+								{response}
+								{/* </ReactMarkdown> */}
 							</pre>
 						</div>
 						<Button
