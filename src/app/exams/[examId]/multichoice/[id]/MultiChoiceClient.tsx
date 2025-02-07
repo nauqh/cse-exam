@@ -143,13 +143,13 @@ export default function MultiChoiceClient({
 							<h2 className="text-xl font-semibold mb-2">
 								Question {id}
 							</h2>
-							<div className="prose dark:prose-invert pr-2">
+							<div className="prose dark:prose-invert pr-2 h-[350px]">
 								{parts.map((part, index) => {
 									if (!part.startsWith("```")) {
 										return (
 											<ReactMarkdown
 												key={index}
-												className="my-2 h-[350px]"
+												className="my-2"
 												components={{
 													strong: ({ children }) => (
 														<span className="font-bold text-primary">
