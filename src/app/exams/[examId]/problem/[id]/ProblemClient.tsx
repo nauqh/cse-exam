@@ -40,7 +40,6 @@ export default function ProblemClient({
 	const { toast } = useToast();
 	const router = useRouter();
 	const [code, setCode] = useState<string>("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [output, setOutput] = useState<OutputType>({
 		output: "",
 		language: "",
@@ -148,67 +147,8 @@ export default function ProblemClient({
 		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
 	};
 
-	const handleFinishSection = async () => {
-		setIsSubmitting(true);
-
-		const multichoiceAnswers = JSON.parse(
-			localStorage.getItem("multichoiceAnswers") || "{}"
-		);
-		const problemAnswers: Record<
-			string,
-			{ code: string; language: string }
-		> = JSON.parse(localStorage.getItem("problemAnswers") || "{}");
-
-		const examResults = {
-			email: "quan.do@gmail.com",
-			exam_id: examId,
-			exam_name: "SQL Exam",
-			answers: [
-				...Object.values(multichoiceAnswers).map((answer) => ({
-					answer,
-					type: "multichoice",
-				})),
-				...Object.values(problemAnswers).map((answer) => ({
-					answer: answer.code,
-					type: answer.language,
-				})),
-			],
-		};
-
-		try {
-			const response = await fetch(
-				"http://127.0.0.1:8000/submissions2/",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(examResults),
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-
-			const result = await response.json();
-			toast({
-				description: "Your answers have been submitted successfully!",
-				className: "bg-green-100 text-green-900",
-				duration: 3000,
-			});
-			setShowSummary(false);
-		} catch (error) {
-			toast({
-				description: "Failed to submit exam. Please try again.",
-				className: "bg-red-100 text-red-900",
-				duration: 3000,
-			});
-			setShowSummary(false);
-			return;
-		} finally {
-			setIsSubmitting(false);
-		}
+	const handleFinishSection = () => {
+		router.push(`/exams/${examId}/final`);
 	};
 
 	return (
@@ -354,7 +294,7 @@ export default function ProblemClient({
 										onClick={() => setShowSummary(true)}
 										className="bg-green-600 hover:bg-green-700"
 									>
-										Review Answers
+										Review All Answers
 									</Button>
 								)}
 							</div>
@@ -363,19 +303,8 @@ export default function ProblemClient({
 				</ResizablePanel>
 			</ResizablePanelGroup>
 
-			{/* Add the submitting overlay here */}
-			{isSubmitting && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur flex items-center justify-center z-50">
-					<div className="bg-white/90 backdrop-blur-sm p-8 rounded-lg shadow-lg flex flex-col items-center gap-4">
-						<div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
-						<p className="text-lg font-medium">
-							Submitting your answers...
-						</p>
-					</div>
-				</div>
-			)}
-
-			{showSummary && !isSubmitting && (
+			{/* Summary overlay  */}
+			{showSummary && (
 				<div
 					className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
 					onClick={(e) => {
