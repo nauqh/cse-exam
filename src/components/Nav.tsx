@@ -17,13 +17,13 @@ export default function Nav() {
 					variant="ghost"
 					className="text-gray-800 font-medium hover:bg-red-50 hover:text-red-500"
 				>
-					<Link href="/problem">Problems</Link>
+					<Link href="/problem">Login</Link>
 				</Button>
 				<Button
 					variant="ghost"
 					className="text-gray-800 hover:bg-red-50 hover:text-red-500"
 				>
-					<Link href="/">Submission</Link>
+					<Link href="/">How to</Link>
 				</Button>
 				<Button
 					variant="ghost"
