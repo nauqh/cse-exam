@@ -152,44 +152,45 @@ export default function ProblemClient({
 	};
 
 	return (
-		<div className="p-2">
+		<div className="p-2 h-[100vh]">
 			<ResizablePanelGroup direction="horizontal">
 				{/* Problem description pannel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
-					<div className="h-full flex flex-col border rounded-sm">
-						<div className="flex-1">
-							<Tabs defaultValue="description">
-								<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none">
-									<TabsTrigger
-										value="description"
-										className="hover:bg-gray-100 flex items-center gap-2"
-									>
-										<BiHelpCircle className="w-4 h-4" />
-										Description
-									</TabsTrigger>
-									<TabsTrigger
-										value="solutions"
-										className="hover:bg-gray-100 flex items-center gap-2"
-									>
-										<BiCodeAlt className="w-4 h-4" />
-										Solutions
-									</TabsTrigger>
-									<TabsTrigger
-										value="discussion"
-										className="hover:bg-gray-100 flex items-center gap-2"
-									>
-										<BiMessageRoundedDots className="w-4 h-4" />
-										Discussion
-									</TabsTrigger>
-								</TabsList>
-								<ProblemDescription
-									name="description"
-									content={currentProblem?.question}
-								/>
-								<ProblemDescription name="solutions" />
-								<ProblemDescription name="discussion" />
-							</Tabs>
-						</div>
+					<div className="h-full flex flex-col border rounded-sm justify-between">
+						<Tabs
+							defaultValue="description"
+							className="overflow-auto"
+						>
+							<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none">
+								<TabsTrigger
+									value="description"
+									className="hover:bg-gray-100 flex items-center gap-2"
+								>
+									<BiHelpCircle className="w-4 h-4" />
+									Description
+								</TabsTrigger>
+								<TabsTrigger
+									value="solutions"
+									className="hover:bg-gray-100 flex items-center gap-2"
+								>
+									<BiCodeAlt className="w-4 h-4" />
+									Solutions
+								</TabsTrigger>
+								<TabsTrigger
+									value="discussion"
+									className="hover:bg-gray-100 flex items-center gap-2"
+								>
+									<BiMessageRoundedDots className="w-4 h-4" />
+									Discussion
+								</TabsTrigger>
+							</TabsList>
+							<ProblemDescription
+								name="description"
+								content={currentProblem?.question}
+							/>
+							<ProblemDescription name="solutions" />
+							<ProblemDescription name="discussion" />
+						</Tabs>
 						<div className="flex items-center justify-center gap-2 p-2 border-b">
 							{Array.from(
 								{ length: problems.length },

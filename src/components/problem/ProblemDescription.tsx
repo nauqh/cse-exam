@@ -10,10 +10,7 @@ const ProblemDescription = ({
 	content?: string;
 }) => {
 	return (
-		<TabsContent
-			value={name}
-			className="h-[calc(100vh-180px)] overflow-y-auto"
-		>
+		<TabsContent value={name} className="overflow-y-auto">
 			<div className="p-4">
 				{name === "description" ? (
 					<>
