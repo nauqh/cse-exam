@@ -10,7 +10,7 @@ import ReactMarkdown from "react-markdown";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [response, setResponse] = useState<any>(null);
+	const [response, setResponse] = useState("");
 	const { toast } = useToast();
 	const router = useRouter();
 
