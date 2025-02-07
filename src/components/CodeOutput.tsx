@@ -34,7 +34,7 @@ const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
 	const columns = Object.keys(data[0]);
 
 	return (
-		<div className="max-h-[150px] overflow-auto">
+		<div className="overflow-auto">
 			<Table>
 				<TableHeader>
 					<TableRow>
