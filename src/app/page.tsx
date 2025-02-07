@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import Nav from "@/components/Nav";
 
 const courses = [
 	{
@@ -40,36 +41,43 @@ export default function Home() {
 	}, []);
 
 	return (
-		<main className="container mx-auto px-4 py-8">
-			<div className="max-w-6xl mx-auto space-y-8">
-				<section className="text-center space-y-4">
-					<h1 className="text-4xl font-bold">Coderschool eExams</h1>
-					<p className="text-xl text-muted-foreground">
-						Select a course to start your assessment
-					</p>
-				</section>
+		<>
+			<Nav />
+			<main className="container mx-auto px-4 py-8">
+				<div className="max-w-6xl mx-auto space-y-8">
+					<section className="text-center space-y-4">
+						<h1 className="text-4xl font-bold">
+							Coderschool eExams
+						</h1>
+						<p className="text-xl text-muted-foreground">
+							Select a course to start your assessment
+						</p>
+					</section>
 
-				<section className="grid gap-8 md:grid-cols-2">
-					{courses.map((course) => (
-						<Link
-							key={course.id}
-							href={course.path}
-							className="block"
-						>
-							<div className="group p-8 border rounded-xl space-y-4 hover:shadow-lg transition-all duration-300 bg-card">
-								<h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
-									{course.title}
-								</h2>
-								<p className="text-muted-foreground text-lg">
-									{course.description}
-								</p>
+					<section className="grid gap-8 md:grid-cols-2">
+						{courses.map((course) => (
+							<Link
+								key={course.id}
+								href={course.path}
+								className="block"
+							>
+								<div className="group p-8 border rounded-xl space-y-4 hover:shadow-lg transition-all duration-300 bg-card">
+									<h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
+										{course.title}
+									</h2>
+									<p className="text-muted-foreground text-lg">
+										{course.description}
+									</p>
 
-								<Button variant="destructive">Take exam</Button>
-							</div>
-						</Link>
-					))}
-				</section>
-			</div>
-		</main>
+									<Button variant="destructive">
+										Take exam
+									</Button>
+								</div>
+							</Link>
+						))}
+					</section>
+				</div>
+			</main>
+		</>
 	);
 }
