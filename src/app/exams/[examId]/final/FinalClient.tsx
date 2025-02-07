@@ -162,7 +162,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 							</pre>
 						</div>
 						<Button
-							onClick={() => setResponse(null)}
+							onClick={() => setResponse("")}
 							className="mt-4"
 						>
 							Close
