@@ -139,7 +139,7 @@ export default function MultiChoiceClient({
 			{currentQuestion ? (
 				<div className="grid grid-cols-12 gap-4">
 					<div className="col-span-9 grid grid-rows-[auto_1fr] gap-4">
-						<div className="bg-white rounded-lg h-[400px] overflow-y-auto">
+						<div className="bg-white rounded-lg overflow-y-auto">
 							<h2 className="text-xl font-semibold mb-2">
 								Question {id}
 							</h2>
@@ -149,7 +149,7 @@ export default function MultiChoiceClient({
 										return (
 											<ReactMarkdown
 												key={index}
-												className="my-2"
+												className="my-2 h-[350px]"
 												components={{
 													strong: ({ children }) => (
 														<span className="font-bold text-primary">
