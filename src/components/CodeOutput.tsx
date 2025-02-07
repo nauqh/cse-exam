@@ -11,13 +11,13 @@ import {
 const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
 	if (data === "") {
 		return (
-			<div className="min-h-[150px] bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto"></div>
+			<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto"></div>
 		);
 	}
 
 	if (typeof data === "string") {
 		return (
-			<div className="min-h-[150px] bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto">
+			<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto">
 				{data}
 			</div>
 		);
