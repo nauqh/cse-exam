@@ -30,8 +30,8 @@ export default function RootLayout({
 	return (
 		<ClerkProvider
 			appearance={{
-				elements: {
-					footer: "hidden",
+				layout: {
+					unsafe_disableDevelopmentModeWarnings: true,
 				},
 			}}
 		>
