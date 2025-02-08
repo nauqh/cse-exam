@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.11.1",
     "@codemirror/lang-python": "^6.1.7",
     "@codemirror/lang-sql": "^6.8.0",
     "@radix-ui/react-label": "^2.1.1",

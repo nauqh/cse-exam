@@ -1,36 +1,61 @@
 "use client";
 
+import {
+	SignInButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+	useUser,
+} from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Nav() {
+	const { user } = useUser();
+
 	return (
-		<nav className="flex items-center justify-between bg-white text-black p-4 shadow-md">
-			<div className="text-xl font-bold">
+		<nav className="flex items-center justify-between bg-white text-black p-4 shadow-md sticky top-0 z-50">
+			<div className="text-xl font-bold transition-transform hover:scale-105">
 				<Link href="/" onClick={() => localStorage.clear()}>
-					<Image src="/logo.png" alt="Logo" width={200} height={40} />
+					<Image
+						src="/logo.png"
+						alt="Logo"
+						width={200}
+						height={40}
+						className="object-contain"
+					/>
 				</Link>
 			</div>
-			<div className="flex gap-4">
-				<Button
-					variant="ghost"
-					className="text-gray-800 font-medium hover:bg-red-50 hover:text-red-500"
-				>
-					<Link href="/problem">Login</Link>
-				</Button>
-				<Button
-					variant="ghost"
-					className="text-gray-800 hover:bg-red-50 hover:text-red-500"
-				>
+			<div className="flex items-center gap-6">
+				<Button variant="ghost">
 					<Link href="/">How to</Link>
 				</Button>
-				<Button
-					variant="ghost"
-					className="text-gray-800 hover:bg-red-50 hover:text-red-500"
-				>
-					<Link href="/profile/1">Profile</Link>
+				<Button variant="ghost">
+					<Link href={`/profile/${user?.emailAddresses}`}>
+						Profile
+					</Link>
 				</Button>
+				<SignedOut>
+					<SignInButton>
+						<Button
+							variant="outline"
+							className="border-red-500 text-red-500 hover:bg-red-50 hover:text-red-600"
+						>
+							Sign In
+						</Button>
+					</SignInButton>
+				</SignedOut>
+				<SignedIn>
+					<UserButton
+						appearance={{
+							elements: {
+								avatarBox:
+									"hover:scale-110 transition-transform",
+							},
+						}}
+					/>
+				</SignedIn>
 			</div>
 		</nav>
 	);

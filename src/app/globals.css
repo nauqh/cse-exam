@@ -69,4 +69,17 @@ body {
 	body {
 		@apply bg-background text-foreground;
 	}
+
+	/* Custom Scrollbar */
+	::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: hsl(var(--secondary));
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: hsl(var(--muted-foreground));
+	}
 }

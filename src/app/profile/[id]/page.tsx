@@ -5,6 +5,7 @@ import { StatusFilters } from "@/components/exam/StatusFilters";
 import { ExamCard } from "@/components/exam/ExamCard";
 import { ExamHistory } from "@/components/exam/ExamCard";
 import { DateFilter } from "@/components/exam/DateFilter";
+import Nav from "@/components/Nav";
 
 export default function ProfilePage() {
 	const [examHistory, setExamHistory] = useState<ExamHistory[]>([]);
@@ -82,71 +83,76 @@ export default function ProfilePage() {
 		);
 
 	return (
-		<main className="container mx-auto px-4 py-8">
-			<div className="max-w-4xl mx-auto space-y-8">
-				<section className="text-center space-y-4">
-					<h1 className="text-4xl font-bold">My Profile</h1>
-					<p className="text-xl text-muted-foreground">
-						View your exam history and progress
-					</p>
-				</section>
+		<>
+			<Nav />
+			<main className="container mx-auto px-4 py-8">
+				<div className="max-w-4xl mx-auto space-y-8">
+					<section className="text-center space-y-4">
+						<h1 className="text-4xl font-bold">My Profile</h1>
+						<p className="text-xl text-muted-foreground">
+							View your exam history and progress
+						</p>
+					</section>
 
-				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold">Exam History</h2>
-					<div className="space-y-4">
-						<div className="space-y-2">
-							<div className="flex flex-wrap gap-2">
-								<Button
-									variant={
-										selectedExam === null
-											? "default"
-											: "outline"
-									}
-									onClick={() => {
-										setSelectedExam(null);
-										setSelectedStatus(null);
-									}}
-								>
-									All Exams
-								</Button>
-								{examFilters.map((filter) => (
+					<section className="space-y-6">
+						<h2 className="text-2xl font-semibold">Exam History</h2>
+						<div className="space-y-4">
+							<div className="space-y-2">
+								<div className="flex flex-wrap gap-2">
 									<Button
-										key={filter.id}
 										variant={
-											selectedExam === filter.id
+											selectedExam === null
 												? "default"
 												: "outline"
 										}
-										onClick={() =>
-											setSelectedExam(filter.id)
-										}
+										onClick={() => {
+											setSelectedExam(null);
+											setSelectedStatus(null);
+										}}
 									>
-										{filter.label}
+										All Exams
 									</Button>
+									{examFilters.map((filter) => (
+										<Button
+											key={filter.id}
+											variant={
+												selectedExam === filter.id
+													? "default"
+													: "outline"
+											}
+											onClick={() =>
+												setSelectedExam(filter.id)
+											}
+										>
+											{filter.label}
+										</Button>
+									))}
+								</div>
+								{selectedExam && (
+									<>
+										<StatusFilters
+											selectedStatus={selectedStatus}
+											setSelectedStatus={
+												setSelectedStatus
+											}
+										/>
+										<DateFilter
+											selectedDate={selectedDate}
+											setSelectedDate={setSelectedDate}
+										/>
+									</>
+								)}
+							</div>
+
+							<div className="grid gap-4">
+								{filteredHistory.map((exam) => (
+									<ExamCard key={exam.id} exam={exam} />
 								))}
 							</div>
-							{selectedExam && (
-								<>
-									<StatusFilters
-										selectedStatus={selectedStatus}
-										setSelectedStatus={setSelectedStatus}
-									/>
-									<DateFilter
-										selectedDate={selectedDate}
-										setSelectedDate={setSelectedDate}
-									/>
-								</>
-							)}
 						</div>
-
-						<div className="grid gap-4">
-							{filteredHistory.map((exam) => (
-								<ExamCard key={exam.id} exam={exam} />
-							))}
-						</div>
-					</div>
-				</section>
-			</div>
-		</main>
+					</section>
+				</div>
+			</main>
+		</>
 	);
 }
