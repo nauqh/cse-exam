@@ -6,12 +6,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import SubmittingOverlay from "@/components/SubmittingOverlay";
 import { ExamResults, MultiChoiceAnswer, ProblemAnswer } from "@/types/exam";
+import { useUser } from "@clerk/nextjs";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [response, setResponse] = useState("");
 	const { toast } = useToast();
 	const router = useRouter();
+	const { user } = useUser();
 
 	const multichoiceAnswers: MultiChoiceAnswer = JSON.parse(
 		localStorage.getItem("multichoiceAnswers") || "{}"
@@ -22,10 +24,8 @@ export default function FinalClient({ examId }: { examId: string }) {
 
 	const handleSubmit = async () => {
 		setIsSubmitting(true);
-
 		const examResults: ExamResults = {
-			// TODO: get from auth
-			email: "quan.do@gmail.com",
+			email: user?.emailAddresses[0].emailAddress || "",
 			exam_id: examId,
 			exam_name: "SQL Exam",
 			answers: [

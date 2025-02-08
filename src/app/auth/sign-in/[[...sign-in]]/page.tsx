@@ -1,11 +1,26 @@
 "use client";
+import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { HiArrowRight } from "react-icons/hi";
+import { LoadingScreen } from "@/components/ui/loading";
 import Image from "next/image";
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
 
 export default function Page() {
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsLoading(false);
+		}, 1000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (isLoading) {
+		return <LoadingScreen />;
+	}
 	return (
 		<div className="grid md:grid-cols-2 min-h-screen">
 			{/* Sign In */}

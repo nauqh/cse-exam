@@ -1,11 +1,24 @@
 "use client";
-import { FcGoogle } from "react-icons/fc";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { LoadingScreen } from "@/components/ui/loading";
 import { SignUp, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 export default function Page() {
 	const { user } = useUser();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsLoading(false);
+		}, 1000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (isLoading) {
+		return <LoadingScreen />;
+	}
 	if (!user) {
 		return (
 			<div className="grid md:grid-cols-2 min-h-screen">

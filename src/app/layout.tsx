@@ -33,7 +33,7 @@ export default function RootLayout({
 			<html lang="en">
 				<body className={`${manrope.variable} antialiased`}>
 					<ClerkLoading>
-						<LoadingScreen></LoadingScreen>
+						<LoadingScreen />
 					</ClerkLoading>
 					<ClerkLoaded>{children}</ClerkLoaded>
 				</body>
