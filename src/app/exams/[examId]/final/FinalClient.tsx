@@ -22,7 +22,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 		localStorage.getItem("problemAnswers") || "{}"
 	);
 
-	const examDict = {
+	const examDict: { [key: string]: string } = {
 		M11: "M1.1 Basics SQL",
 		M12: "M1.2 Advanced SQL",
 		M21: "M2.1 Python 101",

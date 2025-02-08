@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { HiArrowRight } from "react-icons/hi";
 import { LoadingScreen } from "@/components/ui/loading";
 import Image from "next/image";
+import Link from "next/link";
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
 
@@ -245,14 +246,12 @@ export default function Page() {
 				<div className="mt-8 p-4 bg-blue-50 rounded-lg">
 					<p className="text-sm text-blue-800">
 						Need help? Visit our{" "}
-						<a
-							href="https://discord.gg/your-discord-link"
-							target="_blank"
-							rel="noopener noreferrer"
+						<Link
+							href="https://discord.com/channels/957854915194126336/1081063200377806899"
 							className="underline hover:text-blue-600"
 						>
 							Discord support forum
-						</a>
+						</Link>
 					</p>
 				</div>
 			</div>
