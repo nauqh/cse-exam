@@ -2,12 +2,12 @@
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import * as Clerk from "@clerk/elements/common";
-import * as SignIn from "@clerk/elements/sign-in";
+import * as SignUp from "@clerk/elements/sign-up";
 
 export default function Page() {
 	return (
 		<div className="grid md:grid-cols-2 min-h-screen">
-			{/* Sign In */}
+			{/* Sign Up */}
 			<div className="flex flex-col justify-center mx-auto w-full max-w-md px-6">
 				<Image
 					src="/logo.png"
@@ -16,15 +16,25 @@ export default function Page() {
 					height={50}
 				/>
 				<h1 className="text-3xl font-bold mt-6 mb-4">
-					Sign in to CoderSchool
+					Create your account
 				</h1>
 				<p className="text-gray-600 mb-4">
-					Welcome back! Please sign in to continue.
+					Join CoderSchool to start your learning journey.
 				</p>
 
-				<SignIn.Root>
-					<SignIn.Step name="start">
-						<Clerk.Field name="identifier">
+				<SignUp.Root>
+					<SignUp.Step name="start">
+						<Clerk.Field name="name" className="mb-4">
+							<Clerk.Label className="text-gray-700 text-sm">
+								Name
+							</Clerk.Label>
+							<Clerk.Input
+								className="w-full p-2 border rounded-lg focus:outline-none"
+								placeholder="Your full name"
+							/>
+						</Clerk.Field>
+
+						<Clerk.Field name="emailAddress">
 							<Clerk.Label className="text-gray-700 text-sm">
 								Email
 							</Clerk.Label>
@@ -32,7 +42,6 @@ export default function Page() {
 								className="w-full p-2 border rounded-lg focus:outline-none"
 								placeholder="Your email address"
 							/>
-							<Clerk.FieldError className="text-red-500" />
 						</Clerk.Field>
 
 						<Clerk.Field name="password" className="mt-4">
@@ -42,25 +51,21 @@ export default function Page() {
 							<Clerk.Input
 								type="password"
 								className="w-full p-2 border rounded-lg focus:outline-none"
-								placeholder="Your password"
+								placeholder="Create a password"
 							/>
 						</Clerk.Field>
 
-						<p className="text-right text-sm  mt-2 cursor-pointer">
-							Forgot password?
-						</p>
-
-						<SignIn.Action
+						<SignUp.Action
 							submit
-							className="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
+							className="w-full mt-6 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
 						>
-							Sign In
-						</SignIn.Action>
+							Create Account
+						</SignUp.Action>
 
 						<div className="relative flex items-center justify-center mt-6 mb-6">
 							<div className="border-t border-gray-300 w-full"></div>
 							<span className="bg-white text-center px-4 text-sm text-gray-500 w-full">
-								Or sign in with
+								Or sign up with
 							</span>
 							<div className="border-t border-gray-300 w-full"></div>
 						</div>
@@ -73,26 +78,25 @@ export default function Page() {
 								<FcGoogle className="w-6 h-6" />
 							</Clerk.Connection>
 						</div>
-						<p className="mt-4 text-gray-600 text-center">
-							Not a member?{" "}
-							<Clerk.Link
-								navigate="sign-up"
-								className="font-medium text-zinc-950 decoration-zinc-950/20 underline-offset-4 outline-none hover:text-zinc-700 hover:underline focus-visible:underline"
-							>
-								Create an account
-							</Clerk.Link>
-						</p>
-					</SignIn.Step>
-				</SignIn.Root>
+					</SignUp.Step>
+				</SignUp.Root>
+
+				<p className="mt-4 text-gray-600 text-center">
+					Already have an account?{" "}
+					<span className="text-blue-500 cursor-pointer">
+						Sign in
+					</span>
+				</p>
 			</div>
 
 			{/* eAssessment Info */}
 			<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg">
 				<h1 className="text-4xl font-bold text-slate-800 mb-6">
-					Welcome to eAssessment
+					Join eAssessment Today
 				</h1>
 				<p className="text-lg text-slate-600 mb-4">
-					Your comprehensive online examination platform
+					Start your learning journey with our comprehensive online
+					examination platform
 				</p>
 				<ul className="space-y-4 text-slate-700">
 					<li className="flex items-center">
