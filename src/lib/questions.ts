@@ -1,7 +1,7 @@
 export interface Question {
   question: string;
   resultType: string;
-  choices: string[];
+  choices?: string[];
   img?: string;
 }
 

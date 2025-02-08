@@ -212,32 +212,34 @@ export default function MultiChoiceClient({
 							</div>
 						</div>
 
-						<div className="bg-white rounded-lg p-4 overflow-y-auto">
-							<RadioGroup
-								value={selectedOption}
-								onValueChange={setSelectedOption}
-							>
-								{currentQuestion.choices.map((choice) => (
-									<div
-										key={choice}
-										className="flex items-center space-x-2"
-									>
-										<RadioGroupItem
-											value={choice}
-											id={choice}
-										/>
-										<Label
-											htmlFor={choice}
-											className="text-base"
+						{currentQuestion.choices && (
+							<div className="bg-white rounded-lg p-4 overflow-y-auto">
+								<RadioGroup
+									value={selectedOption}
+									onValueChange={setSelectedOption}
+								>
+									{currentQuestion.choices.map((choice) => (
+										<div
+											key={choice}
+											className="flex items-center space-x-2"
 										>
-											<ReactMarkdown>
-												{choice}
-											</ReactMarkdown>
-										</Label>
-									</div>
-								))}
-							</RadioGroup>
-						</div>
+											<RadioGroupItem
+												value={choice}
+												id={choice}
+											/>
+											<Label
+												htmlFor={choice}
+												className="text-base"
+											>
+												<ReactMarkdown>
+													{choice}
+												</ReactMarkdown>
+											</Label>
+										</div>
+									))}
+								</RadioGroup>
+							</div>
+						)}
 					</div>
 
 					<div className="col-span-3 bg-white rounded-lg p-4 flex flex-col gap-4">
