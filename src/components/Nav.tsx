@@ -52,6 +52,7 @@ export default function Nav() {
 							elements: {
 								avatarBox:
 									"hover:scale-110 transition-transform",
+								footer: "hidden",
 							},
 						}}
 					/>
