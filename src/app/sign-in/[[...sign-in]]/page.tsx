@@ -15,7 +15,7 @@ export default function Page() {
 					width={200}
 					height={50}
 				/>
-				<h1 className="text-3xl font-bold text-gray-800 mt-6 mb-4">
+				<h1 className="text-3xl font-bold mt-6 mb-4">
 					Sign in to CoderSchool
 				</h1>
 				<p className="text-gray-600 mb-4">
@@ -46,7 +46,7 @@ export default function Page() {
 							/>
 						</Clerk.Field>
 
-						<p className="text-right text-sm text-black mt-2 cursor-pointer">
+						<p className="text-right text-sm  mt-2 cursor-pointer">
 							Forgot password?
 						</p>
 
