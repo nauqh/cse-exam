@@ -2,7 +2,6 @@ export interface Question {
   question: string;
   resultType: string;
   choices?: string[];
-  img?: string;
 }
 
 export async function getExamQuestions(examId: string): Promise<Question[]> {
