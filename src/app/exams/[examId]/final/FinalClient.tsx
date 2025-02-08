@@ -30,6 +30,12 @@ export default function FinalClient({ examId }: { examId: string }) {
 	};
 
 	const handleSubmit = async () => {
+		const cachedResults = localStorage.getItem(`examResults_${examId}`);
+		if (cachedResults) {
+			setResponse(JSON.parse(cachedResults));
+			return;
+		}
+
 		setIsSubmitting(true);
 		const examResults: ExamResults = {
 			email: user?.emailAddresses[0].emailAddress || "",
@@ -61,6 +67,8 @@ export default function FinalClient({ examId }: { examId: string }) {
 			);
 
 			const data = await response.json();
+			// Cache the results
+			localStorage.setItem(`examResults_${examId}`, JSON.stringify(data));
 			setResponse(data);
 
 			if (!response.ok) {
@@ -72,11 +80,6 @@ export default function FinalClient({ examId }: { examId: string }) {
 				className: "bg-green-100 text-green-900",
 				duration: 3000,
 			});
-
-			// localStorage.removeItem("multichoiceAnswers");
-			// localStorage.removeItem("problemAnswers");
-
-			// router.push(`/exams/${examId}/results`);
 		} catch (error) {
 			toast({
 				description: "Failed to submit exam. Please try again.",
