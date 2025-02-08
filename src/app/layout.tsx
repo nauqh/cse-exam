@@ -1,10 +1,5 @@
-import {
-	ClerkProvider,
-	SignInButton,
-	SignedIn,
-	SignedOut,
-	UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider, ClerkLoading, ClerkLoaded } from "@clerk/nextjs";
+import { LoadingScreen } from "@/components/ui/loading";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
@@ -37,7 +32,10 @@ export default function RootLayout({
 		>
 			<html lang="en">
 				<body className={`${manrope.variable} antialiased`}>
-					{children}
+					<ClerkLoading>
+						<LoadingScreen></LoadingScreen>
+					</ClerkLoading>
+					<ClerkLoaded>{children}</ClerkLoaded>
 				</body>
 			</html>
 		</ClerkProvider>
