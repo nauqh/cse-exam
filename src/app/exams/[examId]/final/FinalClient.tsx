@@ -22,12 +22,19 @@ export default function FinalClient({ examId }: { examId: string }) {
 		localStorage.getItem("problemAnswers") || "{}"
 	);
 
+	const examDict = {
+		M11: "M1.1 Basics SQL",
+		M12: "M1.2 Advanced SQL",
+		M21: "M2.1 Python 101",
+		M31: "M3.2 Pandas 101",
+	};
+
 	const handleSubmit = async () => {
 		setIsSubmitting(true);
 		const examResults: ExamResults = {
 			email: user?.emailAddresses[0].emailAddress || "",
 			exam_id: examId,
-			exam_name: "SQL Exam",
+			exam_name: examDict[examId],
 			answers: [
 				...Object.entries(multichoiceAnswers).map(([_, answer]) => ({
 					answer,
