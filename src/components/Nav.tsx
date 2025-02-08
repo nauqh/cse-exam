@@ -41,11 +41,6 @@ export default function Nav() {
 				<Button variant="ghost">
 					<Link href="/">How to</Link>
 				</Button>
-				<Button variant="ghost">
-					<Link href={`/profile/${user?.emailAddresses}`}>
-						Profile
-					</Link>
-				</Button>
 				<SignedOut>
 					<SignInButton>
 						<Button
