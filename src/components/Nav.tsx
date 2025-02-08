@@ -39,6 +39,9 @@ export default function Nav() {
 			</div>
 			<div className="flex items-center gap-6">
 				<Button variant="ghost">
+					<Link href="/">Home</Link>
+				</Button>
+				<Button variant="ghost">
 					<Link href="/">How to</Link>
 				</Button>
 				<SignedOut>

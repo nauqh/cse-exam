@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/elements": "^0.22.20",
     "@clerk/nextjs": "^6.11.1",
     "@codemirror/lang-python": "^6.1.7",
     "@codemirror/lang-sql": "^6.8.0",
