@@ -1,5 +1,6 @@
 "use client";
 import { FcGoogle } from "react-icons/fc";
+import { HiArrowRight } from "react-icons/hi";
 import Image from "next/image";
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
@@ -9,52 +10,47 @@ export default function Page() {
 		<div className="grid md:grid-cols-2 min-h-screen">
 			{/* Sign In */}
 			<div className="flex flex-col justify-center mx-auto w-full max-w-md px-6">
-				<Image
-					src="/logo.png"
-					alt="Coderschool Logo"
-					width={200}
-					height={50}
-				/>
-				<h1 className="text-3xl font-bold mt-6 mb-4">
-					Sign in to CoderSchool
-				</h1>
-				<p className="text-gray-600 mb-4">
-					Welcome back! Please sign in to continue.
-				</p>
-
 				<SignIn.Root>
-					<SignIn.Step name="start">
+					<SignIn.Step
+						name="start"
+						className="flex flex-col justify-center mx-auto w-full px-6 space-y-6"
+					>
+						<header>
+							<Image
+								src="/logo.png"
+								alt="Coderschool Logo"
+								width={200}
+								height={50}
+							/>
+							<h1 className="text-3xl font-bold mt-6 mb-4">
+								Sign in to CoderSchool
+							</h1>
+							<p className="text-gray-600 mb-4">
+								Welcome back! Please sign in to continue.
+							</p>
+						</header>
+
+						<Clerk.GlobalError className="block text-sm text-red-600" />
+
 						<Clerk.Field name="identifier">
-							<Clerk.Label className="text-gray-700 text-sm">
-								Email
-							</Clerk.Label>
+							<Clerk.Label className="sr-only">Email</Clerk.Label>
 							<Clerk.Input
-								className="w-full p-2 border rounded-lg focus:outline-none"
-								placeholder="Your email address"
+								type="email"
+								required
+								placeholder="Email"
+								className="w-full border-b border-neutral-200 bg-white pb-2 text-sm/6 text-neutral-950 outline-none placeholder:text-neutral-400 hover:border-neutral-300 focus:border-neutral-600 data-[invalid]:border-red-600 data-[invalid]:text-red-600"
 							/>
-							<Clerk.FieldError className="text-red-500" />
+							<Clerk.FieldError className="mt-2 block text-xs text-red-600" />
 						</Clerk.Field>
 
-						<Clerk.Field name="password" className="mt-4">
-							<Clerk.Label className="text-gray-700 text-sm">
-								Password
-							</Clerk.Label>
-							<Clerk.Input
-								type="password"
-								className="w-full p-2 border rounded-lg focus:outline-none"
-								placeholder="Your password"
-							/>
-						</Clerk.Field>
-
-						<p className="text-right text-sm  mt-2 cursor-pointer">
-							Forgot password?
-						</p>
+						{/* Add CAPTCHA here */}
+						<div id="clerk-captcha" />
 
 						<SignIn.Action
 							submit
-							className="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
+							className="w-full mt-4 bg-black text-white py-1 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
 						>
-							Sign In
+							Continue <HiArrowRight />
 						</SignIn.Action>
 
 						<div className="relative flex items-center justify-center mt-6 mb-6">
@@ -64,22 +60,102 @@ export default function Page() {
 							</span>
 							<div className="border-t border-gray-300 w-full"></div>
 						</div>
-
 						<div className="flex gap-2 justify-center">
 							<Clerk.Connection
 								name="google"
 								className="bg-white text-gray-700 p-2 rounded-lg border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
 							>
-								<FcGoogle className="w-6 h-6" />
+								<FcGoogle className="w-8 h-8" />
 							</Clerk.Connection>
 						</div>
-						<p className="mt-4 text-gray-600 text-center">
-							Not a member?{" "}
+
+						<p className="text-center text-sm text-neutral-500">
+							Don&apos;t have an account?{" "}
 							<Clerk.Link
 								navigate="sign-up"
 								className="font-medium text-zinc-950 decoration-zinc-950/20 underline-offset-4 outline-none hover:text-zinc-700 hover:underline focus-visible:underline"
 							>
-								Create an account
+								Create a free account
+							</Clerk.Link>
+						</p>
+					</SignIn.Step>
+
+					<SignIn.Step
+						name="verifications"
+						className="w-full space-y-6 rounded-2xl px-4 py-10 sm:w-96 sm:px-8"
+					>
+						<SignIn.Strategy name="email_code">
+							<header>
+								<Image
+									src="/logo.png"
+									alt="Coderschool Logo"
+									width={200}
+									height={50}
+								/>
+								<h1 className="text-2xl font-bold mt-6 mb-4">
+									Verify email code
+								</h1>
+							</header>
+							<Clerk.GlobalError className="block text-sm text-red-600" />
+							<Clerk.Field name="code">
+								<Clerk.Label className="sr-only">
+									Email code
+								</Clerk.Label>
+								<Clerk.Input
+									type="otp"
+									required
+									placeholder="Email code"
+									className="w-full border-b border-neutral-200 bg-white pb-2 text-sm/6 text-neutral-950 outline-none placeholder:text-neutral-400 hover:border-neutral-300 focus:border-neutral-600 data-[invalid]:border-red-600 data-[invalid]:text-red-600"
+								/>
+								<Clerk.FieldError className="mt-2 block text-xs text-red-600" />
+							</Clerk.Field>
+							<SignIn.Action
+								submit
+								className="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
+							>
+								Continue
+							</SignIn.Action>
+						</SignIn.Strategy>
+
+						<SignIn.Strategy name="phone_code">
+							<header className="text-center">
+								<img
+									src="/logo.png"
+									alt="CoderSchool Logo"
+									className="mx-auto h-10"
+								/>
+								<h1 className="mt-4 text-xl font-medium tracking-tight text-neutral-950">
+									Verify phone code
+								</h1>
+							</header>
+							<Clerk.GlobalError className="block text-sm text-red-600" />
+							<Clerk.Field name="code">
+								<Clerk.Label className="sr-only">
+									Phone code
+								</Clerk.Label>
+								<Clerk.Input
+									type="otp"
+									required
+									placeholder="Phone code"
+									className="w-full border-b border-neutral-200 bg-white pb-2 text-sm/6 text-neutral-950 outline-none placeholder:text-neutral-400 hover:border-neutral-300 focus:border-neutral-600 data-[invalid]:border-red-600 data-[invalid]:text-red-600"
+								/>
+								<Clerk.FieldError className="mt-2 block text-xs text-red-600" />
+							</Clerk.Field>
+							<SignIn.Action
+								submit
+								className="relative w-full rounded-md bg-neutral-600 bg-gradient-to-b from-neutral-500 to-neutral-600 py-1.5 text-sm text-white shadow-[0_1px_1px_0_theme(colors.white/10%)_inset,0_1px_2.5px_0_theme(colors.black/36%)] outline-none ring-1 ring-inset ring-neutral-600 before:absolute before:inset-0 before:rounded-md before:bg-white/10 before:opacity-0 hover:before:opacity-100 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 active:bg-neutral-600 active:text-white/60 active:before:opacity-0"
+							>
+								Login
+							</SignIn.Action>
+						</SignIn.Strategy>
+
+						<p className="text-center text-sm text-neutral-500">
+							Don&apos;t have an account?{" "}
+							<Clerk.Link
+								navigate="sign-up"
+								className="rounded px-1 py-0.5 text-neutral-700 outline-none hover:bg-neutral-100 focus-visible:bg-neutral-100"
+							>
+								Sign up
 							</Clerk.Link>
 						</p>
 					</SignIn.Step>
