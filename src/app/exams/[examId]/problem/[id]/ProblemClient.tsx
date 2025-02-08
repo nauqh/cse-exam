@@ -84,7 +84,7 @@ export default function ProblemClient({
 		setCode(value);
 	}, []);
 
-	const handleRunCode = async () => {
+	const handleRunCode = useCallback(async () => {
 		try {
 			setOutput({ output: "Executing...", language });
 			const response = await fetch(
@@ -113,7 +113,7 @@ export default function ProblemClient({
 				language,
 			});
 		}
-	};
+	}, [code, language]);
 
 	const handleSubmit = () => {
 		if (!code) {
@@ -151,10 +151,25 @@ export default function ProblemClient({
 		router.push(`/exams/${examId}/final`);
 	};
 
+	// Add keybinding: Ctrl+Enter to run code
+	useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.ctrlKey && event.key === "Enter") {
+				event.preventDefault();
+				handleRunCode();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [handleRunCode]);
+
 	return (
 		<div className="p-2 h-[100vh]">
 			<ResizablePanelGroup direction="horizontal">
-				{/* Problem description pannel */}
+				{/* Problem description panel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
 					<div className="h-full flex flex-col border rounded-sm justify-between">
 						<Tabs
@@ -222,20 +237,27 @@ export default function ProblemClient({
 
 				<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
-				{/* Code editor and output pannel */}
+				{/* Code editor and output panel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
 					<ResizablePanelGroup
 						direction="vertical"
 						className="h-full flex flex-col border rounded-sm"
 					>
-						{/* Code editor pannel */}
+						{/* Code editor panel */}
 						<ResizablePanel
 							defaultSize={65}
 							minSize={10}
 							className="flex-1 overflow-hidden flex flex-col"
 						>
 							<div className="flex items-center justify-between p-2 border-b">
-								<h1 className="text-lg font-semibold">Input</h1>
+								<div className="flex items-center gap-4">
+									<h1 className="text-lg font-semibold">
+										Input
+									</h1>
+									<span className="text-xs text-gray-500 bg-gray-100 p-2 rounded-md">
+										Ctrl+Enter to run code
+									</span>
+								</div>
 								<Select
 									value={language}
 									onValueChange={(value) => {
@@ -265,7 +287,7 @@ export default function ProblemClient({
 
 						<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
-						{/* Output pannel */}
+						{/* Output panel */}
 						<ResizablePanel
 							defaultSize={35}
 							minSize={35}
@@ -277,7 +299,7 @@ export default function ProblemClient({
 
 							<CodeOutput data={output.output} />
 
-							{/* Action buttons  */}
+							{/* Action buttons */}
 							<div className="flex gap-4 justify-end mt-auto pt-2">
 								<Button variant="outline" onClick={handleReset}>
 									Reset
@@ -304,7 +326,7 @@ export default function ProblemClient({
 				</ResizablePanel>
 			</ResizablePanelGroup>
 
-			{/* Summary overlay  */}
+			{/* Summary overlay */}
 			{showSummary && (
 				<div
 					className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
