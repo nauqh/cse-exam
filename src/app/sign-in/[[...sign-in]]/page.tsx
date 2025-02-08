@@ -88,30 +88,82 @@ export default function Page() {
 
 			{/* eAssessment Info */}
 			<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg">
-				<h1 className="text-4xl font-bold text-slate-800 mb-6">
-					Welcome to eAssessment
-				</h1>
-				<p className="text-lg text-slate-600 mb-4">
-					Your comprehensive online examination platform
-				</p>
-				<ul className="space-y-4 text-slate-700">
-					<li className="flex items-center">
-						<span className="mr-2">✓</span>
-						Secure and reliable testing environment
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2">✓</span>
-						Real-time results and analytics
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2">✓</span>
-						Support for multiple question types
-					</li>
-					<li className="flex items-center">
-						<span className="mr-2">✓</span>
-						Automated grading system
-					</li>
-				</ul>
+				<div>
+					<h1 className="text-4xl font-bold text-slate-800 mb-6">
+						Online Examination Portal
+					</h1>
+					<p className="text-lg text-slate-600 mb-8">
+						A secure and modern platform for academic assessments
+					</p>
+
+					<div className="space-y-6">
+						<div className="border-l-4 border-blue-600 pl-4">
+							<h3 className="font-semibold text-slate-800 mb-2">
+								Key Features
+							</h3>
+							<ul className="space-y-3 text-slate-600">
+								<li className="flex items-center">
+									<span className="mr-2 text-blue-600">
+										•
+									</span>
+									Secure browser environment
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 text-blue-600">
+										•
+									</span>
+									Auto-save functionality
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 text-blue-600">
+										•
+									</span>
+									24/7 technical support
+								</li>
+							</ul>
+						</div>
+
+						<div className="border-l-4 border-green-600 pl-4">
+							<h3 className="font-semibold text-slate-800 mb-2">
+								Exam Rules
+							</h3>
+							<ul className="space-y-3 text-slate-600">
+								<li className="flex items-center">
+									<span className="mr-2 text-green-600">
+										•
+									</span>
+									Quiet examination environment required
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 text-green-600">
+										•
+									</span>
+									No unauthorized materials allowed
+								</li>
+								<li className="flex items-center">
+									<span className="mr-2 text-green-600">
+										•
+									</span>
+									Stable internet connection needed
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div className="mt-8 p-4 bg-blue-50 rounded-lg">
+					<p className="text-sm text-blue-800">
+						Need help? Visit our{" "}
+						<a
+							href="https://discord.gg/your-discord-link"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline hover:text-blue-600"
+						>
+							Discord support forum
+						</a>
+					</p>
+				</div>
 			</div>
 		</div>
 	);
