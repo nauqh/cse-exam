@@ -24,12 +24,12 @@ export default function MenuSheet() {
 	const { user } = useUser();
 	const { signOut } = useClerk();
 
-	const handleSignOut = async () => {
-		await signOut({ redirectUrl: "/auth/sign-in" });
+	const handleSignOut = () => {
 		toast({
 			description: "Signing out...",
 			duration: 3000,
 		});
+		signOut({ redirectUrl: "/auth/sign-in" });
 	};
 
 	return (
