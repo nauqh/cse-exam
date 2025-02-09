@@ -43,7 +43,11 @@ export default function MenuSheet() {
 							<GiHamburgerMenu className="h-5 w-5" />
 						</Button>
 					</SheetTrigger>
-					<SheetContent className="w-[300px] p-0">
+					{/* 
+            Updated SheetContent to include rounded corners and shadow.
+            Remove any full-height styling here so it appears as a floating element.
+          */}
+					<SheetContent className="w-[300px] p-0 rounded-lg shadow-lg">
 						<SheetHeader className="p-4 border-b">
 							<SheetTitle>
 								<div className="flex items-center gap-3">
@@ -70,93 +74,95 @@ export default function MenuSheet() {
 							</SheetTitle>
 						</SheetHeader>
 
-						<div className="flex flex-col h-[calc(100vh-65px)]">
-							<div className="flex-1">
-								<div className="px-4 py-2">
-									<h3 className="text-sm font-medium text-gray-500">
-										Main
-									</h3>
-									<div className="space-y-1 mt-2">
-										<Link href="/">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BiHomeAlt className="mr-3" />
-												Dashboard
-											</Button>
-										</Link>
-										<Link href="/exams">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<MdOutlineQuiz className="mr-3" />
-												Exams
-											</Button>
-										</Link>
-									</div>
+						{/* 
+              Instead of forcing the height with h-[calc(100vh-65px)],
+              we use a max height so the sheet can “float” and scroll if content overflows.
+            */}
+						<div className="flex flex-col max-h-[80vh] overflow-y-auto">
+							<div className="px-4 py-2">
+								<h3 className="text-sm font-medium text-gray-500">
+									Main
+								</h3>
+								<div className="space-y-1 mt-2">
+									<Link href="/">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<BiHomeAlt className="mr-3" />
+											Dashboard
+										</Button>
+									</Link>
+									<Link href="/exams">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<MdOutlineQuiz className="mr-3" />
+											Exams
+										</Button>
+									</Link>
 								</div>
+							</div>
 
-								<div className="px-4 py-2">
-									<h3 className="text-sm font-medium text-gray-500">
-										Management
-									</h3>
-									<div className="space-y-1 mt-2">
-										<Link href="/courses">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsBook className="mr-3" />
-												Courses
-											</Button>
-										</Link>
-										<Link href="/students">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsPeople className="mr-3" />
-												Students
-											</Button>
-										</Link>
-										<Link href="/results">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsCardChecklist className="mr-3" />
-												Results
-											</Button>
-										</Link>
-									</div>
+							<div className="px-4 py-2">
+								<h3 className="text-sm font-medium text-gray-500">
+									Management
+								</h3>
+								<div className="space-y-1 mt-2">
+									<Link href="/courses">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<BsBook className="mr-3" />
+											Courses
+										</Button>
+									</Link>
+									<Link href="/students">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<BsPeople className="mr-3" />
+											Students
+										</Button>
+									</Link>
+									<Link href="/results">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<BsCardChecklist className="mr-3" />
+											Results
+										</Button>
+									</Link>
 								</div>
+							</div>
 
-								<div className="px-4 py-2">
-									<h3 className="text-sm font-medium text-gray-500">
-										Tools
-									</h3>
-									<div className="space-y-1 mt-2">
-										<Link href="/analytics">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<MdAnalytics className="mr-3" />
-												Analytics
-											</Button>
-										</Link>
-										<Link href="/settings">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<FiSettings className="mr-3" />
-												Settings
-											</Button>
-										</Link>
-									</div>
+							<div className="px-4 py-2">
+								<h3 className="text-sm font-medium text-gray-500">
+									Tools
+								</h3>
+								<div className="space-y-1 mt-2">
+									<Link href="/analytics">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<MdAnalytics className="mr-3" />
+											Analytics
+										</Button>
+									</Link>
+									<Link href="/settings">
+										<Button
+											variant="ghost"
+											className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+										>
+											<FiSettings className="mr-3" />
+											Settings
+										</Button>
+									</Link>
 								</div>
 							</div>
 
