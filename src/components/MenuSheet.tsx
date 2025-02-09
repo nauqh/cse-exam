@@ -152,11 +152,11 @@ export default function MenuSheet() {
 								<div className="mt-auto border-t px-4 py-3">
 									<Button
 										variant="ghost"
-										onClick={() =>
-											signOut({
-												redirectUrl: "/auth/sign-in",
-											})
-										}
+										onClick={async () => {
+											await signOut();
+											window.location.href =
+												"/auth/sign-in";
+										}}
 										className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100 text-red-600 hover:text-red-700"
 									>
 										<BiLogOut className="mr-3" />
