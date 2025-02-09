@@ -150,7 +150,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 					<Button
 						onClick={handleSubmit}
 						disabled={isSubmitting}
-						className="bg-green-600 hover:bg-green-700"
+						variant="success"
 					>
 						{isSubmitting ? "Submitting..." : "Submit Exam"}
 					</Button>

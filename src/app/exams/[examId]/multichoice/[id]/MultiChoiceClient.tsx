@@ -297,7 +297,7 @@ export default function MultiChoiceClient({
 								questions.length && (
 								<Button
 									onClick={handleShowSummary}
-									className="w-full bg-green-600 hover:bg-green-700"
+									variant="success"
 								>
 									Review
 								</Button>
@@ -337,7 +337,7 @@ export default function MultiChoiceClient({
 									</Button>
 									<Button
 										onClick={handleFinishSection}
-										className="bg-green-600 hover:bg-green-700"
+										variant="success"
 									>
 										Finish multiple choices section
 									</Button>

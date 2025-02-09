@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-import Nav from "@/components/Nav";
+import MenuSheet from "@/components/MenuSheet";
 
 const courses = [
 	{
@@ -41,15 +41,15 @@ export default function Home() {
 	}, []);
 
 	return (
-		<>
-			<Nav />
+		<div className="min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
+			<MenuSheet />
 			<main className="container mx-auto px-4 py-8">
-				<div className="max-w-6xl mx-auto space-y-8">
+				<div className="max-w-6xl mx-auto space-y-12">
 					<section className="text-center space-y-4">
-						<h1 className="text-4xl font-bold">
-							Coderschool eExams
+						<h1 className="text-4xl font-extrabold text-primary">
+							eExams
 						</h1>
-						<p className="text-xl text-muted-foreground">
+						<p className="text-xl text-gray">
 							Select a course to start your assessment
 						</p>
 					</section>
@@ -61,16 +61,24 @@ export default function Home() {
 								href={course.path}
 								className="block"
 							>
-								<div className="group p-8 border rounded-xl space-y-4 hover:shadow-lg transition-all duration-300 bg-card">
-									<h2 className="text-2xl font-semibold group-hover:text-primary transition-colors">
+								<div
+									className="group p-8 rounded-xl space-y-4 transition-all duration-300 
+                              backdrop-blur-md bg-white/20 border border-white/30
+                              hover:bg-white/40 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+								>
+									<h2 className="text-2xl font-semibold text-gray-800 transition-colors">
 										{course.title}
 									</h2>
-									<p className="text-muted-foreground text-lg">
+									<p className="text-gray-600 text-lg">
 										{course.description}
 									</p>
 
-									<Button variant="destructive">
-										Take exam
+									<Button
+										className="w-full 
+								transition-colors duration-300 border-none 
+								shadow-md hover:shadow-lg"
+									>
+										Start Exam →
 									</Button>
 								</div>
 							</Link>
@@ -78,6 +86,6 @@ export default function Home() {
 					</section>
 				</div>
 			</main>
-		</>
+		</div>
 	);
 }

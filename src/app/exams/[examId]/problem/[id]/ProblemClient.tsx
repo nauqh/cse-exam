@@ -315,7 +315,7 @@ export default function ProblemClient({
 									problems.length && (
 									<Button
 										onClick={() => setShowSummary(true)}
-										className="bg-green-600 hover:bg-green-700"
+										variant="success"
 									>
 										Review
 									</Button>
@@ -367,7 +367,7 @@ export default function ProblemClient({
 							</Button>
 							<Button
 								onClick={handleFinishSection}
-								className="bg-green-600 hover:bg-green-700"
+								variant="success"
 							>
 								Finish Problem Section
 							</Button>

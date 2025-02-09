@@ -21,7 +21,7 @@ export default function Page() {
 	}
 	if (!user) {
 		return (
-			<div className="grid md:grid-cols-2 min-h-screen">
+			<div className="grid md:grid-cols-2 min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
 				<div className="flex flex-col justify-center mx-auto w-full max-w-md px-6">
 					<SignUp
 						appearance={{
