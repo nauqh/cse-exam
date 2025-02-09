@@ -46,7 +46,7 @@ const supportCards = [
 		description:
 			"Essential tips and guidelines to help you prepare effectively",
 		href: "/guides/exam-prep",
-		image: "/images/exam-prep.jpg", // update with your image path
+		image: "/images/exam-prep.jpg",
 	},
 	{
 		icon: <FaDesktop className="w-6 h-6" />,
@@ -54,7 +54,7 @@ const supportCards = [
 		description:
 			"Step-by-step guide to configure your system for online exams",
 		href: "/guides/system-setup",
-		image: "/images/device-setup.jpg", // update with your image path
+		image: "/images/device-setup.jpg",
 	},
 	{
 		icon: <FaQuestion className="w-6 h-6" />,
@@ -62,21 +62,21 @@ const supportCards = [
 		description:
 			"Common issues and their solutions for a smooth exam experience",
 		href: "/guides/troubleshoot",
-		image: "/images/troubleshoot.jpg", // update with your image path
+		image: "/images/troubleshoot.jpg",
 	},
 	{
 		icon: <FaHeadset className="w-6 h-6" />,
 		title: "Getting Help and Support",
 		description: "Access our support resources and contact assistance",
 		href: "/support",
-		image: "/images/help-support.jpg", // update with your image path
+		image: "/images/help-support.jpg",
 	},
 ];
 
 export default function Home() {
 	return (
 		<div className="min-h-screen">
-			<div className="fixed top-6 right-6 z-50">
+			<div className="fixed top-1 right-1 md:top-6 md:right-6 z-50">
 				<MenuSheet />
 			</div>
 
