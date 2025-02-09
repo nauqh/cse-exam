@@ -18,15 +18,18 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet";
+import { useRouter } from "next/navigation";
 
 export default function MenuSheet() {
 	const { user } = useUser();
-	const [isSigningOut, setIsSigningOut] = useState(false);
 	const { signOut } = useClerk();
+	const router = useRouter();
+	const [isSigningOut, setIsSigningOut] = useState(false);
 
 	const handleSignOut = async () => {
 		setIsSigningOut(true);
-		await signOut({ redirectUrl: "/auth/sign-in" });
+		await signOut();
+		router.push("/auth/sign-in");
 		setIsSigningOut(false);
 	};
 
