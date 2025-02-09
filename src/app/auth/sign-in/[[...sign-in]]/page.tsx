@@ -23,11 +23,11 @@ export default function Page() {
 		return <LoadingScreen />;
 	}
 	return (
-		<div className="grid md:grid-cols-2 min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
-			{/* Sign In */}
-			<div className="flex flex-col justify-center items-center p-8">
-				<div className="w-full max-w-md p-8 rounded-2xl backdrop-blur-md bg-white/30 border border-white/30 shadow-xl">
-					<SignIn.Root>
+		<SignIn.Root>
+			<div className="grid md:grid-cols-2 min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
+				{/* Sign In */}
+				<div className="flex flex-col justify-center items-center p-8">
+					<div className="w-full max-w-md p-8 rounded-2xl backdrop-blur-md bg-white/30 border border-white/30 shadow-xl">
 						<SignIn.Step
 							name="start"
 							className="flex flex-col space-y-6"
@@ -145,87 +145,88 @@ export default function Page() {
 								</Clerk.Link>
 							</p>
 						</SignIn.Step>
-					</SignIn.Root>
-				</div>
-			</div>
-
-			{/* eAssessment Info */}
-			<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg">
-				<div>
-					<h1 className="text-4xl font-bold text-slate-800 mb-6">
-						Online Examination Portal
-					</h1>
-					<p className="text-lg text-slate-600 mb-8">
-						A secure and modern platform for academic assessments
-					</p>
-
-					<div className="space-y-6">
-						<div className="border-l-4 border-blue-600 pl-4">
-							<h3 className="font-semibold text-slate-800 mb-2">
-								Key Features
-							</h3>
-							<ul className="space-y-3 text-slate-600">
-								<li className="flex items-center">
-									<span className="mr-2 text-blue-600">
-										•
-									</span>
-									Secure browser environment
-								</li>
-								<li className="flex items-center">
-									<span className="mr-2 text-blue-600">
-										•
-									</span>
-									Auto-save functionality
-								</li>
-								<li className="flex items-center">
-									<span className="mr-2 text-blue-600">
-										•
-									</span>
-									24/7 technical support
-								</li>
-							</ul>
-						</div>
-
-						<div className="border-l-4 border-green-600 pl-4">
-							<h3 className="font-semibold text-slate-800 mb-2">
-								Exam Rules
-							</h3>
-							<ul className="space-y-3 text-slate-600">
-								<li className="flex items-center">
-									<span className="mr-2 text-green-600">
-										•
-									</span>
-									Quiet examination environment required
-								</li>
-								<li className="flex items-center">
-									<span className="mr-2 text-green-600">
-										•
-									</span>
-									No unauthorized materials allowed
-								</li>
-								<li className="flex items-center">
-									<span className="mr-2 text-green-600">
-										•
-									</span>
-									Stable internet connection needed
-								</li>
-							</ul>
-						</div>
 					</div>
 				</div>
 
-				<div className="mt-8 p-4 bg-blue-50 rounded-lg">
-					<p className="text-sm text-blue-800">
-						Need help? Visit our{" "}
-						<Link
-							href="https://discord.com/channels/957854915194126336/1081063200377806899"
-							className="underline hover:text-blue-600"
-						>
-							Discord support forum
-						</Link>
-					</p>
+				{/* eAssessment Info */}
+				<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg">
+					<div>
+						<h1 className="text-4xl font-bold text-slate-800 mb-6">
+							Online Examination Portal
+						</h1>
+						<p className="text-lg text-slate-600 mb-8">
+							A secure and modern platform for academic
+							assessments
+						</p>
+
+						<div className="space-y-6">
+							<div className="border-l-4 border-blue-600 pl-4">
+								<h3 className="font-semibold text-slate-800 mb-2">
+									Key Features
+								</h3>
+								<ul className="space-y-3 text-slate-600">
+									<li className="flex items-center">
+										<span className="mr-2 text-blue-600">
+											•
+										</span>
+										Secure browser environment
+									</li>
+									<li className="flex items-center">
+										<span className="mr-2 text-blue-600">
+											•
+										</span>
+										Auto-save functionality
+									</li>
+									<li className="flex items-center">
+										<span className="mr-2 text-blue-600">
+											•
+										</span>
+										24/7 technical support
+									</li>
+								</ul>
+							</div>
+
+							<div className="border-l-4 border-green-600 pl-4">
+								<h3 className="font-semibold text-slate-800 mb-2">
+									Exam Rules
+								</h3>
+								<ul className="space-y-3 text-slate-600">
+									<li className="flex items-center">
+										<span className="mr-2 text-green-600">
+											•
+										</span>
+										Quiet examination environment required
+									</li>
+									<li className="flex items-center">
+										<span className="mr-2 text-green-600">
+											•
+										</span>
+										No unauthorized materials allowed
+									</li>
+									<li className="flex items-center">
+										<span className="mr-2 text-green-600">
+											•
+										</span>
+										Stable internet connection needed
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div className="mt-8 p-4 bg-blue-50 rounded-lg">
+						<p className="text-sm text-blue-800">
+							Need help? Visit our{" "}
+							<Link
+								href="https://discord.com/channels/957854915194126336/1081063200377806899"
+								className="underline hover:text-blue-600"
+							>
+								Discord support forum
+							</Link>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
+		</SignIn.Root>
 	);
 }
