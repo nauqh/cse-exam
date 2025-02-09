@@ -43,10 +43,6 @@ export default function MenuSheet() {
 							<GiHamburgerMenu className="h-5 w-5" />
 						</Button>
 					</SheetTrigger>
-					{/* 
-            Updated SheetContent to include rounded corners and shadow.
-            Remove any full-height styling here so it appears as a floating element.
-          */}
 					<SheetContent className="w-[300px] p-0 rounded-lg shadow-lg">
 						<SheetHeader className="p-4 border-b">
 							<SheetTitle>
@@ -74,10 +70,6 @@ export default function MenuSheet() {
 							</SheetTitle>
 						</SheetHeader>
 
-						{/* 
-              Instead of forcing the height with h-[calc(100vh-65px)],
-              we use a max height so the sheet can “float” and scroll if content overflows.
-            */}
 						<div className="flex flex-col max-h-[80vh] overflow-y-auto">
 							<div className="px-4 py-2">
 								<h3 className="text-sm font-medium text-gray-500">
