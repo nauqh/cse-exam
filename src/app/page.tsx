@@ -1,92 +1,225 @@
-"use client";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import MenuSheet from "@/components/MenuSheet";
+import {
+	FaGraduationCap,
+	FaChartLine,
+	FaClock,
+	FaBook,
+	FaDesktop,
+	FaQuestion,
+	FaHeadset,
+} from "react-icons/fa";
+import { BsShieldCheck } from "react-icons/bs";
 
-const courses = [
+const features = [
 	{
-		id: "m1-1",
-		title: "M1.1 Introduction to SQL",
+		icon: <FaGraduationCap className="w-6 h-6" />,
+		title: "Comprehensive Learning",
 		description:
-			"Learn the fundamentals of SQL including basic queries, joins, and database concepts",
-		path: "/exams/M11",
+			"Access a wide range of courses and assessments designed by experts",
 	},
 	{
-		id: "m1-2",
-		title: "M1.2 Advanced SQL",
+		icon: <BsShieldCheck className="w-6 h-6" />,
+		title: "Secure Testing",
 		description:
-			"Master complex SQL queries, stored procedures, and database optimization",
-		path: "/exams/M12",
+			"Advanced proctoring and security measures to ensure test integrity",
 	},
 	{
-		id: "m2-1",
-		title: "M2.1 Python 101",
+		icon: <FaChartLine className="w-6 h-6" />,
+		title: "Detailed Analytics",
 		description:
-			"Introduction to Python programming language and basic programming concepts",
-		path: "/exams/M21",
+			"Track progress and performance with comprehensive analytics",
 	},
 	{
-		id: "m3-1",
-		title: "M3.1 Pandas 101",
+		icon: <FaClock className="w-6 h-6" />,
+		title: "Flexible Timing",
+		description: "Take exams at your own pace, whenever you're ready",
+	},
+];
+
+const supportCards = [
+	{
+		icon: <FaBook className="w-6 h-6" />,
+		title: "Preparing for Exam",
 		description:
-			"Learn data manipulation and analysis with Python Pandas library",
-		path: "/exams/M31",
+			"Essential tips and guidelines to help you prepare effectively",
+		href: "/guides/exam-prep",
+		image: "/images/exam-prep.jpg", // update with your image path
+	},
+	{
+		icon: <FaDesktop className="w-6 h-6" />,
+		title: "Device and System Setup",
+		description:
+			"Step-by-step guide to configure your system for online exams",
+		href: "/guides/system-setup",
+		image: "/images/device-setup.jpg", // update with your image path
+	},
+	{
+		icon: <FaQuestion className="w-6 h-6" />,
+		title: "Troubleshoot and Tips",
+		description:
+			"Common issues and their solutions for a smooth exam experience",
+		href: "/guides/troubleshoot",
+		image: "/images/troubleshoot.jpg", // update with your image path
+	},
+	{
+		icon: <FaHeadset className="w-6 h-6" />,
+		title: "Getting Help and Support",
+		description: "Access our support resources and contact assistance",
+		href: "/support",
+		image: "/images/help-support.jpg", // update with your image path
 	},
 ];
 
 export default function Home() {
-	useEffect(() => {
-		localStorage.clear();
-	}, []);
-
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
+		<div className="min-h-screen">
 			<div className="fixed top-6 right-6 z-50">
 				<MenuSheet />
 			</div>
-			<main className="container mx-auto px-4 py-8">
-				<div className="max-w-6xl mx-auto space-y-12">
-					<section className="text-center space-y-4">
-						<h1 className="text-4xl font-extrabold text-primary">
-							eExams
-						</h1>
-						<p className="text-xl text-gray">
-							Select a course to start your assessment
-						</p>
-					</section>
 
-					<section className="grid gap-8 md:grid-cols-2">
-						{courses.map((course) => (
-							<Link
-								key={course.id}
-								href={course.path}
-								className="block"
+			<main className="container mx-auto px-4 py-16">
+				{/* Hero Section */}
+				<section className="text-center max-w-4xl mx-auto space-y-6 mb-20">
+					<h1 className="text-5xl font-extrabold text-primary bg-clip-text">
+						Welcome to eExams
+					</h1>
+					<p className="text-xl text-gray-600">
+						The next generation platform for online assessments
+					</p>
+					<div className="flex gap-4 justify-center">
+						<Link href="/exams">
+							<Button className="text-lg px-8 py-6">
+								Start Learning
+							</Button>
+						</Link>
+						<Link href="/about">
+							<Button
+								variant="outline"
+								className="text-lg px-8 py-6"
 							>
-								<div
-									className="group p-8 rounded-xl space-y-4 transition-all duration-300 
-                              backdrop-blur-md bg-white/20 border border-white/30
-                              hover:bg-white/40 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
-								>
-									<h2 className="text-2xl font-semibold text-gray-800 transition-colors">
-										{course.title}
-									</h2>
-									<p className="text-gray-600 text-lg">
-										{course.description}
-									</p>
+								Learn More
+							</Button>
+						</Link>
+					</div>
+				</section>
 
-									<Button
-										className="w-full 
-								transition-colors duration-300 border-none 
-								shadow-md hover:shadow-lg"
-									>
-										Start Exam →
-									</Button>
+				{/* Features Grid */}
+				<section className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+					{features.map((feature, index) => (
+						<div
+							key={index}
+							className="p-6 rounded-xl 
+								bg-white/20 backdrop-blur-lg 
+								border border-white/30
+								shadow-lg
+								hover:shadow-xl
+								transition-all duration-300"
+						>
+							<div className="flex items-center gap-4 mb-4">
+								<div className="p-3 rounded-lg bg-primary/10 text-primary">
+									{feature.icon}
+								</div>
+								<h3 className="text-xl font-semibold text-gray-800">
+									{feature.title}
+								</h3>
+							</div>
+							<p className="text-gray-600">
+								{feature.description}
+							</p>
+						</div>
+					))}
+				</section>
+
+				{/* Image Section */}
+				<section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto my-20 gap-8">
+					<div className="w-full md:w-1/2 p-4">
+						<Image
+							src="https://img.freepik.com/free-photo/final-exam-results-test-reading-books-words-concept_53876-123721.jpg" // Adjust this path as needed
+							alt="Online Exams"
+							width={600}
+							height={400}
+							className="rounded-lg shadow-lg"
+						/>
+					</div>
+					<div className="w-full md:w-1/2 p-4">
+						<h2 className="text-3xl font-bold mb-4 text-gray-800">
+							Experience the Future of Assessments
+						</h2>
+						<p className="text-gray-600">
+							Our platform leverages cutting-edge technology to
+							deliver a seamless and secure online testing
+							experience—so you can focus on your success.
+						</p>
+					</div>
+				</section>
+
+				{/* Support Cards Section */}
+				<section className="mt-20 mb-20">
+					<h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+						Exam Support Resources
+					</h2>
+					<div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+						{supportCards.map((card, index) => (
+							<Link href={card.href} key={index}>
+								<div
+									className="flex flex-col h-full p-6 rounded-xl 
+                bg-white/20 backdrop-blur-lg 
+                border border-white/30
+                shadow-lg
+                hover:shadow-xl
+                transition-all duration-300
+                cursor-pointer"
+								>
+									{/* Card Image */}
+									{card.image && (
+										<div className="relative w-full h-40 mb-4">
+											<Image
+												src="https://cdn.pixabay.com/photo/2020/06/01/18/47/math-5247958_640.jpg"
+												alt={card.title}
+												fill
+												className="object-cover rounded-lg"
+											/>
+										</div>
+									)}
+
+									{/* Card Icon and Title */}
+									<div className="flex items-center gap-4 mb-4">
+										<div className="p-3 rounded-lg bg-primary/10 text-primary">
+											{card.icon}
+										</div>
+										<h3 className="text-xl font-semibold text-gray-800">
+											{card.title}
+										</h3>
+									</div>
+
+									{/* Card Description */}
+									<p className="text-gray-600">
+										{card.description}
+									</p>
 								</div>
 							</Link>
 						))}
-					</section>
-				</div>
+					</div>
+				</section>
+
+				{/* Call to Action */}
+				<section className="text-center mt-20 max-w-2xl mx-auto">
+					<h2 className="text-3xl font-bold mb-6 text-gray-800">
+						Ready to Get Started?
+					</h2>
+					<p className="text-gray-600 mb-8">
+						Join thousands of students who are already advancing
+						their careers with eExams
+					</p>
+					<Link href="/exams">
+						<Button className="text-lg px-8 py-6">
+							Explore Courses →
+						</Button>
+					</Link>
+				</section>
 			</main>
 		</div>
 	);
