@@ -35,8 +35,12 @@ export default function MenuSheet() {
 			<div className="absolute top-4 right-4">
 				<Sheet>
 					<SheetTrigger asChild>
-						<Button variant="ghost" className="hover:bg-gray-100">
-							<GiHamburgerMenu />
+						<Button
+							variant="outline"
+							size="icon"
+							className="rounded-full w-12 h-12 bg-white/80 backdrop-blur-sm border-white/30 shadow-lg hover:bg-white/90 transition-all"
+						>
+							<GiHamburgerMenu className="h-5 w-5" />
 						</Button>
 					</SheetTrigger>
 					<SheetContent className="w-[300px] p-0">

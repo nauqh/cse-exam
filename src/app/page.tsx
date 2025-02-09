@@ -42,7 +42,9 @@ export default function Home() {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
-			<MenuSheet />
+			<div className="fixed top-6 right-6 z-50">
+				<MenuSheet />
+			</div>
 			<main className="container mx-auto px-4 py-8">
 				<div className="max-w-6xl mx-auto space-y-12">
 					<section className="text-center space-y-4">
