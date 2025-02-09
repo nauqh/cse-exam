@@ -26,7 +26,7 @@ export default function MenuSheet() {
 
 	const handleSignOut = async () => {
 		setIsSigningOut(true);
-		await signOut();
+		await signOut({ redirectUrl: "/auth/sign-in" });
 		setIsSigningOut(false);
 	};
 
