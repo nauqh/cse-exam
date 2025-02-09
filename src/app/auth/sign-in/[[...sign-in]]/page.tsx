@@ -152,7 +152,7 @@ export default function Page() {
 				<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg">
 					<div>
 						<h1 className="text-4xl font-bold text-slate-800 mb-6">
-							Online Examination Portal
+							eAssessment Platform
 						</h1>
 						<p className="text-lg text-slate-600 mb-8">
 							A secure and modern platform for academic
@@ -169,19 +169,25 @@ export default function Page() {
 										<span className="mr-2 text-blue-600">
 											•
 										</span>
-										Secure browser environment
+										AI-Powered Monitoring
 									</li>
 									<li className="flex items-center">
 										<span className="mr-2 text-blue-600">
 											•
 										</span>
-										Auto-save functionality
+										Live Code Execution
 									</li>
 									<li className="flex items-center">
 										<span className="mr-2 text-blue-600">
 											•
 										</span>
-										24/7 technical support
+										Instant Results and Feedback
+									</li>
+									<li className="flex items-center">
+										<span className="mr-2 text-blue-600">
+											•
+										</span>
+										Multi-Language Support
 									</li>
 								</ul>
 							</div>
@@ -195,7 +201,7 @@ export default function Page() {
 										<span className="mr-2 text-green-600">
 											•
 										</span>
-										Quiet examination environment required
+										No additional screens or devices allowed
 									</li>
 									<li className="flex items-center">
 										<span className="mr-2 text-green-600">

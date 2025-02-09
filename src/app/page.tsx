@@ -10,32 +10,47 @@ import {
 	FaDesktop,
 	FaQuestion,
 	FaHeadset,
+	FaCode,
+	FaLanguage,
 } from "react-icons/fa";
 import { BsShieldCheck } from "react-icons/bs";
 
 const features = [
 	{
 		icon: <FaGraduationCap className="w-6 h-6" />,
-		title: "Comprehensive Learning",
+		title: "Self-Paced Learning",
 		description:
-			"Access a wide range of courses and assessments designed by experts",
+			"Master your subjects with flexible study schedules and personalized learning paths",
 	},
 	{
 		icon: <BsShieldCheck className="w-6 h-6" />,
-		title: "Secure Testing",
+		title: "AI-Powered Proctoring",
 		description:
-			"Advanced proctoring and security measures to ensure test integrity",
+			"Take exams with confidence using our advanced AI monitoring system",
 	},
 	{
 		icon: <FaChartLine className="w-6 h-6" />,
-		title: "Detailed Analytics",
+		title: "Performance Insights",
 		description:
-			"Track progress and performance with comprehensive analytics",
+			"Get detailed feedback and analytics to identify your strengths and areas for improvement",
 	},
 	{
 		icon: <FaClock className="w-6 h-6" />,
-		title: "Flexible Timing",
-		description: "Take exams at your own pace, whenever you're ready",
+		title: "24/7 Availability",
+		description:
+			"Schedule and take your exams anytime, anywhere with our round-the-clock platform",
+	},
+	{
+		icon: <FaCode className="w-6 h-6" />,
+		title: "Live Code Execution",
+		description:
+			"Write and test code in real-time across multiple programming languages",
+	},
+	{
+		icon: <FaLanguage className="w-6 h-6" />,
+		title: "Multi-Language Support",
+		description:
+			"Practice coding in Python, JavaScript, Java, C++, and many more languages",
 	},
 ];
 
