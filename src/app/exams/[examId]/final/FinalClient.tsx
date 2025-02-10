@@ -56,7 +56,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 		try {
 			console.log(JSON.stringify(examResults));
 			const response = await fetch(
-				"https://cspyclient.up.railway.app/something",
+				"https://cspyclient.up.railway.app/submissions",
 				{
 					method: "POST",
 					headers: {
@@ -165,9 +165,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 						</h2>
 						<div className="relative">
 							<pre className="bg-gray-50 p-4 rounded h-[400px] overflow-y-auto">
-								{/* <ReactMarkdown className="my-2"> */}
 								{response}
-								{/* </ReactMarkdown> */}
 							</pre>
 						</div>
 						<Button

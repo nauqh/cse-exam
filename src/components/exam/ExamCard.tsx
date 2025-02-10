@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { BiCalendarEvent } from "react-icons/bi";
+import { useState } from "react";
 
 export type SubmissionStatus =
 	| "completed"
@@ -19,24 +21,35 @@ export interface ExamSubmission {
 }
 
 export function ExamCard({ exam }: { exam: ExamSubmission }) {
+	const [showModal, setShowModal] = useState(false);
+
+	const dateOptions: Intl.DateTimeFormatOptions = {
+		day: "2-digit",
+		month: "short",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+	};
+
+	const formattedDate = new Date(exam.submitted_at).toLocaleDateString(
+		"en-GB",
+		dateOptions
+	);
+
 	return (
-		<div className="flex items-center justify-between p-4 border rounded-lg bg-card hover:shadow-md transition-shadow">
-			<div className="space-y-1">
-				<h3 className="font-medium">{exam.exam_name}</h3>
-				<p className="text-sm text-muted-foreground">
-					Taken on:{" "}
-					{new Date(exam.submitted_at).toLocaleDateString("en-GB", {
-						day: "2-digit",
-						month: "2-digit",
-						year: "numeric",
-						hour: "2-digit",
-						minute: "2-digit",
-					})}
+		<div className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow duration-200">
+			<div className="mb-4 md:mb-0 space-y-2">
+				<h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+					{exam.exam_id} - {exam.exam_name}
+				</h3>
+				<p className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+					<BiCalendarEvent className="mr-1" />
+					{formattedDate}
 				</p>
 			</div>
 			<div className="flex items-center gap-4">
 				<div
-					className={`px-3 py-1 rounded-full text-sm ${
+					className={`px-3 py-1 rounded-full text-sm font-medium ${
 						exam.status === "completed"
 							? "bg-green-100 text-green-800"
 							: exam.status === "failed"
@@ -47,14 +60,41 @@ export function ExamCard({ exam }: { exam: ExamSubmission }) {
 					}`}
 				>
 					{exam.status.charAt(0).toUpperCase() + exam.status.slice(1)}
-					{exam.score !== undefined && ` (${exam.score.toFixed(1)}%)`}
+					{exam.score !== undefined && <span> ({exam.score})</span>}
 				</div>
-				<Link href={`/exams/${exam.exam_id}`}>
-					<Button variant="outline">
-						{exam.status === "failed" ? "Retry" : "View"}
+				{exam.status === "failed" ? (
+					<Link href={`/exams/${exam.exam_id}`}>
+						<Button variant="outline">Retry</Button>
+					</Link>
+				) : (
+					<Button
+						variant="outline"
+						onClick={() => setShowModal(true)}
+					>
+						View
 					</Button>
-				</Link>
+				)}
 			</div>
+			{showModal && (
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+					<div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-2xl w-full mx-4">
+						<h2 className="text-xl font-semibold mb-4 dark:text-white">
+							Exam Summary
+						</h2>
+						<div className="relative">
+							<pre className="bg-gray-50 dark:bg-gray-700 p-4 rounded h-[400px] overflow-y-auto dark:text-gray-100">
+								{exam.summary}
+							</pre>
+						</div>
+						<Button
+							onClick={() => setShowModal(false)}
+							className="mt-4"
+						>
+							Close
+						</Button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
