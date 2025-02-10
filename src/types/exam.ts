@@ -1,9 +1,16 @@
-export const statusFilters = [
-    { status: "completed", label: "Completed" },
-    { status: "failed", label: "Failed" },
-    { status: "marking", label: "Marking" },
-    { status: "incomplete", label: "Incomplete" },
-] as const;
+import { SubmissionStatus } from "@/components/exam/ExamCard";
+
+export interface StatusFilter {
+  status: SubmissionStatus;
+  label: string;
+}
+
+export const statusFilters: StatusFilter[] = [
+  { status: "completed", label: "Completed" },
+  { status: "incompleted", label: "Incompleted" },
+  { status: "failed", label: "Failed" },
+  { status: "marking", label: "Marking" },
+];
 
 export type MultiChoiceAnswer = {
   question: string;

@@ -1,86 +1,98 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { StatusFilters } from "@/components/exam/StatusFilters";
 import { ExamCard } from "@/components/exam/ExamCard";
-import { ExamHistory } from "@/components/exam/ExamCard";
+import { ExamSubmission } from "@/components/exam/ExamCard";
 import { DateFilter } from "@/components/exam/DateFilter";
 import Nav from "@/components/Nav";
+import { BiCommentError } from "react-icons/bi";
+import { Skeleton } from "@/components/ui/skeleton";
+import { DateRange } from "react-day-picker";
 
 export default function ProfilePage() {
-	const [examHistory, setExamHistory] = useState<ExamHistory[]>([]);
+	const params = useParams();
+	const userEmail = params.id as string;
+	const [examHistory, setExamHistory] = useState<ExamSubmission[]>([]);
 	const [selectedExam, setSelectedExam] = useState<string | null>(null);
 	const [selectedStatus, setSelectedStatus] = useState<
-		ExamHistory["status"] | null
+		ExamSubmission["status"] | null
 	>(null);
-	const [selectedDate, setSelectedDate] = useState<Date>();
-
-	const examFilters = [
-		{ id: "M11", label: "SQL Intro" },
-		{ id: "M12", label: "Advanced SQL" },
-		{ id: "M21", label: "Python 101" },
-		{ id: "M31", label: "Pandas 101" },
-	];
+	const [dateRange, setDateRange] = useState<DateRange>();
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		const mockHistory: ExamHistory[] = [
-			{
-				id: "M11-1",
-				title: "M1.1 Introduction to SQL",
-				date: "2024-03-15",
-				status: "completed",
-				score: 85,
-			},
-			{
-				id: "M11-2",
-				title: "M1.1 Introduction to SQL",
-				date: "2024-03-16",
-				status: "completed",
-				score: 92,
-			},
-			{
-				id: "M11-3",
-				title: "M1.1 Introduction to SQL",
-				date: "2024-03-16",
-				status: "failed",
-				score: 70,
-			},
-			{
-				id: "M12",
-				title: "M1.2 Advanced SQL",
-				date: "2024-03-16T17:20",
-				status: "marking",
-			},
-			{
-				id: "M21",
-				title: "M2.1 Python 101",
-				date: "2024-03-14",
-				status: "failed",
-				score: 75,
-			},
-			{
-				id: "M31",
-				title: "M3.1 Pandas 101",
-				date: "2024-03-17",
-				status: "incomplete",
-			},
-		];
-		setExamHistory(mockHistory);
-	}, []);
+		const fetchExamHistory = async () => {
+			try {
+				setIsLoading(true);
+				const response = await fetch(
+					`http://127.0.0.1:8000/submissions/${userEmail}`
+				);
+
+				if (response.status === 404) {
+					setError(
+						"No exam submission found, please attempt the exams."
+					);
+					setExamHistory([]);
+					return;
+				}
+
+				if (!response.ok) {
+					throw new Error("Failed to fetch exam history");
+				}
+
+				const data = await response.json();
+				setExamHistory(data);
+				setError(null);
+			} catch (err) {
+				setError(
+					err instanceof Error
+						? err.message
+						: "Failed to fetch exam history"
+				);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		fetchExamHistory();
+	}, [userEmail]);
 
 	const filteredHistory = examHistory
 		.filter((exam) =>
-			selectedExam ? exam.id.startsWith(selectedExam) : true
+			selectedExam ? exam.exam_id.startsWith(selectedExam) : true
 		)
 		.filter((exam) =>
 			selectedStatus ? exam.status === selectedStatus : true
 		)
-		.filter((exam) =>
-			selectedDate
-				? new Date(exam.date).toDateString() ===
-				  selectedDate.toDateString()
-				: true
-		);
+		.filter((exam) => {
+			if (!dateRange) return true;
+			const examDate = new Date(exam.submitted_at);
+			const isAfterStart = dateRange.from
+				? examDate >= dateRange.from
+				: true;
+			const isBeforeEnd = dateRange.to ? examDate <= dateRange.to : true;
+			return isAfterStart && isBeforeEnd;
+		});
+
+	const LoadingSkeleton = () => (
+		<div className="space-y-4">
+			<div className="space-y-2">
+				<div className="flex flex-wrap gap-2">
+					{[1, 2, 3, 4, 5].map((i) => (
+						<Skeleton key={i} className="h-10 w-24" />
+					))}
+				</div>
+			</div>
+			<div className="grid gap-4">
+				{[1, 2, 3].map((i) => (
+					<Skeleton key={i} className="h-[140px] w-full" />
+				))}
+			</div>
+		</div>
+	);
 
 	return (
 		<>
@@ -96,60 +108,79 @@ export default function ProfilePage() {
 
 					<section className="space-y-6">
 						<h2 className="text-2xl font-semibold">Exam History</h2>
-						<div className="space-y-4">
-							<div className="space-y-2">
-								<div className="flex flex-wrap gap-2">
-									<Button
-										variant={
-											selectedExam === null
-												? "default"
-												: "outline"
-										}
-										onClick={() => {
-											setSelectedExam(null);
-											setSelectedStatus(null);
-										}}
-									>
-										All Exams
-									</Button>
-									{examFilters.map((filter) => (
+						{isLoading ? (
+							<LoadingSkeleton />
+						) : error ? (
+							<div className="flex items-center justify-center p-8 rounded-lg bg-red-50 border border-red-200">
+								<p className="text-red-600 font-medium text-lg flex items-center gap-2">
+									<BiCommentError />
+									{error}
+								</p>
+							</div>
+						) : (
+							<div className="space-y-4">
+								<div className="space-y-2">
+									<div className="flex flex-wrap gap-2">
 										<Button
-											key={filter.id}
 											variant={
-												selectedExam === filter.id
+												selectedExam === null
 													? "default"
 													: "outline"
 											}
-											onClick={() =>
-												setSelectedExam(filter.id)
-											}
+											onClick={() => {
+												setSelectedExam(null);
+												setSelectedStatus(null);
+											}}
 										>
-											{filter.label}
+											All Exams
 										</Button>
+										{[
+											{ id: "M11", label: "SQL Intro" },
+											{
+												id: "M12",
+												label: "Advanced SQL",
+											},
+											{ id: "M21", label: "Python 101" },
+											{ id: "M31", label: "Pandas 101" },
+										].map((filter) => (
+											<Button
+												key={filter.id}
+												variant={
+													selectedExam === filter.id
+														? "default"
+														: "outline"
+												}
+												onClick={() =>
+													setSelectedExam(filter.id)
+												}
+											>
+												{filter.label}
+											</Button>
+										))}
+									</div>
+									{selectedExam && (
+										<>
+											<StatusFilters
+												selectedStatus={selectedStatus}
+												setSelectedStatus={
+													setSelectedStatus
+												}
+											/>
+											<DateFilter
+												dateRange={dateRange}
+												setDateRange={setDateRange}
+											/>
+										</>
+									)}
+								</div>
+
+								<div className="grid gap-4">
+									{filteredHistory.map((exam, index) => (
+										<ExamCard key={index} exam={exam} />
 									))}
 								</div>
-								{selectedExam && (
-									<>
-										<StatusFilters
-											selectedStatus={selectedStatus}
-											setSelectedStatus={
-												setSelectedStatus
-											}
-										/>
-										<DateFilter
-											selectedDate={selectedDate}
-											setSelectedDate={setSelectedDate}
-										/>
-									</>
-								)}
 							</div>
-
-							<div className="grid gap-4">
-								{filteredHistory.map((exam) => (
-									<ExamCard key={exam.id} exam={exam} />
-								))}
-							</div>
-						</div>
+						)}
 					</section>
 				</div>
 			</main>

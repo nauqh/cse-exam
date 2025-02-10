@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ExamHistory } from "./ExamCard";
+import { ExamSubmission } from "./ExamCard";
 import { statusFilters } from "@/types/exam";
 
 interface StatusFiltersProps {
-	selectedStatus: ExamHistory["status"] | null;
-	setSelectedStatus: (status: ExamHistory["status"] | null) => void;
+	selectedStatus: ExamSubmission["status"] | null;
+	setSelectedStatus: (status: ExamSubmission["status"] | null) => void;
 }
 
 export function StatusFilters({
