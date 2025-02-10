@@ -30,11 +30,11 @@ export default function FinalClient({ examId }: { examId: string }) {
 	};
 
 	const handleSubmit = async () => {
-		const cachedResults = localStorage.getItem(`examResults_${examId}`);
-		if (cachedResults) {
-			setResponse(JSON.parse(cachedResults));
-			return;
-		}
+		// const cachedResults = localStorage.getItem(`examResults_${examId}`);
+		// if (cachedResults) {
+		// 	setResponse(JSON.parse(cachedResults));
+		// 	return;
+		// }
 
 		setIsSubmitting(true);
 		const examResults: ExamResults = {
@@ -68,7 +68,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 
 			const data = await response.json();
 			// Cache the results
-			localStorage.setItem(`examResults_${examId}`, JSON.stringify(data));
+			// localStorage.setItem(`examResults_${examId}`, JSON.stringify(data));
 			setResponse(data);
 
 			if (!response.ok) {
@@ -80,6 +80,8 @@ export default function FinalClient({ examId }: { examId: string }) {
 				className: "bg-green-100 text-green-900",
 				duration: 3000,
 			});
+
+			router.replace(`/exams/${examId}/final/final-success`);
 		} catch (error) {
 			toast({
 				description: "Failed to submit exam. Please try again.",
@@ -139,8 +141,8 @@ export default function FinalClient({ examId }: { examId: string }) {
 					</div>
 				</section>
 
-				<div className="flex gap-4 justify-end">
-					{!response && (
+				{response === "" && (
+					<div className="flex gap-4 justify-end">
 						<Button
 							variant="outline"
 							onClick={() => router.back()}
@@ -148,37 +150,16 @@ export default function FinalClient({ examId }: { examId: string }) {
 						>
 							Go Back
 						</Button>
-					)}
-					<Button
-						onClick={handleSubmit}
-						disabled={isSubmitting}
-						variant="success"
-					>
-						{isSubmitting ? "Submitting..." : "Submit Exam"}
-					</Button>
-				</div>
-			</div>
-
-			{response && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-					<div className="bg-white p-6 rounded-lg max-w-2xl w-full mx-4">
-						<h2 className="text-xl font-semibold mb-4">
-							API Response
-						</h2>
-						<div className="relative">
-							<pre className="bg-gray-50 p-4 rounded h-[400px] overflow-y-auto">
-								{response}
-							</pre>
-						</div>
 						<Button
-							onClick={() => setResponse("")}
-							className="mt-4"
+							onClick={handleSubmit}
+							disabled={isSubmitting}
+							variant="success"
 						>
-							Close
+							{isSubmitting ? "Submitting..." : "Submit Exam"}
 						</Button>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 
 			{isSubmitting && <SubmittingOverlay />}
 			<Toaster />
