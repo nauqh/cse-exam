@@ -1,19 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { StatusFilters } from "@/components/exam/StatusFilters";
 import { ExamCard } from "@/components/exam/ExamCard";
 import { ExamSubmission } from "@/components/exam/ExamCard";
 import { DateFilter } from "@/components/exam/DateFilter";
-import Nav from "@/components/Nav";
+import MenuSheet from "@/components/MenuSheet";
 import { BiCommentError } from "react-icons/bi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DateRange } from "react-day-picker";
+import { useUser } from "@clerk/nextjs";
 
 export default function ProfilePage() {
-	const params = useParams();
-	const userEmail = params.id as string;
+	const { user } = useUser();
 	const [examHistory, setExamHistory] = useState<ExamSubmission[]>([]);
 	const [selectedExam, setSelectedExam] = useState<string | null>(null);
 	const [selectedStatus, setSelectedStatus] = useState<
@@ -28,7 +27,7 @@ export default function ProfilePage() {
 			try {
 				setIsLoading(true);
 				const response = await fetch(
-					`https://cspyclient.up.railway.app/submissions/${userEmail}`
+					`http://127.0.0.1:8000/submissions?email=${user?.emailAddresses}`
 				);
 
 				if (response.status === 404) {
@@ -58,7 +57,7 @@ export default function ProfilePage() {
 		};
 
 		fetchExamHistory();
-	}, [userEmail]);
+	}, []);
 
 	const filteredHistory = examHistory
 		.filter((exam) =>
@@ -96,7 +95,9 @@ export default function ProfilePage() {
 
 	return (
 		<>
-			<Nav />
+			<div className="fixed top-1 right-1 md:top-6 md:right-6 z-50">
+				<MenuSheet />
+			</div>
 			<main className="container mx-auto px-4 py-8">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<section className="text-center space-y-4">

@@ -50,9 +50,7 @@ export default function MenuSheet() {
 							<SheetHeader className="p-4 border-b">
 								<SheetTitle>
 									<div className="flex items-center gap-3">
-										<Link
-											href={`/profile/${user?.emailAddresses}`}
-										>
+										<Link href={`/profile`}>
 											<Avatar>
 												<AvatarImage
 													src={user?.imageUrl}
@@ -89,7 +87,7 @@ export default function MenuSheet() {
 												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
 											>
 												<BiHomeAlt className="mr-3" />
-												Dashboard
+												Home
 											</Button>
 										</Link>
 										<Link href="/exams">
