@@ -28,7 +28,7 @@ export default function ProfilePage() {
 			try {
 				setIsLoading(true);
 				const response = await fetch(
-					`http://127.0.0.1:8000/submissions/${userEmail}`
+					`https://cspyclient.up.railway.app/submissions/${userEmail}`
 				);
 
 				if (response.status === 404) {
