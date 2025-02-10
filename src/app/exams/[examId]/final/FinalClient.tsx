@@ -140,13 +140,15 @@ export default function FinalClient({ examId }: { examId: string }) {
 				</section>
 
 				<div className="flex gap-4 justify-end">
-					<Button
-						variant="outline"
-						onClick={() => router.back()}
-						disabled={isSubmitting}
-					>
-						Go Back
-					</Button>
+					{!response && (
+						<Button
+							variant="outline"
+							onClick={() => router.back()}
+							disabled={isSubmitting}
+						>
+							Go Back
+						</Button>
+					)}
 					<Button
 						onClick={handleSubmit}
 						disabled={isSubmitting}
