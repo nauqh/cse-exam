@@ -23,13 +23,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider
-			appearance={{
-				layout: {
-					unsafe_disableDevelopmentModeWarnings: true,
-				},
-			}}
-		>
+		<ClerkProvider>
 			<html lang="en">
 				<body className={`${manrope.variable} antialiased`}>
 					<ClerkLoading>
