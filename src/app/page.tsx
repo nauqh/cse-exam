@@ -3,15 +3,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import MenuSheet from "@/components/MenuSheet";
 import {
-	FaGraduationCap,
-	FaChartLine,
-	FaClock,
 	FaBook,
 	FaDesktop,
 	FaQuestion,
 	FaHeadset,
-	FaCode,
-	FaLanguage,
 	FaUser,
 	FaClipboardList,
 	FaRocket,
@@ -20,46 +15,7 @@ import {
 	FaInstagram,
 	FaLinkedin,
 } from "react-icons/fa";
-import { BsShieldCheck } from "react-icons/bs";
-
-const features = [
-	{
-		icon: <FaGraduationCap className="w-6 h-6" />,
-		title: "Self-Paced Learning",
-		description:
-			"Master your subjects with flexible study schedules and personalized learning paths",
-	},
-	{
-		icon: <BsShieldCheck className="w-6 h-6" />,
-		title: "AI-Powered Proctoring",
-		description:
-			"Take exams with confidence using our advanced AI monitoring system",
-	},
-	{
-		icon: <FaChartLine className="w-6 h-6" />,
-		title: "Performance Insights",
-		description:
-			"Get detailed feedback and analytics to identify your strengths and areas for improvement",
-	},
-	{
-		icon: <FaClock className="w-6 h-6" />,
-		title: "24/7 Availability",
-		description:
-			"Schedule and take your exams anytime, anywhere with our round-the-clock platform",
-	},
-	{
-		icon: <FaCode className="w-6 h-6" />,
-		title: "Live Code Execution",
-		description:
-			"Write and test code in real-time across multiple programming languages",
-	},
-	{
-		icon: <FaLanguage className="w-6 h-6" />,
-		title: "Multi-Language Support",
-		description:
-			"Practice coding in Python, JavaScript, Java, C++, and many more languages",
-	},
-];
+import HeroSection from "@/components/Hero";
 
 const supportCards = [
 	{
@@ -125,41 +81,15 @@ export default function Home() {
 			</div>
 
 			<main className="mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 flex-grow">
-				{/* Hero Section */}
-				<section className="text-center max-w-4xl mx-auto space-y-6 mb-20">
-					<h1
-						className="text-5xl font-extrabold 
-                       bg-clip-text text-transparent 
-                       bg-gradient-to-r from-blue-500 to-teal-400"
-					>
-						Welcome to eExams
-					</h1>
-					<p className="text-xl text-gray-600">
-						The next-generation platform for online assessments.
-					</p>
-					<div className="flex flex-wrap gap-6 justify-center">
-						<Link href="/exams">
-							<Button className="text-lg px-8 py-6 bg-[#1d283a] hover:bg-[#2a3a52]">
-								Attempt Exams
-							</Button>
-						</Link>
-						<Link href="/about">
-							<Button
-								variant="outline"
-								className="text-lg px-8 py-6"
-							>
-								Learn More
-							</Button>
-						</Link>
-					</div>
-				</section>
+				{/* Embedded Hero Section */}
+				<HeroSection />
 
 				{/* How It Works Section */}
 				<section className="mt-24 mb-24">
 					<h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
 						How It Works
 					</h2>
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 						{steps.map((step, index) => (
 							<div
 								key={index}
