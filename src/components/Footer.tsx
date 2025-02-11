@@ -6,10 +6,7 @@ export default function Footer() {
 			<div className="px-4 md:px-8 lg:px-16">
 				<div className="mt-10 border-t border-gray-700 pt-4">
 					<div className="flex justify-between items-center text-xs text-gray-500">
-						<div>
-							Copyright © {new Date().getFullYear()} Coderschool
-							eExams.
-						</div>
+						<div>Copyright © {new Date().getFullYear()} Nauqh.</div>
 						<div className="flex gap-4">
 							<Link href="/" className="hover:text-white">
 								Privacy Policy
