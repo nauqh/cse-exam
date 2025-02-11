@@ -90,24 +90,28 @@ const supportCards = [
 
 export default function Home() {
 	return (
-		<div className="min-h-screen">
-			<div className="fixed top-1 right-1 md:top-6 md:right-6 z-50">
+		<div className="min-h-screen bg-gray-50">
+			<div className="fixed top-4 right-4 md:top-6 md:right-6 z-50">
 				<MenuSheet />
 			</div>
 
 			<main className="container mx-auto px-4 py-16">
 				{/* Hero Section */}
 				<section className="text-center max-w-4xl mx-auto space-y-6 mb-20">
-					<h1 className="text-5xl font-extrabold text-primary bg-clip-text">
+					<h1
+						className="text-5xl font-extrabold 
+                       bg-clip-text text-transparent 
+                       bg-gradient-to-r from-blue-500 to-teal-400"
+					>
 						Welcome to eExams
 					</h1>
 					<p className="text-xl text-gray-600">
-						The next generation platform for online assessments
+						The next-generation platform for online assessments.
 					</p>
-					<div className="flex gap-4 justify-center">
+					<div className="flex flex-wrap gap-4 justify-center">
 						<Link href="/exams">
 							<Button className="text-lg px-8 py-6">
-								Start Learning
+								Attempt Exams
 							</Button>
 						</Link>
 						<Link href="/about">
@@ -127,11 +131,10 @@ export default function Home() {
 						<div
 							key={index}
 							className="p-6 rounded-xl 
-								bg-white/20 backdrop-blur-lg 
-								border border-white/30
-								shadow-lg
-								hover:shadow-xl
-								transition-all duration-300"
+                         bg-white/20 backdrop-blur-lg 
+                         border border-white/30
+                         shadow-lg hover:shadow-xl 
+                         transition-all duration-300"
 						>
 							<div className="flex items-center gap-4 mb-4">
 								<div className="p-3 rounded-lg bg-primary/10 text-primary">
@@ -148,18 +151,18 @@ export default function Home() {
 					))}
 				</section>
 
-				{/* Image Section */}
+				{/* Image and Info Section */}
 				<section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto my-20 gap-8">
 					<div className="w-full md:w-1/2 p-4">
 						<Image
-							src="https://img.freepik.com/free-photo/final-exam-results-test-reading-books-words-concept_53876-123721.jpg" // Adjust this path as needed
+							src="https://img.freepik.com/free-photo/final-exam-results-test-reading-books-words-concept_53876-123721.jpg"
 							alt="Online Exams"
 							width={600}
 							height={400}
 							className="rounded-lg shadow-lg"
 						/>
 					</div>
-					<div className="w-full md:w-1/2 p-4">
+					<div className="w-full md:w-1/2 p-4 text-left">
 						<h2 className="text-3xl font-bold mb-4 text-gray-800">
 							Experience the Future of Assessments
 						</h2>
@@ -181,18 +184,16 @@ export default function Home() {
 							<Link href={card.href} key={index}>
 								<div
 									className="flex flex-col h-full p-6 rounded-xl 
-                bg-white/20 backdrop-blur-lg 
-                border border-white/30
-                shadow-lg
-                hover:shadow-xl
-                transition-all duration-300
-                cursor-pointer"
+                             bg-white/20 backdrop-blur-lg 
+                             border border-white/30 shadow-lg 
+                             hover:shadow-xl transition-all duration-300
+                             cursor-pointer"
 								>
 									{/* Card Image */}
 									{card.image && (
 										<div className="relative w-full h-40 mb-4">
 											<Image
-												src="https://cdn.pixabay.com/photo/2020/06/01/18/47/math-5247958_640.jpg"
+												src={card.image}
 												alt={card.title}
 												fill
 												className="object-cover rounded-lg"
@@ -220,18 +221,18 @@ export default function Home() {
 					</div>
 				</section>
 
-				{/* Call to Action */}
+				{/* Final Call to Action */}
 				<section className="text-center mt-20 max-w-2xl mx-auto">
 					<h2 className="text-3xl font-bold mb-6 text-gray-800">
 						Ready to Get Started?
 					</h2>
 					<p className="text-gray-600 mb-8">
 						Join thousands of students who are already advancing
-						their careers with eExams
+						their careers with eExams.
 					</p>
 					<Link href="/exams">
 						<Button className="text-lg px-8 py-6">
-							Explore Courses →
+							Attempt Exams →
 						</Button>
 					</Link>
 				</section>
