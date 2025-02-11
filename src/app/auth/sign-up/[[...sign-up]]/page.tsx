@@ -25,13 +25,34 @@ export default function Page() {
 				<div className="flex flex-col justify-center mx-auto w-full max-w-md px-6">
 					<SignUp
 						appearance={{
-							elements: { footer: "hidden" },
+							layout: {
+								logoImageUrl: "/logo.png",
+							},
+							elements: {
+								main: "gap-2",
+								logoBox: "justify-start",
+								logoImage: "w-50 h-50",
+								header: "text-left",
+								headerTitle: "text-2xl font-bold text-gray-900",
+								headerSubtitle: "text-gray-700 text-sm",
+								card: "backdrop-blur-md bg-white/30 gap-6",
+								socialButtonsBlockButton:
+									"px-3 py-2 bg-white/70 backdrop-blur-sm text-sm mb-2",
+								footer: "hidden",
+								form: "gap-6",
+								formFieldInput:
+									"px-3 py-2 bg-white/70 backdrop-blur-sm text-sm text-gray-900 placeholder-gray-500",
+								formButtonPrimary: "px-3 py-2",
+							},
+							variables: {
+								colorPrimary: "#1D283A",
+							},
 						}}
 					/>
 					<p className="text-center mt-4 text-sm text-slate-600">
 						Already have an account?{" "}
 						<Link
-							href="/sign-in"
+							href="/auth/sign-in"
 							className="text-blue-600 hover:text-blue-800 font-medium"
 						>
 							Sign in

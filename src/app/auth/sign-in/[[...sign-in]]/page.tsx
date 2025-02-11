@@ -1,12 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { HiArrowRight } from "react-icons/hi";
-import { LoadingScreen } from "@/components/ui/loading";
 import Image from "next/image";
 import Link from "next/link";
-import * as Clerk from "@clerk/elements/common";
-import * as SignIn from "@clerk/elements/sign-in";
+import { LoadingScreen } from "@/components/ui/loading";
+import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -22,134 +19,49 @@ export default function Page() {
 	if (isLoading) {
 		return <LoadingScreen />;
 	}
+
 	return (
 		<div className="grid md:grid-cols-2 min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
-			{/* Sign In */}
-			<SignIn.Root>
-				<div className="flex flex-col justify-center items-center p-8">
-					<div className="w-full max-w-md p-8 rounded-2xl backdrop-blur-md bg-white/30 border border-white/30 shadow-xl">
-						<SignIn.Step
-							name="start"
-							className="flex flex-col space-y-6"
-						>
-							<header>
-								<Image
-									src="/logo.png"
-									alt="Coderschool Logo"
-									width={200}
-									height={50}
-								/>
-								<h1 className="text-2xl font-bold mt-6 mb-2 text-gray-900">
-									Sign in to CoderSchool
-								</h1>
-								<p className="text-gray-700 text-sm">
-									Welcome back! Please sign in to continue.
-								</p>
-							</header>
+			{/* Sign In Section */}
+			<div className="flex flex-col justify-center items-center">
+				<SignIn
+					appearance={{
+						layout: {
+							logoImageUrl: "/logo.png",
+						},
+						elements: {
+							main: "gap-2",
+							logoBox: "justify-start",
+							logoImage: "w-50 h-50",
+							header: "text-left",
+							headerTitle: "text-2xl font-bold text-gray-900",
+							headerSubtitle: "text-gray-700 text-sm",
+							card: "backdrop-blur-md bg-white/30 gap-6",
+							socialButtonsBlockButton:
+								"px-3 py-2 bg-white/70 backdrop-blur-sm text-sm mb-2",
+							footer: "hidden",
+							form: "gap-6",
+							formFieldInput:
+								"px-3 py-2 bg-white/70 backdrop-blur-sm text-sm text-gray-900 placeholder-gray-500",
+							formButtonPrimary: "px-3 py-2",
+						},
+						variables: {
+							colorPrimary: "#1D283A",
+						},
+					}}
+				/>
+				<p className="text-center mt-4 text-sm text-slate-600">
+					Don't have an account?{" "}
+					<Link
+						href="/auth/sign-up"
+						className="text-blue-600 hover:text-blue-800 font-medium"
+					>
+						Sign up
+					</Link>
+				</p>
+			</div>
 
-							<Clerk.GlobalError className="block text-sm text-red-600" />
-
-							<Clerk.Field name="identifier">
-								<Clerk.Label className="sr-only">
-									Email
-								</Clerk.Label>
-								<Clerk.Input
-									type="email"
-									required
-									placeholder="Email"
-									className="w-full px-3 py-2 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2focus:border-transparent data-[invalid]:border-red-500 data-[invalid]:text-red-600"
-								/>
-								<Clerk.FieldError className="mt-2 block text-xs text-red-600" />
-							</Clerk.Field>
-
-							<SignIn.Action
-								submit
-								className="w-full bg-primary backdrop-blur-sm text-white py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 text-sm font-medium"
-							>
-								Continue <HiArrowRight />
-							</SignIn.Action>
-
-							<div className="flex items-center">
-								<div className="flex-1 border-t border-gray-400"></div>
-								<span className="mx-4 whitespace-nowrap text-sm text-gray-600">
-									Or continue with
-								</span>
-								<div className="flex-1 border-t border-gray-400"></div>
-							</div>
-
-							<div className="flex gap-2 justify-center">
-								<Clerk.Connection
-									name="google"
-									className="bg-white p-2 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-								>
-									<FcGoogle className="w-6 h-6" />
-								</Clerk.Connection>
-							</div>
-
-							<p className="text-center text-sm text-neutral-500">
-								Don&apos;t have an account?{" "}
-								<Clerk.Link
-									navigate="sign-up"
-									className="font-medium text-zinc-950 decoration-zinc-950/20 underline-offset-4 outline-none hover:text-zinc-700 hover:underline focus-visible:underline"
-								>
-									Sign up
-								</Clerk.Link>
-							</p>
-						</SignIn.Step>
-
-						<SignIn.Step
-							name="verifications"
-							className="w-full space-y-6"
-						>
-							<SignIn.Strategy name="email_code">
-								<header>
-									<Image
-										src="/logo.png"
-										alt="Coderschool Logo"
-										width={200}
-										height={50}
-									/>
-									<h1 className="text-2xl font-bold mt-6 mb-4">
-										Verify email code
-									</h1>
-								</header>
-								<Clerk.GlobalError className="block text-sm text-red-600" />
-
-								<Clerk.Field name="code">
-									<Clerk.Label className="sr-only">
-										Email code
-									</Clerk.Label>
-									<Clerk.Input
-										type="otp"
-										required
-										placeholder="Email code"
-										className="w-full px-3 py-2 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg text-sm text-gray-900 placeholder-gray-500 focus:outline-none border-neutral-200 bg-white pb-2 outline-none placeholder:text-neutral-400 data-[invalid]:border-red-500 data-[invalid]:text-red-600"
-									/>
-									<Clerk.FieldError className="mt-2 block text-xs text-red-600" />
-								</Clerk.Field>
-								<SignIn.Action
-									submit
-									className="w-full mt-4 bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition-colors"
-								>
-									Continue
-								</SignIn.Action>
-							</SignIn.Strategy>
-
-							<p className="text-center text-sm text-neutral-500">
-								Don&apos;t have an account?{" "}
-								<Clerk.Link
-									navigate="sign-up"
-									className="font-medium text-zinc-950 decoration-zinc-950/20 underline-offset-4 outline-none hover:text-zinc-700 hover:underline focus-visible:underline"
-								>
-									Sign up
-								</Clerk.Link>
-							</p>
-						</SignIn.Step>
-					</div>
-				</div>
-			</SignIn.Root>
-
-			{/* eAssessment Info */}
+			{/* eAssessment Info Section */}
 			<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg">
 				<div>
 					<h1 className="text-4xl font-bold text-slate-800 mb-6">
