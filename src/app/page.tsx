@@ -15,6 +15,10 @@ import {
 	FaUser,
 	FaClipboardList,
 	FaRocket,
+	FaFacebook,
+	FaTwitter,
+	FaInstagram,
+	FaLinkedin,
 } from "react-icons/fa";
 import { BsShieldCheck } from "react-icons/bs";
 
@@ -150,48 +154,26 @@ export default function Home() {
 					</div>
 				</section>
 
-				{/* Features Grid */}
-				<section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-					{features.map((feature, index) => (
-						<div
-							key={index}
-							className="p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#1d283a]/20"
-						>
-							<div className="flex items-center gap-4 mb-4">
-								<div className="p-3 rounded-xl bg-[#1d283a]/10 text-[#1d283a]">
-									{feature.icon}
-								</div>
-								<h3 className="text-xl font-bold text-gray-800">
-									{feature.title}
-								</h3>
-							</div>
-							<p className="text-gray-600 leading-relaxed">
-								{feature.description}
-							</p>
-						</div>
-					))}
-				</section>
-
 				{/* How It Works Section */}
 				<section className="mt-24 mb-24">
 					<h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
 						How It Works
 					</h2>
-					<div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
 						{steps.map((step, index) => (
 							<div
 								key={index}
-								className="p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-100 hover:border-[#1d283a]/20"
+								className="p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 text-center border border-gray-100"
 							>
-								<div className="flex justify-center items-center mb-6">
-									<div className="p-4 rounded-xl bg-[#1d283a]/10 text-[#1d283a]">
+								<div className="flex justify-center items-center mb-4">
+									<div className="p-3 rounded-xl bg-[#1d283a]/10 text-[#1d283a]">
 										{step.icon}
 									</div>
 								</div>
-								<h3 className="text-xl font-bold text-gray-800 mb-3">
+								<h3 className="text-lg font-bold text-gray-800 mb-2">
 									{step.title}
 								</h3>
-								<p className="text-gray-600 leading-relaxed">
+								<p className="text-sm text-gray-600 leading-relaxed">
 									{step.description}
 								</p>
 							</div>
@@ -200,13 +182,13 @@ export default function Home() {
 				</section>
 
 				{/* Image and Info Section */}
-				<section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto my-24 gap-12">
+				<section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto my-24 gap-8">
 					<div className="w-full md:w-1/2">
 						<Image
 							src="https://img.freepik.com/free-photo/final-exam-results-test-reading-books-words-concept_53876-123721.jpg"
 							alt="Online Exams"
-							width={600}
-							height={400}
+							width={500}
+							height={300}
 							className="rounded-2xl shadow-2xl"
 						/>
 					</div>
@@ -227,12 +209,12 @@ export default function Home() {
 					<h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
 						Exam Support Resources
 					</h2>
-					<div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 						{supportCards.map((card, index) => (
 							<Link href={card.href} key={index}>
-								<div className="group h-full p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#1d283a]/20">
+								<div className="group h-full p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
 									{card.image && (
-										<div className="relative mb-6 h-[240px] w-full overflow-hidden rounded-xl">
+										<div className="relative mb-6 h-[200px] w-full overflow-hidden rounded-xl">
 											<Image
 												src={card.image}
 												alt={card.title}
@@ -279,15 +261,119 @@ export default function Home() {
 				</section>
 			</main>
 
-			<footer className="py-10">
+			<footer className="py-10 bg-gray-50">
 				<div className="px-4 md:px-8 lg:px-16">
+					{/* Footer Grid: 4 columns with an empty spacer in the 2nd column */}
+					<div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+						{/* Column 1: Exam Information */}
+						<div>
+							<h3 className="text-lg font-bold text-gray-800">
+								Exam Information
+							</h3>
+							<ul className="mt-4 space-y-2">
+								<li>
+									<Link
+										href="/exams/timetable"
+										className="hover:text-gray-800"
+									>
+										Exam Timetable
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="/exams/policies"
+										className="hover:text-gray-800"
+									>
+										Exam Policies
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="/exams/results"
+										className="hover:text-gray-800"
+									>
+										Exam Results
+									</Link>
+								</li>
+							</ul>
+						</div>
+
+						{/* Column 2: Empty spacer for visual separation */}
+						<div className="hidden md:block"></div>
+
+						{/* Column 3: Official Exam Info */}
+						<div>
+							<h3 className="text-lg font-bold text-gray-800">
+								Official Exam Info
+							</h3>
+							<ul className="mt-4 space-y-2">
+								<li>
+									<Link
+										href="https://www.monash.edu/students/admin/assessments/exams"
+										className="hover:text-gray-800"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Monash University Exams
+									</Link>
+								</li>
+							</ul>
+						</div>
+
+						{/* Column 4: Social Media (icons only with hover effect) */}
+						<div>
+							<h3 className="text-lg font-bold text-gray-800">
+								Social Media
+							</h3>
+							<ul className="mt-4 flex items-center space-x-4">
+								<li>
+									<Link
+										href="https://www.facebook.com"
+										target="_blank"
+										className="transition transform hover:text-gray-600"
+									>
+										<FaFacebook className="w-6 h-6" />
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="https://www.twitter.com"
+										target="_blank"
+										className="transition transform hover:text-gray-600"
+									>
+										<FaTwitter className="w-6 h-6" />
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="https://www.instagram.com"
+										target="_blank"
+										className="transition transform hover:text-gray-600"
+									>
+										<FaInstagram className="w-6 h-6" />
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="https://www.linkedin.com"
+										target="_blank"
+										className="transition transform hover:text-gray-600"
+									>
+										<FaLinkedin className="w-6 h-6" />
+									</Link>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					{/* Existing Footer Links */}
 					<div className="mt-10 border-t border-gray-300 pt-4">
-						<div className="flex justify-between items-center text-sm text-gray-500">
+						<div className="flex flex-col md:flex-row md:justify-between items-center text-sm text-gray-500">
 							<div>
 								Copyright © {new Date().getFullYear()}{" "}
 								Coderschool eExams.
 							</div>
-							<div className="flex gap-4">
+							<div className="hidden md:flex gap-4 mt-4 md:mt-0">
 								<Link href="/" className="hover:text-gray-800">
 									Privacy Policy
 								</Link>
