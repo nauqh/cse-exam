@@ -219,7 +219,7 @@ export default function Home() {
 
 						<div className="hidden md:block"></div>
 
-						<div className="justify-self-end">
+						<div className="md:justify-self-end">
 							<h3 className="text-lg font-semibold">About</h3>
 							<ul className="mt-4 space-y-2 text-gray-600">
 								<li>
@@ -249,7 +249,7 @@ export default function Home() {
 							</ul>
 						</div>
 
-						<div className="justify-self-end">
+						<div className="md:justify-self-end">
 							<h3 className="text-lg font-semibold">
 								Follow us on
 							</h3>

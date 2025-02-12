@@ -7,7 +7,7 @@ export default function MultichoiceLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<div className="min-h-screen flex items-center justify-center px-4 py-8 max-w[90vw] mx-auto">
+		<div className="min-h-screen flex items-center justify-center max-w[90vw] mx-auto">
 			{children}
 		</div>
 	);

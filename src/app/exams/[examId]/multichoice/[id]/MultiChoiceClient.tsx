@@ -135,7 +135,7 @@ export default function MultiChoiceClient({
 	const parts = processMarkdown(currentQuestion.question);
 
 	return (
-		<div className="w-full rounded-lg shadow-sm border p-6 2xl:w-[80vw]">
+		<div className="w-[80vw] rounded-lg shadow-sm border p-6">
 			{currentQuestion ? (
 				<div className="grid grid-cols-12 gap-4">
 					<div className="col-span-9 grid grid-rows-[auto_1fr] gap-4">
