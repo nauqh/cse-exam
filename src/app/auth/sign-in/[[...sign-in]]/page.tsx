@@ -20,7 +20,7 @@ export default function Page() {
 	}
 
 	return (
-		<div className="grid md:grid-cols-2 min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30">
+		<div className="grid md:grid-cols-2 min-h-screen bg-gradient-to-br from-blue-500/40 via-purple-400/30 to-pink-300/30 place-items-center">
 			{/* Sign In Section */}
 			<div className="flex flex-col justify-center items-center">
 				<SignIn
