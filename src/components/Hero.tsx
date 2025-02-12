@@ -59,7 +59,6 @@ export default function HeroSection() {
 						{/* Decorative Paint Splash Background */}
 						<div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 transform -rotate-6 z-0" />
 
-						{/* Next.js Image spanning the whole container */}
 						<Image
 							src="https://static.vecteezy.com/system/resources/previews/044/606/215/non_2x/happy-student-passed-online-test-girl-after-final-exam-dreaming-of-graduation-education-composition-doodle-icons-of-graduating-hat-and-laptop-illustration-of-success-in-studying-vector.jpg"
 							alt="eExam Platform"

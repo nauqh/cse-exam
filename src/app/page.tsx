@@ -10,10 +10,6 @@ import {
 	FaUser,
 	FaClipboardList,
 	FaRocket,
-	FaFacebook,
-	FaTwitter,
-	FaInstagram,
-	FaLinkedin,
 } from "react-icons/fa";
 import HeroSection from "@/components/Hero";
 
@@ -24,7 +20,7 @@ const supportCards = [
 		description:
 			"Essential tips and guidelines to help you prepare effectively",
 		href: "/guides/exam-prep",
-		image: "https://cdn.vysokeskoly.cz/czech-universities/uploads/2024/01/preparing_for_exams.jpg",
+		image: "https://img.freepik.com/free-vector/college-project-concept-illustration_114360-10211.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 	{
 		icon: <FaDesktop className="w-6 h-6" />,
@@ -32,7 +28,7 @@ const supportCards = [
 		description:
 			"Step-by-step guide to configure your system for online exams",
 		href: "/guides/system-setup",
-		image: "https://www.cfp.net/-/media/images/cfp-board/photos/full-width/individuals/1144287280.jpg?cx=0&cy=0&cw=750&ch=550&hash=DAF2E9DA34856A90B08DFD63C88C6A1E",
+		image: "https://img.freepik.com/free-vector/developer-activity-concept-illustration_114360-1981.jpg?t=st=1739328626~exp=1739332226~hmac=3ed8f2d0f748287434944221a7182e7b44b5f9911849cffe29ff3c0b2d4cba17&w=1480",
 	},
 	{
 		icon: <FaQuestion className="w-6 h-6" />,
@@ -40,14 +36,30 @@ const supportCards = [
 		description:
 			"Common issues and their solutions for a smooth exam experience",
 		href: "/guides/troubleshoot",
-		image: "https://mymountainmover.com/wp-content/uploads/2024/01/customer-service-virtual-assistant.jpg",
+		image: "https://img.freepik.com/free-vector/school-supplies-concept-illustration_114360-20281.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 	{
 		icon: <FaHeadset className="w-6 h-6" />,
 		title: "Getting Help and Support",
 		description: "Access our support resources and contact assistance",
 		href: "/support",
-		image: "https://imperativeconcierge.com/wp-content/uploads/2024/05/successful-customer-service-representative-using-l-2023-11-27-04-56-13-utc-scaled.jpg",
+		image: "https://img.freepik.com/free-vector/call-center-concept-illustration_114360-3430.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
+	},
+	{
+		icon: <FaBook className="w-6 h-6" />,
+		title: "Practice Tests",
+		description:
+			"Access sample exams and practice questions to build confidence",
+		href: "/practice-tests",
+		image: "https://img.freepik.com/free-vector/teacher-student-concept-illustration_114360-7905.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
+	},
+	{
+		icon: <FaDesktop className="w-6 h-6" />,
+		title: "Technical Requirements",
+		description:
+			"Detailed specifications for hardware and software requirements",
+		href: "/technical-requirements",
+		image: "https://img.freepik.com/free-vector/online-test-concept-illustration_114360-5456.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 ];
 
@@ -80,8 +92,7 @@ export default function Home() {
 				<MenuSheet />
 			</div>
 
-			<main className="mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 flex-grow">
-				{/* Embedded Hero Section */}
+			<main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 flex-grow">
 				<HeroSection />
 
 				{/* How It Works Section */}
@@ -115,7 +126,7 @@ export default function Home() {
 				<section className="flex flex-col md:flex-row items-center max-w-6xl mx-auto my-24 gap-8">
 					<div className="w-full md:w-1/2">
 						<Image
-							src="https://img.freepik.com/free-photo/final-exam-results-test-reading-books-words-concept_53876-123721.jpg"
+							src="/main.jpeg"
 							alt="Online Exams"
 							width={500}
 							height={300}
@@ -192,48 +203,25 @@ export default function Home() {
 			</main>
 
 			<footer className="py-10 bg-gray-50">
-				<div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
+				<div className="max-w-6xl mx-auto px-4 md:px-8 lg:px-16">
 					<div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
 						<div>
-							<h3 className="text-lg font-bold text-gray-800">
-								Official Exam Info
-							</h3>
-							<ul className="mt-4 space-y-2">
-								<li>
-									<Link
-										href="https://www.monash.edu/students/admin/assessments/exams"
-										className="hover:text-gray-800"
-										target="_blank"
-									>
-										Monash University Exams
-									</Link>
-								</li>
-							</ul>
+							<Link href="/" className="block">
+								<Image
+									src="/logo.png"
+									alt="eExams Logo"
+									width={200}
+									height={100}
+									className="hover:opacity-90 transition-opacity"
+								/>
+							</Link>
 						</div>
 
 						<div className="hidden md:block"></div>
 
-						<div>
-							<h3 className="text-lg font-bold text-gray-800">
-								Exam Information
-							</h3>
-							<ul className="mt-4 space-y-2">
-								<li>
-									<Link
-										href="/exams/timetable"
-										className="hover:text-gray-800"
-									>
-										Exam Timetable
-									</Link>
-								</li>
-								<li>
-									<Link
-										href="/exams/policies"
-										className="hover:text-gray-800"
-									>
-										Exam Policies
-									</Link>
-								</li>
+						<div className="justify-self-end">
+							<h3 className="text-lg font-semibold">About</h3>
+							<ul className="mt-4 space-y-2 text-gray-600 hover:text-gray-800">
 								<li>
 									<Link
 										href="/exams/results"
@@ -242,48 +230,64 @@ export default function Home() {
 										Exam Results
 									</Link>
 								</li>
+								<li>
+									<Link
+										href="/exams/results"
+										className="hover:text-gray-800"
+									>
+										FAQs
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="/exams/results"
+										className="hover:text-gray-800"
+									>
+										Contact
+									</Link>
+								</li>
 							</ul>
 						</div>
 
-						<div>
-							<h3 className="text-lg font-bold text-gray-800">
-								Social Media
+						<div className="justify-self-end">
+							<h3 className="text-lg font-semibold">
+								Follow us on
 							</h3>
-							<ul className="mt-4 flex items-center space-x-4">
+							<ul className="mt-4 space-y-2 text-gray-600">
 								<li>
 									<Link
 										href="https://www.facebook.com"
 										target="_blank"
-										className="transition transform hover:text-gray-600"
+										className="hover:text-gray-800"
 									>
-										<FaFacebook className="w-6 h-6" />
+										Facebook
 									</Link>
 								</li>
 								<li>
 									<Link
 										href="https://www.twitter.com"
 										target="_blank"
-										className="transition transform hover:text-gray-600"
+										className="hover:text-gray-800"
 									>
-										<FaTwitter className="w-6 h-6" />
+										Twitter
 									</Link>
 								</li>
 								<li>
 									<Link
 										href="https://www.instagram.com"
 										target="_blank"
-										className="transition transform hover:text-gray-600"
+										className="hover:text-gray-800"
 									>
-										<FaInstagram className="w-6 h-6" />
+										Instagram
 									</Link>
 								</li>
 								<li>
 									<Link
 										href="https://www.linkedin.com"
 										target="_blank"
-										className="transition transform hover:text-gray-600"
+										className="hover:text-gray-800"
 									>
-										<FaLinkedin className="w-6 h-6" />
+										LinkedIn
 									</Link>
 								</li>
 							</ul>
@@ -291,11 +295,11 @@ export default function Home() {
 					</div>
 
 					<div className="mt-10 border-t border-gray-300 pt-4">
-						<div className="flex flex-col md:flex-row md:justify-between items-center text-sm text-gray-500">
-							<div>
+						<div className="flex flex-col md:flex-row justify-between items-center space-y-4 text-sm text-gray-500">
+							<div className="text-center">
 								Copyright © {new Date().getFullYear()} Nauqh.
 							</div>
-							<div className="hidden md:flex gap-4 mt-4 md:mt-0">
+							<div className="flex flex-wrap justify-center gap-4 px-4">
 								<Link href="/" className="hover:text-gray-800">
 									Privacy Policy
 								</Link>

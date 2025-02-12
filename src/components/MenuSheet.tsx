@@ -5,10 +5,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { BiLogOut, BiHomeAlt } from "react-icons/bi";
-import { BsBook, BsCardChecklist, BsPeople } from "react-icons/bs";
-import { FiSettings } from "react-icons/fi";
-import { MdOutlineQuiz, MdAnalytics } from "react-icons/md";
+import { BiLogOut } from "react-icons/bi";
+import {
+	BsBook,
+	BsCardChecklist,
+	BsPeople,
+	BsHouseDoor,
+	BsGraphUp,
+	BsGear,
+} from "react-icons/bs";
+import { MdOutlineQuiz } from "react-icons/md";
 import {
 	Sheet,
 	SheetContent,
@@ -86,7 +92,7 @@ export default function MenuSheet() {
 												variant="ghost"
 												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
 											>
-												<BiHomeAlt className="mr-3" />
+												<BsHouseDoor className="mr-3" />
 												Home
 											</Button>
 										</Link>
@@ -147,7 +153,7 @@ export default function MenuSheet() {
 												variant="ghost"
 												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
 											>
-												<MdAnalytics className="mr-3" />
+												<BsGraphUp className="mr-3" />
 												Analytics
 											</Button>
 										</Link>
@@ -156,7 +162,7 @@ export default function MenuSheet() {
 												variant="ghost"
 												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
 											>
-												<FiSettings className="mr-3" />
+												<BsGear className="mr-3" />
 												Settings
 											</Button>
 										</Link>

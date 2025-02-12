@@ -41,50 +41,61 @@ export default function ExamHome() {
 	}, []);
 
 	return (
-		<div className="min-h-screen">
+		<div className="min-h-screen bg-gray-50">
 			<div className="fixed top-6 right-6 z-50">
 				<MenuSheet />
 			</div>
-			<main className="container mx-auto px-4 py-8">
-				<div className="max-w-6xl mx-auto space-y-12">
-					<section className="text-center space-y-4">
-						<h1 className="text-4xl font-extrabold text-primary">
+
+			<main className="container mx-auto px-4 py-12">
+				<div className="max-w-5xl mx-auto">
+					<header className="text-center mb-12">
+						<h1 className="text-5xl font-extrabold text-gray-800 mb-4">
 							eExams
 						</h1>
-						<p className="text-xl text-gray">
+						<p className="text-xl text-gray-600">
 							Select a course to start your assessment
 						</p>
-					</section>
+					</header>
 
-					<section className="grid gap-8 md:grid-cols-2">
+					{/* Courses Grid */}
+					<section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 						{courses.map((course) => (
-							<Link
-								key={course.id}
-								href={course.path}
-								className="block"
-							>
+							<Link key={course.id} href={course.path}>
 								<div
 									className="
-                                group p-8 rounded-xl space-y-4 transition-all duration-300
-                                backdrop-blur-lg bg-white/20 border border-white/30
-                                shadow-lg hover:shadow-xl hover:bg-white/40
-                              "
+										group relative bg-white rounded-2xl shadow-md 
+										border border-gray-200 overflow-hidden transform 
+										transition-all duration-300 hover:shadow-xl hover:scale-105
+									"
 								>
-									<h2 className="text-2xl font-semibold text-gray-800 transition-colors">
-										{course.title}
-									</h2>
-									<p className="text-gray-600 text-lg">
-										{course.description}
-									</p>
-
-									<Button
+									<div className="p-6">
+										<h2
+											className="
+												text-2xl font-semibold text-gray-800 mb-3 
+												transition-colors duration-300 group-hover:text-[#1d283a]
+											"
+										>
+											{course.title}
+										</h2>
+										<p className="text-gray-600 mb-6">
+											{course.description}
+										</p>
+										<Button
+											className="
+												w-full bg-[#1d283a] hover:bg-[#2a3a52] 
+												text-white font-medium transition-colors duration-300
+											"
+										>
+											Start Exam →
+										</Button>
+									</div>
+									{/* Subtle gradient overlay on hover */}
+									<div
 										className="
-                                  w-full transition-colors duration-300 border-none
-                                  shadow-md hover:shadow-lg
-                                "
-									>
-										Start Exam →
-									</Button>
+											absolute inset-0 bg-gradient-to-t from-black opacity-0 
+											group-hover:opacity-10 transition-opacity duration-300
+										"
+									></div>
 								</div>
 							</Link>
 						))}
