@@ -63,12 +63,12 @@ export default function ExamHome() {
 							<Link key={course.id} href={course.path}>
 								<div
 									className="
-										group relative bg-white rounded-2xl shadow-md 
+										group relative h-[250px] bg-white rounded-2xl shadow-md 
 										border border-gray-200 overflow-hidden transform 
 										transition-all duration-300 hover:shadow-xl hover:scale-105
 									"
 								>
-									<div className="p-6">
+									<div className="p-6 flex flex-col justify-between h-full">
 										<h2
 											className="
 												text-2xl font-semibold text-gray-800 mb-3 
@@ -83,19 +83,12 @@ export default function ExamHome() {
 										<Button
 											className="
 												w-full bg-[#1d283a] hover:bg-[#2a3a52] 
-												text-white font-medium transition-colors duration-300
+												text-white transition-colors duration-300
 											"
 										>
 											Start Exam →
 										</Button>
 									</div>
-									{/* Subtle gradient overlay on hover */}
-									<div
-										className="
-											absolute inset-0 bg-gradient-to-t from-black opacity-0 
-											group-hover:opacity-10 transition-opacity duration-300
-										"
-									></div>
 								</div>
 							</Link>
 						))}
