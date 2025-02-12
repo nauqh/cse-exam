@@ -135,7 +135,7 @@ export default function MultiChoiceClient({
 	const parts = processMarkdown(currentQuestion.question);
 
 	return (
-		<div className="w-full max-w-[80vw] rounded-lg shadow-sm border p-6">
+		<div className="w-full rounded-lg shadow-sm border p-6 2xl:w-[80vw]">
 			{currentQuestion ? (
 				<div className="grid grid-cols-12 gap-4">
 					<div className="col-span-9 grid grid-rows-[auto_1fr] gap-4">
@@ -143,7 +143,7 @@ export default function MultiChoiceClient({
 							<h2 className="text-xl font-semibold mb-2">
 								Question {id}
 							</h2>
-							<div className="prose dark:prose-invert pr-2 h-[350px]">
+							<div className="prose dark:prose-invert pr-2 h-[50vh]">
 								{parts.map((part, index) => {
 									if (!part.startsWith("```")) {
 										return (

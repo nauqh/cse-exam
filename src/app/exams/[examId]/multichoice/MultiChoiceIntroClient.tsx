@@ -11,7 +11,7 @@ export default function MultiChoiceIntroClient({ examId }: { examId: string }) {
 	};
 
 	return (
-		<div className="w-full max-w-7xl p-6">
+		<div className="w-full max-w-7xl p-6 h-[50vh] border border-gray-200 rounded-lg shadow-md flex flex-col space-y-4 justify-center">
 			<div className="text-center space-y-4">
 				<h1 className="text-4xl font-bold">I. Multiple Choices</h1>
 				<p className="text-xl">

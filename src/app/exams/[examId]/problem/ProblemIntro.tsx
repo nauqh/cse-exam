@@ -14,7 +14,7 @@ export default function ProblemIntro({ examId }: { examId: string }) {
 	};
 
 	return (
-		<section className="container max-w-7xl mx-auto p-12 space-y-8">
+		<section className="container max-w-7xl mx-auto p-12 space-y-8 border border-gray-200 rounded-lg shadow-md">
 			<div className="text-center space-y-4">
 				<h1 className="text-4xl font-bold">II. Problem Section</h1>
 				<p className="text-xl text-primary">

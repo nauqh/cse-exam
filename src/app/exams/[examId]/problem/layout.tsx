@@ -3,5 +3,9 @@ export default function ProblemLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <main className="flex-1">{children}</main>;
+	return (
+		<main className="min-h-screen flex items-center justify-center">
+			{children}
+		</main>
+	);
 }
