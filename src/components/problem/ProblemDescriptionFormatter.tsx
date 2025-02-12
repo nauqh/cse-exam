@@ -27,11 +27,9 @@ const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
 									</blockquote>
 								),
 								code: ({ children }) => (
-									<div className="h-[200px] overflow-auto">
-										<code className="bg-muted px-1.5 py-0.5 rounded-sm font-mono text-sm">
-											{children}
-										</code>
-									</div>
+									<code className="bg-muted px-1.5 py-0.5 rounded-sm font-mono text-sm">
+										{children}
+									</code>
 								),
 								img: ({ src }) =>
 									src && <ZoomableImage src={src} />,
