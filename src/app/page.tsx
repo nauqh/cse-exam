@@ -221,7 +221,7 @@ export default function Home() {
 
 						<div className="justify-self-end">
 							<h3 className="text-lg font-semibold">About</h3>
-							<ul className="mt-4 space-y-2 text-gray-600 hover:text-gray-800">
+							<ul className="mt-4 space-y-2 text-gray-600">
 								<li>
 									<Link
 										href="/exams/results"
