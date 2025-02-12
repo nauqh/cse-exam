@@ -37,20 +37,6 @@ export default function HeroSection() {
 							</Button>
 						</Link>
 					</div>
-					<div className="flex gap-6 mt-6 justify-center md:justify-start">
-						<div className="flex items-center space-x-2 text-gray-700">
-							<FaUserGraduate className="w-6 h-6 text-blue-500" />
-							<span className="text-lg font-semibold">
-								50K+ Students
-							</span>
-						</div>
-						<div className="flex items-center space-x-2 text-gray-700">
-							<FaStar className="w-6 h-6 text-yellow-400" />
-							<span className="text-lg font-semibold">
-								4.9 Satisfaction
-							</span>
-						</div>
-					</div>
 				</div>
 
 				{/* RIGHT SIDE – IMAGE */}
