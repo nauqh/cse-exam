@@ -159,20 +159,14 @@ export default function ProfilePage() {
 											</Button>
 										))}
 									</div>
-									{selectedExam && (
-										<>
-											<StatusFilters
-												selectedStatus={selectedStatus}
-												setSelectedStatus={
-													setSelectedStatus
-												}
-											/>
-											<DateFilter
-												dateRange={dateRange}
-												setDateRange={setDateRange}
-											/>
-										</>
-									)}
+									<StatusFilters
+										selectedStatus={selectedStatus}
+										setSelectedStatus={setSelectedStatus}
+									/>
+									<DateFilter
+										dateRange={dateRange}
+										setDateRange={setDateRange}
+									/>
 								</div>
 
 								<div className="grid gap-4">
