@@ -5,16 +5,20 @@ import ProblemDescriptionFormatter from "./ProblemDescriptionFormatter";
 const ProblemDescription = ({
 	name,
 	content,
+	questionNumber,
 }: {
 	name: string;
 	content?: string;
+	questionNumber?: number;
 }) => {
 	return (
 		<TabsContent value={name} className="overflow-y-auto">
 			<div className="px-4">
 				{name === "description" ? (
 					<>
-						<h2 className="text-xl font-bold capitalize">{name}</h2>
+						<h2 className="text-xl font-bold">
+							Question {questionNumber}
+						</h2>
 						{content ? (
 							<ProblemDescriptionFormatter content={content} />
 						) : (
