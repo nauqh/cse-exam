@@ -7,9 +7,9 @@ export default async function ProblemPage({
 	params: Promise<{ examId: string; id: string }>;
 }) {
 	const { examId, id } = await params;
-	const problems = await getExamProblemQuestions(examId);
+	const data = await getExamProblemQuestions(examId);
 
-	if (problems.length === 0) {
+	if (data.content.length === 0) {
 		return (
 			<div className="flex justify-center items-center h-screen">
 				No problems found
@@ -19,7 +19,7 @@ export default async function ProblemPage({
 
 	return (
 		<ProblemClient
-			problems={problems}
+			data={data}
 			examId={examId}
 			initialProblemId={parseInt(id)}
 		/>

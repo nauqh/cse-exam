@@ -20,7 +20,7 @@ import ProblemDescription from "@/components/problem/ProblemDescription";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import { Question } from "@/lib/questions";
+import { ExamContent } from "@/lib/questions";
 import CodeOutput from "@/components/CodeOutput";
 
 type OutputType = {
@@ -29,11 +29,11 @@ type OutputType = {
 };
 
 export default function ProblemClient({
-	problems,
+	data,
 	examId,
 	initialProblemId,
 }: {
-	problems: Question[];
+	data: ExamContent;
 	examId: string;
 	initialProblemId: number;
 }) {
@@ -44,7 +44,7 @@ export default function ProblemClient({
 		output: "",
 		language: "",
 	});
-	const [language, setLanguage] = useState("sql");
+	const [language, setLanguage] = useState(data.language);
 	const [currentPage, setCurrentPage] = useState(initialProblemId);
 	const [answeredProblems, setAnsweredProblems] = useState<{
 		[problemId: number]: { code: string; language: string };
@@ -59,10 +59,10 @@ export default function ProblemClient({
 	}, []);
 
 	useEffect(() => {
-		if (currentPage > problems.length || currentPage < 1) {
+		if (currentPage > data.content.length || currentPage < 1) {
 			router.push(`/exams/${examId}/problem/1`);
 		}
-	}, [currentPage, problems.length, examId, router]);
+	}, [currentPage, data.content.length, examId, router]);
 
 	useEffect(() => {
 		if (answeredProblems[currentPage]) {
@@ -73,7 +73,7 @@ export default function ProblemClient({
 		}
 	}, [currentPage, answeredProblems]);
 
-	const currentProblem = problems[currentPage - 1];
+	const currentProblem = data.content[currentPage - 1];
 
 	const handlePageChange = (page: number) => {
 		router.push(`/exams/${examId}/problem/${page}`);
@@ -133,7 +133,7 @@ export default function ProblemClient({
 		setAnsweredProblems(newAnswers);
 		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
 
-		if (currentPage < problems.length) {
+		if (currentPage < data.content.length) {
 			handlePageChange(currentPage + 1);
 		}
 	};
@@ -209,7 +209,7 @@ export default function ProblemClient({
 						</Tabs>
 						<div className="flex items-center justify-center gap-2 p-2 border-b">
 							{Array.from(
-								{ length: problems.length },
+								{ length: data.content.length },
 								(_, i) => i + 1
 							).map((page) => (
 								<button
@@ -313,7 +313,7 @@ export default function ProblemClient({
 								</Button>
 								<Button onClick={handleSubmit}>Submit</Button>
 								{Object.keys(answeredProblems).length ===
-									problems.length && (
+									data.content.length && (
 									<Button
 										onClick={() => setShowSummary(true)}
 										variant="success"
@@ -342,7 +342,7 @@ export default function ProblemClient({
 							Answer Summary
 						</h2>
 						<div className="space-y-4">
-							{problems.map((problem, index) => (
+							{data.content.map((problem, index) => (
 								<div key={index + 1} className="border-b pb-2">
 									<p className="font-semibold">
 										Problem {index + 1}:

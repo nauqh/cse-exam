@@ -9,7 +9,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { useToast } from "@/hooks/use-toast";
-import { Question } from "@/lib/questions";
+import { ExamContent } from "@/lib/questions";
 import { cn } from "@/lib/utils";
 
 const processMarkdown = (content: string) => {
@@ -18,11 +18,11 @@ const processMarkdown = (content: string) => {
 };
 
 export default function MultiChoiceClient({
-	questions,
+	data,
 	examId,
 	initialQuestionId,
 }: {
-	questions: Question[];
+	data: ExamContent;
 	examId: string;
 	initialQuestionId: number;
 }) {
@@ -34,8 +34,8 @@ export default function MultiChoiceClient({
 	}>({});
 	const [showSummary, setShowSummary] = useState(false);
 
-	const currentQuestion = questions[id - 1];
-	const totalQuestions = questions.length;
+	const currentQuestion = data.content[id - 1];
+	const totalQuestions = data.content.length;
 	const { toast, dismiss } = useToast();
 
 	useEffect(() => {
@@ -54,10 +54,10 @@ export default function MultiChoiceClient({
 	}, [id, answeredQuestions]);
 
 	useEffect(() => {
-		if (id > questions.length || id < 1) {
+		if (id > data.content.length || id < 1) {
 			router.push(`/exams/${examId}/multichoice/1`);
 		}
-	}, [id, questions.length, examId, router]);
+	}, [id, data.content.length, examId, router]);
 
 	const handleSubmit = () => {
 		if (!selectedOption) {
@@ -77,7 +77,7 @@ export default function MultiChoiceClient({
 		setAnsweredQuestions(newAnswers);
 		localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
 
-		if (id < questions.length) {
+		if (id < data.content.length) {
 			router.push(`/exams/${examId}/multichoice/${id + 1}`);
 		}
 	};
@@ -294,7 +294,7 @@ export default function MultiChoiceClient({
 								Save
 							</Button>
 							{Object.keys(answeredQuestions).length ===
-								questions.length && (
+								data.content.length && (
 								<Button
 									onClick={handleShowSummary}
 									variant="success"
@@ -312,7 +312,7 @@ export default function MultiChoiceClient({
 									Answer Summary
 								</h2>
 								<div className="space-y-4">
-									{questions.map((question, index) => (
+									{data.content.map((question, index) => (
 										<div
 											key={index + 1}
 											className="border-b pb-2"

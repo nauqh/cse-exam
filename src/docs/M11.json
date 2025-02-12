@@ -1,97 +1,101 @@
-[
-    {
-        "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
-        ],
-        "resultType": "MULTICHOICE_SINGLE",
-        "question": "**What is the main difference between a primary key and a foreign key?**\n\n<br/>\n\nA. A primary key is used to reference data in another table, while a foreign key is a unique identifier for each row in a table\n\nB. A primary key is a unique identifier for each row in a table, while a foreign key is used to reference data in another table\n\nC. A primary key is used in multiple tables, while a foreign key is used in a single table\n\nD. There is no difference between primary key and foreign key"
-    },
-    {
-        "choices": [
-            "A",
-            "B",
-            "C"
-        ],
-        "resultType": "MULTICHOICE_SINGLE",
-        "question": "**What is a one-to-many relationship in a database?**\n\n<br/>\n\nA. A relationship where one record in one table can be linked to multiple records in another table\n\nB. A relationship where multiple records in one table can be linked to one record in another table\n\nC. A relationship where multiple records in both tables can be linked to one record in each other's table"
-    },
-    {
-        "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
-        ],
-        "resultType": "MULTICHOICE_SINGLE",
-        "question": "In a database of a school, each student can only belong to one class, but each class can have many students. \n\n**Which type of relationship is established between the students and the classes table?**\n\n<br/>\n\nA. One to One\n\nB. One to Many Mandatory\n\nC. One to Many Optional\n\nD. Many to Many"
-    },
-    {
-        "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
-        ],
-        "resultType": "MULTICHOICE_SINGLE",
-        "question": "About the schema below, which answer is **WRONG**?\n\n![](https://i.imgur.com/B8WzLoz.png)\n\nA. A invoice must belong to a specific customer\n\nB. A customer must have at least 1 invoice\n\nC. In the Invoices Table, CustomerID is the Foreign Key\n\nD. In the Customers Table, CustomerID is the Primary Key"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Y8xDe9w.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**What are the names and unit prices of the five most expensive products?**\n\nOrder these products from most expensive to least expensive.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/x3jCGYQ.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**Get the list of five countries with the most number of customers staying there.**\n\nOrder these countries from most customers to least customers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/RHSnPK7.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**Get the list of five countries with the least number of suppliers staying there.**\n\nOrder the result by number of suppliers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Z3nScfY.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**Retrieve the list of category names with number of products in each category.**\n\nOrder the result by number of product descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/r3UZdT7.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**Retrieve the names and total revenue of the top 5 selling products.**\n\nOrder the result by total revenue descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Qai3Crt.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**How many orders does the company ship to \"Western Europe\" each year?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/VY3zjgm.png)"
-    },
-    {
-        "question": "**What are the company names of the customers who have ordered the product 'Tofu'?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/OkIYI2i.png)",
-        "resultType": "SQL"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**Retrieve customer IDs and company names of customer companies that have never placed an order.**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/v8ezSiO.png)"
-    },
-    {
-        "question": "**What are the company names of the suppliers that supply only one product?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/UHvFhzG.png)",
-        "resultType": "SQL"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**What are the names of employees who have taken orders from customers who live in the same city as the employee?**\n\nOrder the result by EmployeeID.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/yohxKjS.png)"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**List the top 5 products based on total quantity ordered.**\n\nOrder the result by total quantity descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/xA2yU1e.png)"
-    },
-    {
-        "question": "**Find the total number of orders and the total number of customers who have made orders in each country.**\n\n<br/>\n\n_Expected output_: (ordered by \"Total Order\" descending, and \"Total Customers\" ascending)\n\n![](https://i.imgur.com/qJsGkti.png)",
-        "resultType": "SQL"
-    },
-    {
-        "resultType": "SQL",
-        "question": "**Find the average revenue for each product category.**\n\n<br/>\n\n_Expected output_: (ordered by average revenue descending)\n\n![](https://i.imgur.com/wwdkkuJ.png)"
-    }
-]
+{
+    "name": "Basic SQL",
+    "language": "sql",
+    "content": [
+        {
+            "choices": [
+                "A",
+                "B",
+                "C",
+                "D"
+            ],
+            "resultType": "MULTICHOICE_SINGLE",
+            "question": "**What is the main difference between a primary key and a foreign key?**\n\n<br/>\n\nA. A primary key is used to reference data in another table, while a foreign key is a unique identifier for each row in a table\n\nB. A primary key is a unique identifier for each row in a table, while a foreign key is used to reference data in another table\n\nC. A primary key is used in multiple tables, while a foreign key is used in a single table\n\nD. There is no difference between primary key and foreign key"
+        },
+        {
+            "choices": [
+                "A",
+                "B",
+                "C"
+            ],
+            "resultType": "MULTICHOICE_SINGLE",
+            "question": "**What is a one-to-many relationship in a database?**\n\n<br/>\n\nA. A relationship where one record in one table can be linked to multiple records in another table\n\nB. A relationship where multiple records in one table can be linked to one record in another table\n\nC. A relationship where multiple records in both tables can be linked to one record in each other's table"
+        },
+        {
+            "choices": [
+                "A",
+                "B",
+                "C",
+                "D"
+            ],
+            "resultType": "MULTICHOICE_SINGLE",
+            "question": "In a database of a school, each student can only belong to one class, but each class can have many students. \n\n**Which type of relationship is established between the students and the classes table?**\n\n<br/>\n\nA. One to One\n\nB. One to Many Mandatory\n\nC. One to Many Optional\n\nD. Many to Many"
+        },
+        {
+            "choices": [
+                "A",
+                "B",
+                "C",
+                "D"
+            ],
+            "resultType": "MULTICHOICE_SINGLE",
+            "question": "About the schema below, which answer is **WRONG**?\n\n![](https://i.imgur.com/B8WzLoz.png)\n\nA. A invoice must belong to a specific customer\n\nB. A customer must have at least 1 invoice\n\nC. In the Invoices Table, CustomerID is the Foreign Key\n\nD. In the Customers Table, CustomerID is the Primary Key"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Y8xDe9w.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**What are the names and unit prices of the five most expensive products?**\n\nOrder these products from most expensive to least expensive.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/x3jCGYQ.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**Get the list of five countries with the most number of customers staying there.**\n\nOrder these countries from most customers to least customers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/RHSnPK7.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**Get the list of five countries with the least number of suppliers staying there.**\n\nOrder the result by number of suppliers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Z3nScfY.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**Retrieve the list of category names with number of products in each category.**\n\nOrder the result by number of product descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/r3UZdT7.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**Retrieve the names and total revenue of the top 5 selling products.**\n\nOrder the result by total revenue descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Qai3Crt.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**How many orders does the company ship to \"Western Europe\" each year?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/VY3zjgm.png)"
+        },
+        {
+            "question": "**What are the company names of the customers who have ordered the product 'Tofu'?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/OkIYI2i.png)",
+            "resultType": "SQL"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**Retrieve customer IDs and company names of customer companies that have never placed an order.**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/v8ezSiO.png)"
+        },
+        {
+            "question": "**What are the company names of the suppliers that supply only one product?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/UHvFhzG.png)",
+            "resultType": "SQL"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**What are the names of employees who have taken orders from customers who live in the same city as the employee?**\n\nOrder the result by EmployeeID.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/yohxKjS.png)"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**List the top 5 products based on total quantity ordered.**\n\nOrder the result by total quantity descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/xA2yU1e.png)"
+        },
+        {
+            "question": "**Find the total number of orders and the total number of customers who have made orders in each country.**\n\n<br/>\n\n_Expected output_: (ordered by \"Total Order\" descending, and \"Total Customers\" ascending)\n\n![](https://i.imgur.com/qJsGkti.png)",
+            "resultType": "SQL"
+        },
+        {
+            "resultType": "SQL",
+            "question": "**Find the average revenue for each product category.**\n\n<br/>\n\n_Expected output_: (ordered by average revenue descending)\n\n![](https://i.imgur.com/wwdkkuJ.png)"
+        }
+    ]
+}

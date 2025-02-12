@@ -8,9 +8,9 @@ export default async function MultiChoicePage({
 }) {
 	const { examId, id } = await params;
 
-	const questions = await getExamQuestions(examId);
+	const data = await getExamQuestions(examId);
 
-	if (questions.length === 0) {
+	if (data.content.length === 0) {
 		return (
 			<div className="flex justify-center items-center h-screen">
 				No questions found
@@ -20,7 +20,7 @@ export default async function MultiChoicePage({
 
 	return (
 		<MultiChoiceClient
-			questions={questions}
+			data={data}
 			examId={examId}
 			initialQuestionId={parseInt(id)}
 		/>
