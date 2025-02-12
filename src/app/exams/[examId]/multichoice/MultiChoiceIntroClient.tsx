@@ -13,7 +13,7 @@ export default function MultiChoiceIntroClient({ examId }: { examId: string }) {
 	return (
 		<div className="w-full max-w-7xl p-6">
 			<div className="text-center space-y-4">
-				<h1 className="text-3xl font-bold">I. Multiple Choices</h1>
+				<h1 className="text-4xl font-bold">I. Multiple Choices</h1>
 				<p className="text-xl">
 					Please read the instructions carefully before starting
 				</p>
