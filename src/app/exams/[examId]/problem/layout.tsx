@@ -3,5 +3,5 @@ export default function ProblemLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <main className="flex-1 overflow-hidden">{children}</main>;
+	return <main className="flex-1">{children}</main>;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { SignedIn, useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 
 export default function MenuSheet() {
+	// Use state to control the open/close toggle of the sheet.
+	const [open, setOpen] = useState(false);
 	const { toast } = useToast();
 	const { user } = useUser();
 	const { signOut } = useClerk();
@@ -42,7 +45,9 @@ export default function MenuSheet() {
 		<>
 			<SignedIn>
 				<div className="absolute top-4 right-4">
-					<Sheet>
+					{/* Pass open and onOpenChange to control the toggle state.
+              Setting modal={false} ensures no overlay is rendered so the background remains visible. */}
+					<Sheet open={open} onOpenChange={setOpen} modal={false}>
 						<SheetTrigger asChild>
 							<Button
 								variant="outline"

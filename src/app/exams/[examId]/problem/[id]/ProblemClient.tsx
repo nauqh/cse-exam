@@ -167,7 +167,7 @@ export default function ProblemClient({
 	}, [handleRunCode]);
 
 	return (
-		<div className="p-2 h-[100vh] max-w-7xl 2xl:max-w-[70vw] mx-auto">
+		<div className="p-6 h-[100vh] max-w-[90vw] mx-auto">
 			<ResizablePanelGroup direction="horizontal">
 				{/* Problem description panel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
