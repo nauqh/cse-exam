@@ -17,7 +17,7 @@ const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
 
 	if (typeof data === "string") {
 		return (
-			<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto">
+			<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto 2xl:text-xl">
 				{data}
 			</div>
 		);
@@ -25,7 +25,7 @@ const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
 
 	if (!Array.isArray(data) || data.length === 0) {
 		return (
-			<div className="min-h-[150px] flex items-center justify-center text-gray-500">
+			<div className="min-h-[150px] flex items-center justify-center text-gray-500 2xl:text-xl">
 				No data available
 			</div>
 		);

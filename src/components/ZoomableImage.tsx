@@ -17,7 +17,7 @@ export default function ZoomableImage({ src }: { src: string }) {
 					alt="Question diagram"
 					width={800}
 					height={600}
-					className="object-contain w-full"
+					className="object-contain"
 					onClick={toggleZoom}
 				/>
 				<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center pointer-events-none">

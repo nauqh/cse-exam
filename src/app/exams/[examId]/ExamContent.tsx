@@ -32,7 +32,7 @@ export default function ExamContent({
 	}
 
 	return (
-		<section className="container mx-auto px-4 py-8 space-y-8">
+		<section className="max-w-6xl mx-auto p-12 space-y-8">
 			<div className="text-center space-y-4">
 				<h1 className="text-4xl font-bold">{examTitle} Final Exam</h1>
 				<p className="text-2xl text-primary">
@@ -119,9 +119,6 @@ export default function ExamContent({
 					>
 						start exam
 					</Button>
-					<p className="mt-8 text-2xl font-bold text-green-600 animate-pulse">
-						🍀 Good Luck! 🍀
-					</p>
 				</div>
 			</section>
 		</section>

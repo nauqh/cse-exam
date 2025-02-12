@@ -41,7 +41,7 @@ export default function ExamHome() {
 	}, []);
 
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen">
 			<div className="fixed top-6 right-6 z-50">
 				<MenuSheet />
 			</div>
@@ -71,7 +71,7 @@ export default function ExamHome() {
 									<div className="p-6 flex flex-col justify-between h-full">
 										<h2
 											className="
-												text-2xl font-semibold text-gray-800 mb-3 
+												text-xl font-semibold text-gray-800 mb-3 
 												transition-colors duration-300 group-hover:text-[#1d283a]
 											"
 										>
@@ -86,7 +86,7 @@ export default function ExamHome() {
 												text-white transition-colors duration-300
 											"
 										>
-											Start Exam →
+											Start exam →
 										</Button>
 									</div>
 								</div>
