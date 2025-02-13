@@ -193,7 +193,7 @@ export default function Home() {
 					</p>
 					<Link href="/exams">
 						<Button className="text-lg px-10 py-6 bg-[#1d283a] hover:bg-[#2a3a52]">
-							Attempt Exams →
+							Attempt exams →
 						</Button>
 					</Link>
 				</section>
@@ -217,7 +217,9 @@ export default function Home() {
 						<div className="hidden md:block"></div>
 
 						<div className="md:justify-self-end">
-							<h3 className="text-lg font-semibold">About</h3>
+							<h3 className="text-lg text-primary font-semibold">
+								About
+							</h3>
 							<ul className="mt-4 space-y-2 text-gray-600">
 								<li>
 									<Link
@@ -247,7 +249,7 @@ export default function Home() {
 						</div>
 
 						<div className="md:justify-self-end">
-							<h3 className="text-lg font-semibold">
+							<h3 className="text-primary text-lg font-semibold">
 								Follow us on
 							</h3>
 							<ul className="mt-4 space-y-2 text-gray-600">

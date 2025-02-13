@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { FaUserGraduate, FaStar, FaClipboardCheck } from "react-icons/fa";
 
 export default function HeroSection() {
 	return (
@@ -25,7 +24,7 @@ export default function HeroSection() {
 					<div className="flex flex-wrap gap-6 justify-center md:justify-start">
 						<Link href="/exams">
 							<Button className="text-lg px-8 py-6 bg-[#1d283a] hover:bg-[#2a3a52]">
-								Attempt Exams
+								Attempt exams
 							</Button>
 						</Link>
 						<Link href="/about">
@@ -33,7 +32,7 @@ export default function HeroSection() {
 								variant="outline"
 								className="text-lg px-8 py-6"
 							>
-								Learn More
+								Learn more
 							</Button>
 						</Link>
 					</div>
@@ -43,10 +42,10 @@ export default function HeroSection() {
 				<div className="w-full md:w-1/2 flex justify-center">
 					<div className="relative w-80 h-80 md:w-96 md:h-96">
 						{/* Decorative Paint Splash Background */}
-						<div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-300 via-pink-300 to-red-300 transform -rotate-6 z-0" />
+						<div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500 to-teal-400 -rotate-6 z-0" />
 
 						<Image
-							src="https://static.vecteezy.com/system/resources/previews/044/606/215/non_2x/happy-student-passed-online-test-girl-after-final-exam-dreaming-of-graduation-education-composition-doodle-icons-of-graduating-hat-and-laptop-illustration-of-success-in-studying-vector.jpg"
+							src="https://static.vecteezy.com/system/resources/previews/035/194/617/non_2x/men-prepare-for-exams-by-reading-books-trconcept-flat-illustration-vector.jpg"
 							alt="eExam Platform"
 							fill
 							className="rounded-3xl shadow-xl object-cover relative z-10"
