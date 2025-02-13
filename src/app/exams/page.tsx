@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import MenuSheet from "@/components/MenuSheet";
+import Navigation from "@/components/Navigation";
 
 const courses = [
 	{
@@ -42,11 +43,9 @@ export default function ExamHome() {
 
 	return (
 		<div className="min-h-screen">
-			<div className="fixed top-6 right-6 z-50">
-				<MenuSheet />
-			</div>
+			<Navigation />
 
-			<main className="container mx-auto px-4 py-12">
+			<main className="container mx-auto px-4 py-12 mt-8">
 				<div className="max-w-5xl mx-auto">
 					<header className="text-center mb-12">
 						<h1 className="text-5xl font-extrabold text-gray-800 mb-4">
