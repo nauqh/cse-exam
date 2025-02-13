@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SignedIn, useUser, useClerk } from "@clerk/nextjs";
+import { SignedIn, useUser, useClerk, UserProfile } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -14,6 +14,7 @@ import {
 	BsHouseDoor,
 	BsGraphUp,
 	BsGear,
+	BsPerson,
 } from "react-icons/bs";
 import { MdOutlineQuiz } from "react-icons/md";
 import {
@@ -96,6 +97,15 @@ export default function MenuSheet() {
 											>
 												<BsHouseDoor className="mr-3" />
 												Home
+											</Button>
+										</Link>
+										<Link href="/profile">
+											<Button
+												variant="ghost"
+												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+											>
+												<BsPerson className="mr-3" />
+												Profile
 											</Button>
 										</Link>
 										<Link href="/exams">

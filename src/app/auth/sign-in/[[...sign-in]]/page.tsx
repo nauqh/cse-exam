@@ -61,7 +61,7 @@ export default function Page() {
 			</div>
 
 			{/* eAssessment Info Section */}
-			<div className="hidden md:flex flex-col justify-center px-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg 2xl:w-[800px] 2xl:h-[1000px] 2xl:my-auto">
+			<div className="hidden md:flex flex-col justify-center p-12 bg-white shadow-lg border border-slate-100 m-6 rounded-lg 2xl:w-[800px] 2xl:h-[1000px] 2xl:my-auto">
 				<div>
 					<h1 className="text-4xl font-bold text-slate-800 mb-6">
 						eAssessment Platform
