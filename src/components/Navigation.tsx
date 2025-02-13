@@ -25,13 +25,13 @@ export default function Navigation() {
 		<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm border-b z-50">
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
-					<Link href="/" className="flex items-center">
+					<Link href="/" className="block">
 						<Image
 							src="/logo.png"
 							alt="eExams Logo"
-							width={150}
+							width={200}
 							height={100}
-							className="w-full h-full"
+							className="hover:opacity-90 transition-opacity"
 						/>
 					</Link>
 
