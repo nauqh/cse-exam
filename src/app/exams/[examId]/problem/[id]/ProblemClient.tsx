@@ -376,19 +376,12 @@ export default function ProblemClient({
 					}}
 				>
 					<div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-						<h2 className="text-2xl font-bold mb-4">
-							Answer Summary
-						</h2>
+						<h2 className="text-2xl font-bold mb-4">Summary</h2>
 						<div className="space-y-4">
 							{data.content.map((problem, index) => (
 								<div key={index + 1} className="border-b pb-2">
 									<p className="font-semibold">
 										Problem {index + 1}:
-									</p>
-									<p className="text-gray-600">
-										Language:{" "}
-										{answeredProblems[index + 1]
-											?.language || "Not answered"}
 									</p>
 									<pre className="bg-gray-50 p-2 mt-1 rounded">
 										{answeredProblems[index + 1]?.code ||

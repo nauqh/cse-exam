@@ -129,9 +129,6 @@ export default function FinalClient({ examId }: { examId: string }) {
 									<p className="font-medium">
 										Problem {problem}
 									</p>
-									<p className="text-gray-600">
-										Language: {data.language}
-									</p>
 									<pre className="bg-gray-50 p-3 rounded mt-2 overflow-x-auto">
 										<code>{data.code}</code>
 									</pre>

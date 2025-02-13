@@ -16,10 +16,11 @@
             "choices": [
                 "A",
                 "B",
-                "C"
+                "C",
+                "D"
             ],
             "resultType": "MULTICHOICE_SINGLE",
-            "question": "**What is a one-to-many relationship in a database?**\n\n<br/>\n\nA. A relationship where one record in one table can be linked to multiple records in another table\n\nB. A relationship where multiple records in one table can be linked to one record in another table\n\nC. A relationship where multiple records in both tables can be linked to one record in each other's table"
+            "question": "**What is a one-to-many relationship in a database?**\n\n<br/>\n\nA. A relationship where one record in one table can be linked to multiple records in another table\n\nB. A relationship where multiple records in one table can be linked to one record in another table\n\nC. A relationship where multiple records in both tables can be linked to one record in each other's table\n\nD. A relationship where one record in one table must be linked to exactly one record in another table"
         },
         {
             "choices": [

@@ -337,7 +337,7 @@ export default function MultiChoiceClient({
 						<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 							<div className="bg-white p-6 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
 								<h2 className="text-2xl font-bold mb-4">
-									Answer Summary
+									Summary
 								</h2>
 								<div className="space-y-4">
 									{data.content.map((question, index) => (

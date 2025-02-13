@@ -6,19 +6,21 @@
             "choices": [
                 "A",
                 "B",
-                "C"
+                "C",
+                "D"
             ],
             "resultType": "MULTICHOICE_SINGLE",
-            "question": "**Which of the following statements is true about a left join in SQL?**\n\n<br/>\n\nA. A left join returns all rows from both tables where the join condition is true.\n\nB. A left join returns all rows from the left table and matching rows from the right table.\n\nC. A left join returns all rows from the right table and matching rows from the left table."
+            "question": "**Which of the following statements is true about a left join in SQL?**\n\n<br/>\n\nA. A left join returns all rows from both tables where the join condition is true.\n\nB. A left join returns all rows from the left table and matching rows from the right table.\n\nC. A left join returns all rows from the right table and matching rows from the left table.\n\nD. A left join returns only matching rows from both tables that satisfy the join condition."
         },
         {
             "choices": [
                 "A",
                 "B",
-                "C"
+                "C",
+                "D"
             ],
             "resultType": "MULTICHOICE_SINGLE",
-            "question": "**What happens if there is no matching row in the right table in a left join?**\n\n<br/>\n\nA. The join fails and no rows are returned.\n\nB. The join includes a null value for the columns from the right table.\n\nC. The join only returns rows from the left table."
+            "question": "**What happens if there is no matching row in the right table in a left join?**\n\n<br/>\n\nA. The join fails and no rows are returned.\n\nB. The join includes a null value for the columns from the right table.\n\nC. The join only returns rows from the left table.\n\nD. The join skips the unmatched rows from the left table."
         },
         {
             "choices": [
