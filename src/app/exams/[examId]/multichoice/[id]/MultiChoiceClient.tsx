@@ -139,7 +139,7 @@ export default function MultiChoiceClient({
 			{currentQuestion ? (
 				<div className="grid grid-cols-12 gap-4">
 					<div className="col-span-9 grid grid-rows-[auto_1fr] gap-4">
-						<div className="bg-white rounded-lg overflow-y-auto">
+						<div className="bg-white rounded-lg overflow-y-auto [&::-webkit-scrollbar]:w-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100">
 							<h2 className="text-xl font-semibold mb-2">
 								Question {id}
 							</h2>

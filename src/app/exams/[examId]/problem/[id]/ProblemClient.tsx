@@ -174,7 +174,7 @@ export default function ProblemClient({
 					<div className="h-full flex flex-col border rounded-sm justify-between">
 						<Tabs
 							defaultValue="description"
-							className="overflow-auto"
+							className="overflow-auto [&::-webkit-scrollbar]:w-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100"
 						>
 							<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none sticky top-0 z-10">
 								<TabsTrigger
