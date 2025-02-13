@@ -6,7 +6,6 @@ import { StatusFilters } from "@/components/exam/StatusFilters";
 import { ExamCard } from "@/components/exam/ExamCard";
 import { ExamSubmission } from "@/components/exam/ExamCard";
 import { DateFilter } from "@/components/exam/DateFilter";
-import MenuSheet from "@/components/MenuSheet";
 import { BiCommentError } from "react-icons/bi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DateRange } from "react-day-picker";
@@ -99,25 +98,17 @@ export default function ProfilePage() {
 
 	return (
 		<div className="flex h-screen">
-			{/* Hidden on mobile, visible on md breakpoint and up */}
-			<div className="hidden md:block">
-				<Sidebar
-					currentView={currentView}
-					setCurrentView={setCurrentView}
-				/>
-			</div>
-
-			{/* Show MenuSheet only on mobile */}
-			<div className="md:hidden fixed top-1 right-1 z-50">
-				<MenuSheet />
-			</div>
+			<Sidebar
+				currentView={currentView}
+				setCurrentView={setCurrentView}
+			/>
 
 			<main className="flex-1 overflow-auto">
 				<div className="container mx-auto px-4 py-8">
 					<div className="max-w-4xl mx-auto space-y-8">
 						<section className="text-center space-y-4">
-							<h1 className="text-4xl font-bold">My Profile</h1>
-							<p className="text-xl text-muted-foreground">
+							<h1 className="text-2xl font-bold">My Profile</h1>
+							<p className="text-lg text-muted-foreground">
 								View your exam history and manage your profile
 							</p>
 						</section>

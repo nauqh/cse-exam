@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-import MenuSheet from "@/components/MenuSheet";
 import Navigation from "@/components/Navigation";
 
 const courses = [
