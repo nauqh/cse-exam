@@ -53,13 +53,15 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 	return (
 		<div className="h-screen w-16 md:w-[20vw] border-r bg-white flex flex-col">
 			<div className="p-2 md:p-4 border-b">
-				<div className="flex items-center gap-3">
-					<Link href={`/profile`}>
-						<Avatar>
-							<AvatarImage src={user?.imageUrl} />
-							<AvatarFallback>CN</AvatarFallback>
-						</Avatar>
-					</Link>
+				<div className="flex items-center md:gap-3">
+					<div className="w-full md:w-auto flex justify-center md:justify-start">
+						<Link href={`/profile`}>
+							<Avatar>
+								<AvatarImage src={user?.imageUrl} />
+								<AvatarFallback>CN</AvatarFallback>
+							</Avatar>
+						</Link>
+					</div>
 					<div className="hidden md:block text-sm">
 						<p className="font-medium">{user?.fullName}</p>
 						<p className="text-gray-500 text-xs">

@@ -107,7 +107,7 @@ export default function ProfilePage() {
 				<div className="container mx-auto px-4 py-8">
 					<div className="max-w-4xl mx-auto space-y-8">
 						<section className="text-center space-y-4">
-							<h1 className="text-2xl font-bold">My Profile</h1>
+							<h1 className="text-3xl font-bold">My Profile</h1>
 							<p className="text-lg text-muted-foreground">
 								View your exam history and manage your profile
 							</p>
@@ -119,7 +119,7 @@ export default function ProfilePage() {
 							</section>
 						) : (
 							<section className="space-y-6">
-								<h2 className="text-2xl font-semibold">
+								<h2 className="text-xl font-semibold">
 									Exam History
 								</h2>
 								{isLoading ? (
