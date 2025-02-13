@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { BiLogOut } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 export default function Navigation() {
 	const { user } = useUser();
@@ -25,7 +26,13 @@ export default function Navigation() {
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
 					<Link href="/" className="flex items-center">
-						<span className="text-xl font-bold">eExams</span>
+						<Image
+							src="/logo.png"
+							alt="eExams Logo"
+							width={150}
+							height={100}
+							className="w-full h-full"
+						/>
 					</Link>
 
 					<SignedIn>
