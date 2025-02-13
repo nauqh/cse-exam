@@ -55,133 +55,101 @@ export default function MenuSheet() {
 								<GiHamburgerMenu className="h-5 w-5" />
 							</Button>
 						</SheetTrigger>
-						<SheetContent className="w-[300px] p-0 rounded-lg shadow-lg">
-							<SheetHeader className="p-4 border-b">
-								<SheetTitle>
-									<div className="flex items-center gap-3">
-										<Link href={`/profile`}>
-											<Avatar>
-												<AvatarImage
-													src={user?.imageUrl}
-												/>
-												<AvatarFallback>
-													CN
-												</AvatarFallback>
-											</Avatar>
-										</Link>
-										<div className="text-sm">
-											<p className="font-medium">
-												{user?.fullName}
-											</p>
-											<p className="text-gray-500 text-xs">
-												{
-													user?.primaryEmailAddress
-														?.emailAddress
-												}
-											</p>
+						<SheetContent className="w-[20vw] p-0 rounded-lg shadow-lg">
+							<div className="flex flex-col h-full">
+								<SheetHeader className="p-4 border-b">
+									<SheetTitle>
+										<div className="flex items-center gap-3">
+											<Link href={`/profile`}>
+												<Avatar>
+													<AvatarImage
+														src={user?.imageUrl}
+													/>
+													<AvatarFallback>
+														CN
+													</AvatarFallback>
+												</Avatar>
+											</Link>
+											<div className="text-sm">
+												<p className="font-medium">
+													{user?.fullName}
+												</p>
+												<p className="text-gray-500 text-xs">
+													{
+														user
+															?.primaryEmailAddress
+															?.emailAddress
+													}
+												</p>
+											</div>
+										</div>
+									</SheetTitle>
+								</SheetHeader>
+
+								<div className="flex-1 overflow-y-auto">
+									<div className="px-4 py-2">
+										<h3 className="text-sm font-medium text-gray-500">
+											Main
+										</h3>
+										<div className="space-y-1 mt-2">
+											<Link href="/">
+												<Button
+													variant="ghost"
+													className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+												>
+													<BsHouseDoor className="mr-3" />
+													Home
+												</Button>
+											</Link>
+											<Link href="/profile">
+												<Button
+													variant="ghost"
+													className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+												>
+													<BsPerson className="mr-3" />
+													Profile
+												</Button>
+											</Link>
+											<Link href="/exams">
+												<Button
+													variant="ghost"
+													className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+												>
+													<MdOutlineQuiz className="mr-3" />
+													Exams
+												</Button>
+											</Link>
 										</div>
 									</div>
-								</SheetTitle>
-							</SheetHeader>
 
-							<div className="flex flex-col max-h-[80vh] overflow-y-auto">
-								<div className="px-4 py-2">
-									<h3 className="text-sm font-medium text-gray-500">
-										Main
-									</h3>
-									<div className="space-y-1 mt-2">
-										<Link href="/">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsHouseDoor className="mr-3" />
-												Home
-											</Button>
-										</Link>
-										<Link href="/profile">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsPerson className="mr-3" />
-												Profile
-											</Button>
-										</Link>
-										<Link href="/exams">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<MdOutlineQuiz className="mr-3" />
-												Exams
-											</Button>
-										</Link>
+									<div className="px-4 py-2">
+										<h3 className="text-sm font-medium text-gray-500">
+											Tools
+										</h3>
+										<div className="space-y-1 mt-2">
+											<Link href="/analytics">
+												<Button
+													variant="ghost"
+													className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+												>
+													<BsGraphUp className="mr-3" />
+													Analytics
+												</Button>
+											</Link>
+											<Link href="/settings">
+												<Button
+													variant="ghost"
+													className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
+												>
+													<BsGear className="mr-3" />
+													Settings
+												</Button>
+											</Link>
+										</div>
 									</div>
 								</div>
 
-								<div className="px-4 py-2">
-									<h3 className="text-sm font-medium text-gray-500">
-										Management
-									</h3>
-									<div className="space-y-1 mt-2">
-										<Link href="/courses">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsBook className="mr-3" />
-												Courses
-											</Button>
-										</Link>
-										<Link href="/students">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsPeople className="mr-3" />
-												Students
-											</Button>
-										</Link>
-										<Link href="/results">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsCardChecklist className="mr-3" />
-												Results
-											</Button>
-										</Link>
-									</div>
-								</div>
-
-								<div className="px-4 py-2">
-									<h3 className="text-sm font-medium text-gray-500">
-										Tools
-									</h3>
-									<div className="space-y-1 mt-2">
-										<Link href="/analytics">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsGraphUp className="mr-3" />
-												Analytics
-											</Button>
-										</Link>
-										<Link href="/settings">
-											<Button
-												variant="ghost"
-												className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100"
-											>
-												<BsGear className="mr-3" />
-												Settings
-											</Button>
-										</Link>
-									</div>
-								</div>
-
-								<div className="mt-auto border-t px-4 py-3">
+								<div className="border-t px-4 py-3">
 									<Button
 										variant="ghost"
 										onClick={handleSignOut}
