@@ -59,6 +59,28 @@ export default function MultiChoiceClient({
 		}
 	}, [id, data.content.length, examId, router]);
 
+	useEffect(() => {
+		const handleKeyPress = (event: KeyboardEvent) => {
+			if (!currentQuestion?.choices) return;
+
+			const key = event.key.toLowerCase();
+			if (["a", "b", "c", "d"].includes(key)) {
+				const index = key.charCodeAt(0) - "a".charCodeAt(0);
+				if (index < currentQuestion.choices.length) {
+					setSelectedOption(currentQuestion.choices[index]);
+				}
+			}
+			if (event.key === "Enter" && selectedOption) {
+				handleSubmit();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyPress);
+		return () => {
+			window.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [currentQuestion, selectedOption]);
+
 	const handleSubmit = () => {
 		if (!selectedOption) {
 			toast({
@@ -214,29 +236,35 @@ export default function MultiChoiceClient({
 
 						{currentQuestion.choices && (
 							<div className="bg-white rounded-lg p-4 overflow-y-auto">
+								<div className="text-sm text-muted-foreground mb-2">
+									Press any key to select an option. Press
+									Enter to submit.
+								</div>
 								<RadioGroup
 									value={selectedOption}
 									onValueChange={setSelectedOption}
 								>
-									{currentQuestion.choices.map((choice) => (
-										<div
-											key={choice}
-											className="flex items-center space-x-2"
-										>
-											<RadioGroupItem
-												value={choice}
-												id={choice}
-											/>
-											<Label
-												htmlFor={choice}
-												className="text-base"
+									{currentQuestion.choices.map(
+										(choice, index) => (
+											<div
+												key={choice}
+												className="flex items-center space-x-2"
 											>
-												<ReactMarkdown>
-													{choice}
-												</ReactMarkdown>
-											</Label>
-										</div>
-									))}
+												<RadioGroupItem
+													value={choice}
+													id={choice}
+												/>
+												<Label
+													htmlFor={choice}
+													className="text-base"
+												>
+													<ReactMarkdown>
+														{choice}
+													</ReactMarkdown>
+												</Label>
+											</div>
+										)
+									)}
 								</RadioGroup>
 							</div>
 						)}

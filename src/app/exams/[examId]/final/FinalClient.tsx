@@ -110,7 +110,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 										Question {question}
 									</p>
 									<p className="text-gray-600">
-										Selected Answer: {answer}
+										Answer: {answer}
 									</p>
 								</div>
 							)

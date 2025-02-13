@@ -60,7 +60,13 @@ export function ExamCard({ exam }: { exam: ExamSubmission }) {
 					}`}
 				>
 					{exam.status.charAt(0).toUpperCase() + exam.status.slice(1)}
-					{exam.score !== undefined && <span> ({exam.score})</span>}
+					{exam.score !== undefined && (
+						<span>
+							{exam.status === "marking"
+								? " (_)"
+								: ` (${exam.score})`}
+						</span>
+					)}
 				</div>
 				{exam.status === "failed" ? (
 					<Link href={`/exams/${exam.exam_id}`}>
