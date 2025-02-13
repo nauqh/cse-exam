@@ -167,7 +167,7 @@ export default function ProblemClient({
 	}, [handleRunCode]);
 
 	return (
-		<div className="p-6 h-[100vh] w-[90vw]">
+		<div className="p-6 h-[100vh] w-full">
 			<ResizablePanelGroup direction="horizontal">
 				{/* Problem description panel */}
 				<ResizablePanel defaultSize={50} minSize={30}>
@@ -176,7 +176,7 @@ export default function ProblemClient({
 							defaultValue="description"
 							className="overflow-auto"
 						>
-							<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none">
+							<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none sticky top-0 z-10">
 								<TabsTrigger
 									value="description"
 									className="hover:bg-gray-100 flex items-center gap-2"
@@ -250,7 +250,7 @@ export default function ProblemClient({
 							minSize={10}
 							className="flex-1 overflow-hidden flex flex-col"
 						>
-							<div className="flex items-center justify-between p-2 border-b">
+							<div className="flex items-center justify-between p-2 border-b bg-gray-50">
 								<div className="flex items-center gap-4">
 									<h1 className="text-lg font-semibold">
 										Input
@@ -278,12 +278,14 @@ export default function ProblemClient({
 								</Select>
 							</div>
 
-							<CodeMirror
-								value={code}
-								height="100%"
-								onChange={handleCodeChange}
-								className="h-full 2xl:text-xl"
-							/>
+							<div className="flex-1 overflow-auto">
+								<CodeMirror
+									value={code}
+									height="100%"
+									onChange={handleCodeChange}
+									className="h-full 2xl:text-xl"
+								/>
+							</div>
 						</ResizablePanel>
 
 						<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
