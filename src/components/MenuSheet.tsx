@@ -1,5 +1,5 @@
 "use client";
-
+// Deprecated: This file is no longer in use. Refer to Sidebar.tsx
 import { useState } from "react";
 import { SignedIn, useUser, useClerk, UserProfile } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
