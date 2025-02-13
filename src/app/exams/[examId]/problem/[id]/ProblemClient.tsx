@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
 import { BiHelpCircle, BiCodeAlt, BiMessageRoundedDots } from "react-icons/bi";
@@ -39,6 +39,7 @@ export default function ProblemClient({
 }) {
 	const { toast } = useToast();
 	const router = useRouter();
+	const editorRef = useRef<any>(null);
 	const [code, setCode] = useState<string>("");
 	const [output, setOutput] = useState<OutputType>({
 		output: "",
@@ -157,6 +158,9 @@ export default function ProblemClient({
 			if (event.ctrlKey && event.key === "Enter") {
 				event.preventDefault();
 				handleRunCode();
+			} else if (event.shiftKey && event.key === "Enter") {
+				event.preventDefault();
+				handleSubmit();
 			}
 		};
 
@@ -164,7 +168,28 @@ export default function ProblemClient({
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [handleRunCode]);
+	}, [handleRunCode, handleSubmit]);
+
+	// Add keyboard event listener for editor focus
+	useEffect(() => {
+		const handleGlobalKeyPress = (event: KeyboardEvent) => {
+			if (
+				event.target instanceof HTMLInputElement ||
+				event.target instanceof HTMLTextAreaElement
+			) {
+				return;
+			}
+
+			if (editorRef.current?.view?.focus) {
+				editorRef.current.view.focus();
+			}
+		};
+
+		window.addEventListener("keydown", handleGlobalKeyPress);
+		return () => {
+			window.removeEventListener("keydown", handleGlobalKeyPress);
+		};
+	}, []);
 
 	return (
 		<div className="p-6 h-[100vh] w-full">
@@ -255,8 +280,18 @@ export default function ProblemClient({
 									<h1 className="text-lg font-semibold">
 										Input
 									</h1>
-									<span className="text-xs text-gray-500 bg-gray-100 p-2 rounded-md">
-										Ctrl+Enter to run code
+
+									<span className="text-xs text-gray-500">
+										<span className="text-xs text-gray-500 bg-gray-100 p-2 rounded-md">
+											Ctrl+Enter
+										</span>
+										{" to run code"}
+									</span>
+									<span className="text-xs text-gray-500">
+										<span className="text-xs text-gray-500 bg-gray-100 p-2 rounded-md">
+											Shift+Enter
+										</span>
+										{" to submit"}
 									</span>
 								</div>
 								<Select
@@ -280,6 +315,7 @@ export default function ProblemClient({
 
 							<div className="flex-1 overflow-auto">
 								<CodeMirror
+									ref={editorRef}
 									value={code}
 									height="100%"
 									onChange={handleCodeChange}
