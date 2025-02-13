@@ -40,7 +40,7 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 			description: "Signing out...",
 			duration: 3000,
 		});
-		signOut({ redirectUrl: "/auth/sign-in" });
+		signOut();
 	};
 
 	return (

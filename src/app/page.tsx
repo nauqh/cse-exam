@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import MenuSheet from "@/components/MenuSheet";
+import Navigation from "@/components/Navigation";
 import {
 	FaBook,
 	FaDesktop,
@@ -87,12 +87,9 @@ const steps = [
 export default function Home() {
 	return (
 		<div className="min-h-screen flex flex-col">
-			{/* Mobile Menu */}
-			<div className="fixed top-4 right-4 md:top-6 md:right-6 z-50">
-				<MenuSheet />
-			</div>
+			<Navigation />
 
-			<main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-16 flex-grow">
+			<main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-24 flex-grow">
 				<HeroSection />
 
 				{/* How It Works Section */}
