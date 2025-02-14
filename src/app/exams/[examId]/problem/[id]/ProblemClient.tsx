@@ -116,7 +116,7 @@ export default function ProblemClient({
 		}
 	}, [code, language]);
 
-	const handleSubmit = () => {
+	const handleSubmit = useCallback(() => {
 		if (!code) {
 			toast({
 				description: "Please write some code before submitting",
@@ -137,7 +137,15 @@ export default function ProblemClient({
 		if (currentPage < data.content.length) {
 			handlePageChange(currentPage + 1);
 		}
-	};
+	}, [
+		code,
+		language,
+		currentPage,
+		answeredProblems,
+		data.content.length,
+		toast,
+		handlePageChange,
+	]);
 
 	const handleReset = () => {
 		const newAnswers = { ...answeredProblems };

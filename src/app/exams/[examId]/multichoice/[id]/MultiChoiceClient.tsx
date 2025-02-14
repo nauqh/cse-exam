@@ -38,6 +38,29 @@ export default function MultiChoiceClient({
 	const totalQuestions = data.content.length;
 	const { toast, dismiss } = useToast();
 
+	const handleSubmit = () => {
+		if (!selectedOption) {
+			toast({
+				description: "Please choose an option",
+				className: "bg-yellow-100 text-yellow-900",
+				duration: 3000,
+			});
+			return;
+		}
+
+		const newAnswers = {
+			...answeredQuestions,
+			[id]: selectedOption,
+		};
+
+		setAnsweredQuestions(newAnswers);
+		localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
+
+		if (id < data.content.length) {
+			router.push(`/exams/${examId}/multichoice/${id + 1}`);
+		}
+	};
+
 	useEffect(() => {
 		const savedAnswers = localStorage.getItem("multichoiceAnswers");
 		if (savedAnswers) {
@@ -79,30 +102,7 @@ export default function MultiChoiceClient({
 		return () => {
 			window.removeEventListener("keydown", handleKeyPress);
 		};
-	}, [currentQuestion, selectedOption]);
-
-	const handleSubmit = () => {
-		if (!selectedOption) {
-			toast({
-				description: "Please choose an option",
-				className: "bg-yellow-100 text-yellow-900",
-				duration: 3000,
-			});
-			return;
-		}
-
-		const newAnswers = {
-			...answeredQuestions,
-			[id]: selectedOption,
-		};
-
-		setAnsweredQuestions(newAnswers);
-		localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
-
-		if (id < data.content.length) {
-			router.push(`/exams/${examId}/multichoice/${id + 1}`);
-		}
-	};
+	}, [currentQuestion, selectedOption, handleSubmit]);
 
 	const handleReset = () => {
 		const newAnswers = { ...answeredQuestions };
