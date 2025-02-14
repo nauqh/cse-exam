@@ -60,7 +60,7 @@ export default function ProfilePage() {
 		};
 
 		fetchExamHistory();
-	}, []);
+	}, [user?.emailAddresses]);
 
 	const filteredHistory = examHistory
 		.filter((exam) =>
