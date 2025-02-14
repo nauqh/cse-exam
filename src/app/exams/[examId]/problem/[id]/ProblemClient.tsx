@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { ExamContent } from "@/lib/questions";
 import CodeOutput from "@/components/CodeOutput";
+import type { EditorView } from "@uiw/react-codemirror";
 
 type OutputType = {
 	output: Record<string, string>[] | string;
@@ -39,7 +40,7 @@ export default function ProblemClient({
 }) {
 	const { toast } = useToast();
 	const router = useRouter();
-	const editorRef = useRef<any>(null);
+	const editorRef = useRef<{ view?: EditorView }>(null);
 	const [code, setCode] = useState<string>("");
 	const [output, setOutput] = useState<OutputType>({
 		output: "",
@@ -191,7 +192,7 @@ export default function ProblemClient({
 				return;
 			}
 
-			if (editorRef.current?.view?.focus) {
+			if (editorRef.current?.view) {
 				editorRef.current.view.focus();
 			}
 		};
