@@ -76,10 +76,13 @@ export default function ProblemClient({
 
 	const currentProblem = data.content[currentPage - 1];
 
-	const handlePageChange = (page: number) => {
-		router.push(`/exams/${examId}/problem/${page}`);
-		setCurrentPage(page);
-	};
+	const handlePageChange = useCallback(
+		(page: number) => {
+			router.push(`/exams/${examId}/problem/${page}`);
+			setCurrentPage(page);
+		},
+		[router, examId]
+	);
 
 	const handleCodeChange = useCallback((value: string) => {
 		setCode(value);

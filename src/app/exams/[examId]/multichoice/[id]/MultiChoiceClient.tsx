@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -38,7 +38,7 @@ export default function MultiChoiceClient({
 	const totalQuestions = data.content.length;
 	const { toast, dismiss } = useToast();
 
-	const handleSubmit = () => {
+	const handleSubmit = useCallback(() => {
 		if (!selectedOption) {
 			toast({
 				description: "Please choose an option",
@@ -59,7 +59,15 @@ export default function MultiChoiceClient({
 		if (id < data.content.length) {
 			router.push(`/exams/${examId}/multichoice/${id + 1}`);
 		}
-	};
+	}, [
+		selectedOption,
+		answeredQuestions,
+		id,
+		data.content.length,
+		examId,
+		router,
+		toast,
+	]);
 
 	useEffect(() => {
 		const savedAnswers = localStorage.getItem("multichoiceAnswers");
