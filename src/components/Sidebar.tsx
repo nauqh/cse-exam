@@ -47,10 +47,16 @@ const NavButton = ({
 		<Button
 			variant="ghost"
 			onClick={onClick}
-			className={`w-full justify-start text-base font-normal h-11 ${className}`}
+			className={`w-full justify-start text-base font-normal h-11 
+			px-2 sm:px-3 transition-all
+			${className}`}
 		>
-			<span className="mr-0 md:mr-3">{icon}</span>
-			<span className="hidden md:inline">{label}</span>
+			<span className="mr-0 sm:mr-2 md:mr-3 text-lg sm:text-base">
+				{icon}
+			</span>
+			<span className="hidden sm:inline text-sm md:text-base">
+				{label}
+			</span>
 		</Button>
 	</Link>
 );
@@ -109,20 +115,25 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 	);
 
 	return (
-		<div className="h-screen w-16 md:w-[20vw] border-r bg-white flex flex-col">
-			<div className="p-2 md:p-4 border-b">
-				<div className="flex items-center md:gap-3">
-					<div className="w-full md:w-auto flex justify-center md:justify-start">
+		<div
+			className="h-screen w-14 sm:w-48 md:w-56 lg:w-64 border-r bg-white flex flex-col 
+		transition-all duration-300 ease-in-out"
+		>
+			<div className="p-2 sm:p-3 md:p-4 border-b">
+				<div className="flex items-center gap-2 sm:gap-3">
+					<div className="w-full sm:w-auto flex justify-center sm:justify-start">
 						<Link href={`/profile`}>
-							<Avatar>
+							<Avatar className="h-8 w-8 sm:h-10 sm:w-10">
 								<AvatarImage src={user?.imageUrl} />
 								<AvatarFallback>CN</AvatarFallback>
 							</Avatar>
 						</Link>
 					</div>
-					<div className="hidden md:block text-sm">
-						<p className="font-medium">{user?.fullName}</p>
-						<p className="text-gray-500 text-xs">
+					<div className="hidden sm:block text-sm">
+						<p className="font-medium text-sm md:text-base truncate max-w-[120px] md:max-w-[150px]">
+							{user?.fullName}
+						</p>
+						<p className="text-gray-500 text-xs md:text-sm truncate max-w-[120px] md:max-w-[150px]">
 							{user?.primaryEmailAddress?.emailAddress}
 						</p>
 					</div>
@@ -130,19 +141,19 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 			</div>
 
 			<div className="flex flex-col flex-1 overflow-y-auto">
-				<div className="px-2 md:px-4 py-4 border-b">
-					<div className="md:hidden flex items-center justify-center">
-						<BsClockHistory className="h-4 w-4 text-gray-500" />
+				<div className="px-2 sm:px-3 md:px-4 py-3 md:py-4 border-b">
+					<div className="sm:hidden flex items-center justify-center">
+						{viewIcons[currentView || "history"]}
 					</div>
 					{setCurrentView && (
-						<div className="hidden md:block">
+						<div className="hidden sm:block">
 							<Select
 								value={currentView}
 								onValueChange={(
 									value: "history" | "settings"
 								) => setCurrentView(value)}
 							>
-								<SelectTrigger className="w-full h-11 focus:ring-0 focus:ring-offset-0">
+								<SelectTrigger className="w-full h-10 md:h-11 text-sm md:text-base focus:ring-0 focus:ring-offset-0">
 									<SelectValue
 										placeholder={
 											<div className="flex items-center">
@@ -151,7 +162,7 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 														currentView || "history"
 													]
 												}
-												<span className="ml-2">
+												<span className="ml-2 truncate">
 													{currentView === "history"
 														? "Exam History"
 														: "Profile Settings"}
@@ -163,14 +174,18 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 								<SelectContent>
 									<SelectItem value="history">
 										<div className="flex items-center">
-											<BsClockHistory className="h-4 w-4 mr-4" />
-											<span>Exam history</span>
+											<BsClockHistory className="h-4 w-4 mr-2 md:mr-4" />
+											<span className="text-sm md:text-base">
+												Exam history
+											</span>
 										</div>
 									</SelectItem>
 									<SelectItem value="settings">
 										<div className="flex items-center">
-											<BsGearFill className="h-4 w-4 mr-4" />
-											<span>Profile settings</span>
+											<BsGearFill className="h-4 w-4 mr-2 md:mr-4" />
+											<span className="text-sm md:text-base">
+												Profile settings
+											</span>
 										</div>
 									</SelectItem>
 								</SelectContent>
@@ -183,7 +198,7 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 				{renderNavSection("Management", navItems.management)}
 				{renderNavSection("Tools", navItems.tools)}
 
-				<div className="mt-auto border-t px-2 md:px-4 py-3">
+				<div className="mt-auto border-t px-1 sm:px-2 md:px-4 py-2 md:py-3">
 					<NavButton
 						href=""
 						icon={<BiLogIn />}
