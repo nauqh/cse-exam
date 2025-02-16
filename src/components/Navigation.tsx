@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { SignedIn, SignedOut, useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -42,22 +43,20 @@ export default function Navigation() {
 	const handleSearch = () => {
 		if (!searchQuery.trim()) {
 			toast({
-				description: "Please enter a search term",
+				description: "Blank space? I'm no Taylor Swift - fill it up!",
 				duration: 3000,
 			});
 			return;
 		}
-		// Implement your search logic here
 		setSearchQuery("");
-		setIsSearchOpen(false);
 	};
 
 	return (
 		<>
-			<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+			<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm shadow-sm z-50">
+				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex justify-between items-center h-20">
-						<Link href="/" className="block">
+						<Link href="/" className="flex-shrink-0">
 							<Image
 								src="/logo.png"
 								alt="eExams Logo"
@@ -67,59 +66,77 @@ export default function Navigation() {
 							/>
 						</Link>
 
-						<div className="hidden md:flex items-center space-x-4">
+						{/* Search Button Group */}
+						<div className="hidden sm:flex items-center max-w-md flex-1 mx-8">
+							<div
+								className="flex items-center w-full border border-gray-200 rounded-lg transition-colors cursor-pointer group hover:border-primary bg-gray-50/50"
+								onClick={() => setIsSearchOpen(!isSearchOpen)}
+							>
+								<input
+									type="text"
+									placeholder="Quick search..."
+									className="w-full px-4 py-2 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary"
+									value={searchQuery}
+									onChange={(e) =>
+										setSearchQuery(e.target.value)
+									}
+								/>
+								<div className="p-2.5 text-gray-400 group-hover:text-primary transition-all duration-200">
+									<BiSearch className="h-5 w-5" />
+								</div>
+							</div>
+						</div>
+
+						<div className="hidden md:flex items-center space-x-2">
 							<Link href="/exams">
 								<Button
 									variant="ghost"
-									className="flex items-center gap-2"
+									className="flex items-center "
 								>
-									<BiBook className="h-5 w-5" />
+									<BiBook className="h-6 w-6" />
 									<span>Exams</span>
 								</Button>
 							</Link>
 							<Link href="/profile">
 								<Button
 									variant="ghost"
-									className="flex items-center gap-2"
+									className="flex items-center "
 								>
-									<BiUser className="h-5 w-5" />
+									<BiUser className="h-6 w-6" />
 									<span>Profile</span>
 								</Button>
 							</Link>
-							<Link href="/settings">
+							<Link href="https://www.coderschool.vn">
 								<Button
 									variant="ghost"
-									className="flex items-center gap-2"
+									className="flex items-center"
 								>
-									<BiChalkboard className="h-5 w-5" />
+									<BiChalkboard className="h-6 w-6" />
 									<span>Courses</span>
 								</Button>
 							</Link>
-							{/* Search Button */}
-							<Button
-								variant="ghost"
-								className="p-2 hover:rotate-90 transition-transform duration-200"
-								onClick={() => setIsSearchOpen(!isSearchOpen)}
-							>
-								<BiSearch className="h-5 w-5" />
-							</Button>
 						</div>
 
 						<SignedIn>
-							<div className="flex items-center gap-4">
+							<div className="flex items-center gap-2 ml-4">
+								<Button
+									variant="ghost"
+									size="sm"
+									className="md:hidden"
+									onClick={() => setIsSearchOpen(true)}
+								>
+									<BiSearch className="h-5 w-5" />
+								</Button>
 								<DropdownMenu>
-									<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-100 rounded-xl p-2 transition-colors outline-none">
+									<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-50 rounded-full p-1.5 transition-colors outline-none">
 										<Avatar className="h-8 w-8">
 											<AvatarImage src={user?.imageUrl} />
 											<AvatarFallback>CN</AvatarFallback>
 										</Avatar>
-										<span className="hidden md:inline text-sm font-medium">
-											{user?.fullName}
-										</span>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent
 										align="end"
-										className="w-[20vw]"
+										className="w-56"
 									>
 										<DropdownMenuLabel>
 											My Account
@@ -153,16 +170,7 @@ export default function Navigation() {
 						<SignedOut>
 							<div className="flex items-center gap-4">
 								<Link href="/auth/sign-in">
-									<Button className="w-[10vw] relative overflow-hidden border border-[#1d283a] bg-transparent text-[#1d283a] hover:text-white font-medium transition-colors duration-300 before:absolute before:inset-y-0 before:left-[25%] before:w-1/2 before:bg-[#1d283a] before:scale-x-0 hover:before:scale-x-[200%] before:transition-transform before:duration-500 before:ease-out before:origin-center">
-										<span className="relative z-10">
-											Sign in
-										</span>
-									</Button>
-								</Link>
-								<Link href="/auth/sign-up">
-									<Button className="bg-[#1d283a] hover:bg-[#2a3a52] font-medium">
-										Sign Up
-									</Button>
+									<Button className="px-6">Sign in</Button>
 								</Link>
 							</div>
 						</SignedOut>
@@ -197,20 +205,7 @@ export default function Navigation() {
 							<button
 								className="absolute right-0 top-0 h-full px-6 rounded-r-lg bg-transparent hover:bg-primary text-primary hover:text-white transition-all"
 								onClick={() => {
-									if (!searchQuery.trim()) {
-										console.log(
-											"Blank space? I'm no Taylor Swift—fill it up!"
-										);
-										toast({
-											description:
-												"Blank space? I'm no Taylor Swift—fill it up!",
-											className:
-												"bg-yellow-100 text-yellow-800",
-											duration: 3000,
-										});
-									} else {
-										handleSearch();
-									}
+									handleSearch();
 								}}
 							>
 								Search
@@ -245,6 +240,7 @@ export default function Navigation() {
 					</div>
 				</div>
 			</div>
+			<Toaster />
 		</>
 	);
 }
