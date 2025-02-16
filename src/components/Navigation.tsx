@@ -4,9 +4,17 @@ import Link from "next/link";
 import { SignedIn, SignedOut, useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut, BiBook, BiUser, BiCog } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navigation() {
 	const { user } = useUser();
@@ -36,49 +44,89 @@ export default function Navigation() {
 					</Link>
 
 					<SignedIn>
-						<div className="hidden md:flex items-center space-x-6">
+						<div className="hidden md:flex items-center space-x-4">
 							<Link href="/exams">
-								<Button variant="ghost">Exams</Button>
+								<Button
+									variant="ghost"
+									className="flex items-center gap-2"
+								>
+									<BiBook className="h-5 w-5" />
+									<span>Exams</span>
+								</Button>
 							</Link>
-							<Link href="/analytics">
-								<Button variant="ghost">Analytics</Button>
+							<Link href="/profile">
+								<Button
+									variant="ghost"
+									className="flex items-center gap-2"
+								>
+									<BiUser className="h-5 w-5" />
+									<span>Profile</span>
+								</Button>
 							</Link>
 							<Link href="/settings">
-								<Button variant="ghost">Settings</Button>
+								<Button
+									variant="ghost"
+									className="flex items-center gap-2"
+								>
+									<BiCog className="h-5 w-5" />
+									<span>Courses</span>
+								</Button>
 							</Link>
 						</div>
 
 						<div className="flex items-center gap-4">
-							<Link
-								href="/profile"
-								className="flex items-center gap-2"
-							>
-								<Avatar className="h-8 w-8">
-									<AvatarImage src={user?.imageUrl} />
-									<AvatarFallback>CN</AvatarFallback>
-								</Avatar>
-								<span className="hidden md:inline text-sm font-medium">
-									{user?.fullName}
-								</span>
-							</Link>
-							<Button
-								variant="ghost"
-								size="icon"
-								onClick={handleSignOut}
-								className="text-red-600 hover:text-red-700"
-							>
-								<BiLogOut className="h-5 w-5" />
-							</Button>
+							<DropdownMenu>
+								<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-100 rounded-full p-1 px-2 transition-colors">
+									<Avatar className="h-8 w-8">
+										<AvatarImage src={user?.imageUrl} />
+										<AvatarFallback>CN</AvatarFallback>
+									</Avatar>
+									<span className="hidden md:inline text-sm font-medium">
+										{user?.fullName}
+									</span>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent
+									align="end"
+									className="w-[20vw]"
+								>
+									<DropdownMenuLabel>
+										My Account
+									</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<Link href="/profile">
+										<DropdownMenuItem className="cursor-pointer">
+											<BiUser className="mr-2 h-4 w-4" />
+											Profile
+										</DropdownMenuItem>
+									</Link>
+									<Link href="/settings">
+										<DropdownMenuItem className="cursor-pointer">
+											<BiCog className="mr-2 h-4 w-4" />
+											Settings
+										</DropdownMenuItem>
+									</Link>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem
+										className="cursor-pointer text-red-600 hover:text-red-700"
+										onClick={handleSignOut}
+									>
+										<BiLogOut className="mr-2 h-4 w-4" />
+										Sign Out
+									</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
 						</div>
 					</SignedIn>
 
 					<SignedOut>
 						<div className="flex items-center gap-4">
 							<Link href="/auth/sign-in">
-								<Button variant="ghost">Sign In</Button>
+								<Button variant="ghost" className="font-medium">
+									Sign In
+								</Button>
 							</Link>
 							<Link href="/auth/sign-up">
-								<Button className="bg-[#1d283a] hover:bg-[#2a3a52]">
+								<Button className="bg-[#1d283a] hover:bg-[#2a3a52] font-medium">
 									Sign Up
 								</Button>
 							</Link>

@@ -151,23 +151,12 @@ export default function Home() {
 						{supportCards.map((card, index) => (
 							<Link href={card.href} key={index}>
 								<div className="group h-full p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
-									{card.image && (
-										<div className="relative mb-6 h-[200px] w-full overflow-hidden rounded-xl">
-											<Image
-												src={card.image}
-												alt={card.title}
-												fill
-												className="object-cover group-hover:scale-105 transition-transform duration-300"
-											/>
-										</div>
-									)}
-
 									{/* Card Icon and Title */}
 									<div className="flex items-center gap-4 mb-4">
 										<div className="p-3 rounded-xl bg-[#1d283a]/10 text-[#1d283a]">
 											{card.icon}
 										</div>
-										<h3 className="text-xl font-bold text-gray-800">
+										<h3 className="text-lg font-bold text-gray-800">
 											{card.title}
 										</h3>
 									</div>
