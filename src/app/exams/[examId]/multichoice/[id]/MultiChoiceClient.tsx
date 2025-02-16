@@ -42,8 +42,7 @@ export default function MultiChoiceClient({
 		if (!selectedOption) {
 			toast({
 				description: "Please choose an option",
-				className: "bg-yellow-100 text-yellow-900",
-				duration: 3000,
+				className: "bg-yellow-100 text-yellow-900 border-none",
 			});
 			return;
 		}
@@ -101,7 +100,7 @@ export default function MultiChoiceClient({
 					setSelectedOption(currentQuestion.choices[index]);
 				}
 			}
-			if (event.key === "Enter" && selectedOption) {
+			if (event.key === "Enter") {
 				handleSubmit();
 			}
 		};
@@ -133,7 +132,7 @@ export default function MultiChoiceClient({
 			title: "Warning",
 			description:
 				"Once you proceed, you won't be able to return and edit your answers in this section. Do you want to continue?",
-			className: "bg-yellow-100 text-yellow-900",
+			className: "bg-yellow-100 text-yellow-900 border-none",
 			action: (
 				<div className="flex gap-2">
 					<Button
@@ -158,7 +157,6 @@ export default function MultiChoiceClient({
 					</Button>
 				</div>
 			),
-			duration: 0,
 		});
 	};
 
