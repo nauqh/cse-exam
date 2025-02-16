@@ -16,6 +16,7 @@ import {
 	BsGearFill,
 } from "react-icons/bs";
 import { MdOutlineQuiz } from "react-icons/md";
+import { BiLogIn } from "react-icons/bi";
 import {
 	Select,
 	SelectContent,
@@ -23,9 +24,53 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { BiLogOut } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { ReactNode } from "react";
+
+interface NavButtonProps {
+	href: string;
+	icon: ReactNode;
+	label: string;
+	onClick?: () => void;
+	className?: string;
+}
+
+const NavButton = ({
+	href,
+	icon,
+	label,
+	onClick,
+	className = "",
+}: NavButtonProps) => (
+	<Link href={href}>
+		<Button
+			variant="ghost"
+			onClick={onClick}
+			className={`w-full justify-start text-base font-normal h-11 ${className}`}
+		>
+			<span className="mr-0 md:mr-3">{icon}</span>
+			<span className="hidden md:inline">{label}</span>
+		</Button>
+	</Link>
+);
+
+const navItems = {
+	main: [
+		{ href: "/", icon: <BsHouseDoor />, label: "Home" },
+		{ href: "/profile", icon: <BsPerson />, label: "Profile" },
+		{ href: "/exams", icon: <MdOutlineQuiz />, label: "Exams" },
+	],
+	management: [
+		{ href: "/courses", icon: <BsBook />, label: "Courses" },
+		{ href: "/students", icon: <BsPeople />, label: "Students" },
+		{ href: "/results", icon: <BsCardChecklist />, label: "Results" },
+	],
+	tools: [
+		{ href: "/analytics", icon: <BsGraphUp />, label: "Analytics" },
+		{ href: "/settings", icon: <BsGear />, label: "Settings" },
+	],
+};
 
 interface SidebarProps {
 	currentView?: "history" | "settings";
@@ -49,6 +94,19 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 		history: <BsClockHistory className="h-4 w-4" />,
 		settings: <BsGearFill className="h-4 w-4" />,
 	};
+
+	const renderNavSection = (title: string, items: typeof navItems.main) => (
+		<div className="px-2 md:px-4 py-2">
+			<h3 className="hidden md:block text-sm font-medium text-gray-500">
+				{title}
+			</h3>
+			<div className="space-y-1 mt-2">
+				{items.map((item) => (
+					<NavButton key={item.href} {...item} />
+				))}
+			</div>
+		</div>
+	);
 
 	return (
 		<div className="h-screen w-16 md:w-[20vw] border-r bg-white flex flex-col">
@@ -105,14 +163,14 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 								<SelectContent>
 									<SelectItem value="history">
 										<div className="flex items-center">
-											<BsClockHistory className="h-4 w-4 mr-2" />
-											<span>Exam History</span>
+											<BsClockHistory className="h-4 w-4 mr-4" />
+											<span>Exam history</span>
 										</div>
 									</SelectItem>
 									<SelectItem value="settings">
 										<div className="flex items-center">
-											<BsGearFill className="h-4 w-4 mr-2" />
-											<span>Profile Settings</span>
+											<BsGearFill className="h-4 w-4 mr-4" />
+											<span>Profile settings</span>
 										</div>
 									</SelectItem>
 								</SelectContent>
@@ -121,123 +179,18 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 					)}
 				</div>
 
-				<div className="px-2 md:px-4 py-2">
-					<h3 className="hidden md:block text-sm font-medium text-gray-500">
-						Main
-					</h3>
-					<div className="space-y-1 mt-2">
-						<Link href="/">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsHouseDoor className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">Home</span>
-							</Button>
-						</Link>
-						<Link href="/profile">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsPerson className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">
-									Profile
-								</span>
-							</Button>
-						</Link>
-						<Link href="/exams">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<MdOutlineQuiz className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">Exams</span>
-							</Button>
-						</Link>
-					</div>
-				</div>
-
-				<div className="px-2 md:px-4 py-2">
-					<h3 className="hidden md:block text-sm font-medium text-gray-500">
-						Management
-					</h3>
-					<div className="space-y-1 mt-2">
-						<Link href="/courses">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsBook className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">
-									Courses
-								</span>
-							</Button>
-						</Link>
-						<Link href="/students">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsPeople className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">
-									Students
-								</span>
-							</Button>
-						</Link>
-						<Link href="/results">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsCardChecklist className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">
-									Results
-								</span>
-							</Button>
-						</Link>
-					</div>
-				</div>
-
-				<div className="px-2 md:px-4 py-2">
-					<h3 className="hidden md:block text-sm font-medium text-gray-500">
-						Tools
-					</h3>
-					<div className="space-y-1 mt-2">
-						<Link href="/analytics">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsGraphUp className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">
-									Analytics
-								</span>
-							</Button>
-						</Link>
-						<Link href="/settings">
-							<Button
-								variant="ghost"
-								className="w-full justify-start text-base font-normal h-11"
-							>
-								<BsGear className="mr-0 md:mr-3" />
-								<span className="hidden md:inline">
-									Settings
-								</span>
-							</Button>
-						</Link>
-					</div>
-				</div>
+				{renderNavSection("Main", navItems.main)}
+				{renderNavSection("Management", navItems.management)}
+				{renderNavSection("Tools", navItems.tools)}
 
 				<div className="mt-auto border-t px-2 md:px-4 py-3">
-					<Button
-						variant="ghost"
+					<NavButton
+						href=""
+						icon={<BiLogIn />}
+						label="Sign out"
 						onClick={handleSignOut}
-						className="w-full justify-start text-base font-normal h-11 hover:bg-gray-100 text-red-600 hover:text-red-700"
-					>
-						<BiLogOut className="mr-0 md:mr-3" />
-						<span className="hidden md:inline">Sign Out</span>
-					</Button>
+						className="hover:bg-gray-100 text-red-600 hover:text-red-700"
+					/>
 				</div>
 				<Toaster />
 			</div>

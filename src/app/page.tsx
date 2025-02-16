@@ -283,11 +283,11 @@ export default function Home() {
 					</div>
 
 					<div className="mt-10 border-t border-gray-300 pt-4">
-						<div className="flex flex-col md:flex-row justify-between items-center space-y-4 text-sm text-gray-500">
-							<div className="text-center">
+						<div className="flex flex-col md:flex-row justify-between items-center md:space-y-0 space-y-4 text-sm text-gray-500">
+							<div>
 								Copyright © {new Date().getFullYear()} Nauqh.
 							</div>
-							<div className="flex flex-wrap justify-center gap-4 px-4">
+							<div className="flex flex-wrap justify-center gap-4">
 								<Link href="/" className="hover:text-gray-800">
 									Privacy Policy
 								</Link>

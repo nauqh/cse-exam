@@ -7,12 +7,14 @@ import { SignedIn, SignedOut, useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-	BiLogOut,
 	BiBook,
 	BiUser,
 	BiCog,
 	BiChalkboard,
 	BiSearch,
+	BiHelpCircle,
+	BiLogIn,
+	BiChevronRight,
 } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -87,7 +89,7 @@ export default function Navigation() {
 							</div>
 						</div>
 
-						<div className="hidden md:flex items-center space-x-2">
+						<div className="hidden md:flex items-center space-x-2 text-primary">
 							<Link href="/exams">
 								<Button
 									variant="ghost"
@@ -140,31 +142,61 @@ export default function Navigation() {
 									</DropdownMenuTrigger>
 									<DropdownMenuContent
 										align="end"
-										className="w-56"
+										className="min-w-max p-2 rounded-md shadow-lg bg-white border border-gray-200"
 									>
-										<DropdownMenuLabel>
-											My Account
+										<DropdownMenuLabel className="px-3 py-2">
+											<div className="flex items-center gap-3">
+												<Avatar className="h-8 w-8">
+													<AvatarImage
+														src={user?.imageUrl}
+													/>
+													<AvatarFallback>
+														CN
+													</AvatarFallback>
+												</Avatar>
+												<div className="flex flex-col">
+													<span className="font-semibold text-primary">
+														{user?.fullName ||
+															"User"}
+													</span>
+													<span className="text-xs text-primary/50">
+														{user?.emailAddresses[0]
+															.emailAddress ||
+															"email"}
+													</span>
+												</div>
+											</div>
 										</DropdownMenuLabel>
 										<DropdownMenuSeparator />
 										<Link href="/profile">
-											<DropdownMenuItem className="cursor-pointer">
-												<BiUser className="mr-2 h-4 w-4" />
-												Profile
+											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
+												<BiUser className="h-5 w-5 text-gray-600" />
+												Edit Profile
+												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
 											</DropdownMenuItem>
 										</Link>
 										<Link href="/settings">
-											<DropdownMenuItem className="cursor-pointer">
-												<BiCog className="mr-2 h-4 w-4" />
-												Settings
+											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
+												<BiCog className="h-5 w-5 text-gray-600" />
+												Settings & Privacy
+												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
+											</DropdownMenuItem>
+										</Link>
+										<Link href="/help">
+											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
+												<BiHelpCircle className="h-5 w-5 text-gray-600" />
+												Help & Support
+												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
 											</DropdownMenuItem>
 										</Link>
 										<DropdownMenuSeparator />
 										<DropdownMenuItem
-											className="cursor-pointer text-red-600 hover:text-red-700"
+											className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 text-red-600 rounded-lg cursor-pointer group"
 											onClick={handleSignOut}
 										>
-											<BiLogOut className="mr-2 h-4 w-4" />
-											Sign Out
+											<BiLogIn className="h-5 w-5" />
+											Sign out
+											<BiChevronRight className="h-5 w-5 ml-auto transform transition-transform group-hover:translate-x-1" />
 										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
