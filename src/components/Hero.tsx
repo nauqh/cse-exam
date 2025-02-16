@@ -39,7 +39,7 @@ export default function HeroSection() {
 				</div>
 
 				{/* RIGHT SIDE – IMAGE */}
-				<div className="w-full md:w-1/2 flex justify-center">
+				<div className="w-full md:w-1/2 flex justify-end">
 					<div className="relative w-80 h-80 md:w-96 md:h-96">
 						{/* Decorative Paint Splash Background */}
 						<div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500 to-teal-400 -rotate-6 z-0" />

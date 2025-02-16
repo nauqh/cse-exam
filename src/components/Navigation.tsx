@@ -30,9 +30,9 @@ export default function Navigation() {
 	};
 
 	return (
-		<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm border-b z-50">
+		<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50">
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex justify-between items-center h-16">
+				<div className="flex justify-between items-center h-20">
 					<Link href="/" className="block">
 						<Image
 							src="/logo.png"
@@ -76,7 +76,7 @@ export default function Navigation() {
 
 						<div className="flex items-center gap-4">
 							<DropdownMenu>
-								<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-100 rounded-full p-1 px-2 transition-colors">
+								<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-100 rounded-full p-1 px-2 transition-colors outline-none">
 									<Avatar className="h-8 w-8">
 										<AvatarImage src={user?.imageUrl} />
 										<AvatarFallback>CN</AvatarFallback>
@@ -121,8 +121,10 @@ export default function Navigation() {
 					<SignedOut>
 						<div className="flex items-center gap-4">
 							<Link href="/auth/sign-in">
-								<Button variant="ghost" className="font-medium">
-									Sign In
+								<Button className="w-[10vw] relative overflow-hidden border border-[#1d283a] bg-transparent text-[#1d283a] hover:text-white font-medium transition-colors duration-300 before:absolute before:inset-y-0 before:left-[25%] before:w-1/2 before:bg-[#1d283a] before:scale-x-0 hover:before:scale-x-[200%] before:transition-transform before:duration-500 before:ease-out before:origin-center">
+									<span className="relative z-10">
+										Sign in
+									</span>
 								</Button>
 							</Link>
 							<Link href="/auth/sign-up">
