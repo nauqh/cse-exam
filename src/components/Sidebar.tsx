@@ -91,7 +91,6 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 	const handleSignOut = () => {
 		toast({
 			description: "Signing out...",
-			duration: 3000,
 		});
 		signOut();
 	};

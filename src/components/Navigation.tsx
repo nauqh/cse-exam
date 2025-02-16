@@ -37,7 +37,6 @@ export default function Navigation() {
 	const handleSignOut = () => {
 		toast({
 			description: "Signing out...",
-			duration: 3000,
 		});
 		signOut();
 	};
