@@ -121,11 +121,15 @@ export default function Navigation() {
 							<div className="flex items-center gap-2 ml-4">
 								<Button
 									variant="ghost"
-									size="sm"
 									className="md:hidden"
 									onClick={() => setIsSearchOpen(true)}
 								>
-									<BiSearch className="h-5 w-5" />
+									<BiSearch
+										style={{
+											height: "1.2rem",
+											width: "1.2rem",
+										}}
+									/>
 								</Button>
 								<DropdownMenu>
 									<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-50 rounded-full p-1.5 transition-colors outline-none">
