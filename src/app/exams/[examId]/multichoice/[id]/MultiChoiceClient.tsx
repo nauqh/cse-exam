@@ -163,15 +163,15 @@ export default function MultiChoiceClient({
 	const parts = processMarkdown(currentQuestion.question);
 
 	return (
-		<div className="w-[80vw] rounded-lg shadow-sm border p-6">
+		<div className="w-[80vw] h-[calc(100vh-2rem)] rounded-lg shadow-sm border p-6 mx-auto flex min-h-0">
 			{currentQuestion ? (
-				<div className="grid grid-cols-12 gap-4">
-					<div className="col-span-9 grid grid-rows-[auto_1fr] gap-4">
-						<div className="bg-white rounded-lg overflow-y-auto [&::-webkit-scrollbar]:w-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100">
+				<div className="flex gap-4 w-full h-full">
+					<div className="w-[80%] flex flex-col gap-4 h-full min-h-0">
+						<div className="flex-1 min-h-0 bg-white rounded-lg overflow-y-auto [&::-webkit-scrollbar]:w-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100">
 							<h2 className="text-xl font-semibold mb-2">
 								Question {id}
 							</h2>
-							<div className="prose dark:prose-invert pr-2 h-[50vh]">
+							<div className="prose dark:prose-invert pr-2">
 								{parts.map((part, index) => {
 									if (!part.startsWith("```")) {
 										return (
@@ -249,6 +249,12 @@ export default function MultiChoiceClient({
 								<RadioGroup
 									value={selectedOption}
 									onValueChange={setSelectedOption}
+									className={cn(
+										"grid gap-2",
+										currentQuestion.choices.length > 4
+											? "grid-cols-2"
+											: "grid-cols-1"
+									)}
 								>
 									{currentQuestion.choices.map(
 										(choice, index) => (
@@ -276,7 +282,7 @@ export default function MultiChoiceClient({
 						)}
 					</div>
 
-					<div className="col-span-3 bg-white rounded-lg p-4 flex flex-col gap-4">
+					<div className="w-[20%] bg-white rounded-lg p-4 flex flex-col gap-4">
 						<div className="p-2 bg-muted rounded-sm text-center">
 							<p className="text-sm text-muted-foreground">
 								Question {id} of {totalQuestions} <br />(
