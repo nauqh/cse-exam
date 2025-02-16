@@ -60,7 +60,7 @@ export default function Navigation() {
 							<Image
 								src="/logo.png"
 								alt="eExams Logo"
-								width={150}
+								width={180}
 								height={100}
 								className="hover:opacity-90 transition-opacity"
 							/>
@@ -218,10 +218,11 @@ export default function Navigation() {
 							<h3 className="font-semibold mb-4">Popular tags</h3>
 							<div className="flex flex-wrap gap-3">
 								{[
-									"fiction",
-									"short story",
-									"collection",
-									"poetry",
+									"sql",
+									"python",
+									"pandas",
+									"multichoices",
+									"problems",
 								].map((tag) => (
 									<button
 										key={tag}
