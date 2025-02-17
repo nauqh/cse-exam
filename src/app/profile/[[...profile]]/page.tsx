@@ -10,6 +10,7 @@ import { BiCommentError } from "react-icons/bi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DateRange } from "react-day-picker";
 import { useUser, UserProfile } from "@clerk/nextjs";
+import { ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 export default function ProfilePage() {
 	const { user } = useUser();
@@ -24,6 +25,7 @@ export default function ProfilePage() {
 	const [dateRange, setDateRange] = useState<DateRange>();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [showFilters, setShowFilters] = useState(false);
 
 	useEffect(() => {
 		const fetchExamHistory = async () => {
@@ -119,9 +121,28 @@ export default function ProfilePage() {
 							</section>
 						) : (
 							<section className="space-y-6">
-								<h2 className="text-xl font-semibold">
-									Exam History
-								</h2>
+								<div className="flex items-center justify-between">
+									<h2 className="text-xl font-semibold">
+										Exam History
+									</h2>
+									<Button
+										variant="outline"
+										size="sm"
+										onClick={() =>
+											setShowFilters(!showFilters)
+										}
+										className="flex items-center gap-2"
+									>
+										<Filter className="h-4 w-4" />
+										Filters
+										{showFilters ? (
+											<ChevronUp className="h-4 w-4" />
+										) : (
+											<ChevronDown className="h-4 w-4" />
+										)}
+									</Button>
+								</div>
+
 								{isLoading ? (
 									<LoadingSkeleton />
 								) : error ? (
@@ -133,7 +154,11 @@ export default function ProfilePage() {
 									</div>
 								) : (
 									<div className="space-y-4">
-										<div className="space-y-2">
+										<div
+											className={`space-y-2 transition-all duration-300 ${
+												showFilters ? "block" : "hidden"
+											} bg-muted/50 p-4 rounded-lg border`}
+										>
 											<div className="flex flex-wrap gap-2">
 												<Button
 													variant={
