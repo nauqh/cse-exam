@@ -77,10 +77,20 @@ export default function ProblemClient({
 
 	const currentProblem = data.content[currentPage - 1];
 
+	// Add prefetching for next problem
+	useEffect(() => {
+		if (currentPage < data.content.length) {
+			router.prefetch(`/exams/${examId}/problem/${currentPage + 1}`);
+		}
+	}, [currentPage, data.content.length, examId, router]);
+
+	// Update page change handler for client-side navigation
 	const handlePageChange = useCallback(
 		(page: number) => {
-			router.push(`/exams/${examId}/problem/${page}`);
 			setCurrentPage(page);
+			router.replace(`/exams/${examId}/problem/${page}`, {
+				scroll: false,
+			});
 		},
 		[router, examId]
 	);
@@ -120,6 +130,7 @@ export default function ProblemClient({
 		}
 	}, [code, language]);
 
+	// Update submit handler for client-side navigation
 	const handleSubmit = useCallback(() => {
 		if (!code.trim()) {
 			toast({
@@ -139,7 +150,10 @@ export default function ProblemClient({
 		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
 
 		if (currentPage < data.content.length) {
-			handlePageChange(currentPage + 1);
+			setCurrentPage(currentPage + 1);
+			router.replace(`/exams/${examId}/problem/${currentPage + 1}`, {
+				scroll: false,
+			});
 		}
 	}, [
 		code,
@@ -147,8 +161,9 @@ export default function ProblemClient({
 		currentPage,
 		answeredProblems,
 		data.content.length,
+		examId,
+		router,
 		toast,
-		handlePageChange,
 	]);
 
 	const handleReset = () => {
@@ -202,6 +217,12 @@ export default function ProblemClient({
 			window.removeEventListener("keydown", handleGlobalKeyPress);
 		};
 	}, []);
+
+	// Add memoization for code output
+	const memoizedOutput = React.useMemo(
+		() => <CodeOutput data={output.output} />,
+		[output.output]
+	);
 
 	return (
 		<div className="p-6 h-[100vh] w-full">
@@ -348,7 +369,7 @@ export default function ProblemClient({
 								Output
 							</div>
 
-							<CodeOutput data={output.output} />
+							{memoizedOutput}
 
 							{/* Action buttons */}
 							<div className="flex gap-4 justify-end mt-auto pt-2">
