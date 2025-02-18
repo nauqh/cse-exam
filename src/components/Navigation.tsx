@@ -26,6 +26,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 export default function Navigation() {
 	const { user } = useUser();
@@ -33,6 +34,16 @@ export default function Navigation() {
 	const { toast } = useToast();
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
+	const router = useRouter();
+
+	const searchPaths = {
+		profile: "/profile",
+		settings: "/settings",
+		help: "/help",
+		exams: "/exams",
+		courses: "https://www.coderschool.vn",
+		home: "/",
+	};
 
 	const handleSignOut = () => {
 		toast({
@@ -49,7 +60,36 @@ export default function Navigation() {
 			});
 			return;
 		}
-		setSearchQuery("");
+
+		const query = searchQuery.toLowerCase().trim();
+		const path = searchPaths[query];
+
+		if (path) {
+			setIsSearchOpen(false);
+			setSearchQuery("");
+
+			if (path.startsWith("http")) {
+				window.location.href = path;
+			} else {
+				router.push(path);
+			}
+
+			toast({
+				description: `Navigating to ${query}...`,
+				duration: 2000,
+			});
+		} else {
+			toast({
+				description: "No matching page found!",
+				duration: 3000,
+			});
+		}
+	};
+
+	const handleKeyPress = (e: React.KeyboardEvent) => {
+		if (e.key === "Enter") {
+			handleSearch();
+		}
 	};
 
 	return (
@@ -236,6 +276,7 @@ export default function Navigation() {
 								autoFocus={isSearchOpen}
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
+								onKeyDown={handleKeyPress}
 							/>
 							<button
 								className="absolute right-0 top-0 h-full px-6 rounded-r-lg bg-transparent hover:bg-primary text-primary hover:text-white transition-all"
