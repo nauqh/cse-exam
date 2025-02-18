@@ -61,7 +61,9 @@ export default function Navigation() {
 			return;
 		}
 
-		const query = searchQuery.toLowerCase().trim();
+		const query = searchQuery
+			.toLowerCase()
+			.trim() as keyof typeof searchPaths;
 		const path = searchPaths[query];
 
 		if (path) {
