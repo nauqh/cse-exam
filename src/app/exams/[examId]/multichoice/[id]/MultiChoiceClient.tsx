@@ -38,6 +38,12 @@ export default function MultiChoiceClient({
 	const totalQuestions = data.content.length;
 	const { toast, dismiss } = useToast();
 
+	useEffect(() => {
+		if (id < data.content.length) {
+			router.prefetch(`/exams/${examId}/multichoice/${id + 1}`);
+		}
+	}, [id, data.content.length, examId, router]);
+
 	const handleSubmit = useCallback(() => {
 		if (!selectedOption) {
 			toast({
@@ -56,7 +62,10 @@ export default function MultiChoiceClient({
 		localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
 
 		if (id < data.content.length) {
-			router.push(`/exams/${examId}/multichoice/${id + 1}`);
+			setId(id + 1);
+			router.replace(`/exams/${examId}/multichoice/${id + 1}`, {
+				scroll: false,
+			});
 		}
 	}, [
 		selectedOption,
@@ -120,7 +129,10 @@ export default function MultiChoiceClient({
 	};
 
 	const handlePageChange = (pageNumber: number) => {
-		router.push(`/exams/${examId}/multichoice/${pageNumber}`);
+		setId(pageNumber);
+		router.replace(`/exams/${examId}/multichoice/${pageNumber}`, {
+			scroll: false,
+		});
 	};
 
 	const handleShowSummary = () => {
