@@ -124,7 +124,7 @@ export default function ProblemClient({
 		if (!code.trim()) {
 			toast({
 				description: "Please write some code before submitting",
-				className: "bg-yellow-100 text-yellow-900",
+				className: "bg-yellow-100 text-yellow-900 border-none",
 				duration: 3000,
 			});
 			return;

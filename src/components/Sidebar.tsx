@@ -195,7 +195,7 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 
 				{renderNavSection("Main", navItems.main)}
 				{renderNavSection("Management", navItems.management)}
-				{renderNavSection("Tools", navItems.tools)}
+				{/* {renderNavSection("Tools", navItems.tools)} */}
 
 				<div className="mt-auto border-t px-1 sm:px-2 md:px-4 py-2 md:py-3">
 					<NavButton

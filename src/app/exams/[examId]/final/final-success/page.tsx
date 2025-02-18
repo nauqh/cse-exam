@@ -33,7 +33,9 @@ export default function SubmissionSuccess() {
 					You will be redirected to the home page in{" "}
 					<span className="font-semibold">{counter}</span> seconds.
 				</p>
-				<Button onClick={() => router.push("/")}>Go to Home Now</Button>
+				<Button onClick={() => router.push("/")}>
+					Return home now
+				</Button>
 			</div>
 		</div>
 	);

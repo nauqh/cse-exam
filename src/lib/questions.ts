@@ -1,3 +1,5 @@
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+
 export interface Question {
   question: string;
   resultType: string;
@@ -10,9 +12,31 @@ export interface ExamContent {
   content: Question[];
 }
 
+const s3Client = new S3Client({});
+
+async function getExamDataFromS3(examId: string): Promise<ExamContent> {
+  try {
+    const response = await s3Client.send(
+      new GetObjectCommand(
+        {
+          Bucket: "csexam",
+          Key: `exams/${examId}.json`
+        }
+      )
+    );
+    const stringData = await response.Body?.transformToString();
+    if (!stringData) throw new Error("Empty response from S3");
+    
+    return JSON.parse(stringData) as ExamContent;
+  } catch (error) {
+    console.error(`Error fetching exam ${examId} from S3:`, error);
+    return { name: "", language: "", content: [] };
+  }
+}
+
 export async function getExamQuestions(examId: string): Promise<ExamContent> {
   try {
-    const examData: ExamContent = await import(`@/docs/${examId}.json`);
+    const examData = await getExamDataFromS3(examId);
     return {
       ...examData,
       content: examData.content.filter(
@@ -27,7 +51,7 @@ export async function getExamQuestions(examId: string): Promise<ExamContent> {
 
 export async function getExamProblemQuestions(examId: string): Promise<ExamContent> {
   try {
-    const examData: ExamContent = await import(`@/docs/${examId}.json`);
+    const examData = await getExamDataFromS3(examId);
     return {
       ...examData,
       content: examData.content.filter(

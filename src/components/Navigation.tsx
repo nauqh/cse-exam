@@ -170,21 +170,21 @@ export default function Navigation() {
 										<Link href="/profile">
 											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
 												<BiUser className="h-5 w-5 text-gray-600" />
-												Edit Profile
+												View profile
 												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
 											</DropdownMenuItem>
 										</Link>
 										<Link href="/settings">
 											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
 												<BiCog className="h-5 w-5 text-gray-600" />
-												Settings & Privacy
+												Settings
 												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
 											</DropdownMenuItem>
 										</Link>
 										<Link href="/help">
 											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
 												<BiHelpCircle className="h-5 w-5 text-gray-600" />
-												Help & Support
+												Help
 												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
 											</DropdownMenuItem>
 										</Link>
