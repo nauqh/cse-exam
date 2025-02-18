@@ -12,7 +12,7 @@ export interface ExamContent {
   content: Question[];
 }
 
-const s3Client = new S3Client({});
+const s3Client = new S3Client({ region: "ap-southeast-2" });
 
 async function getExamDataFromS3(examId: string): Promise<ExamContent> {
   try {
