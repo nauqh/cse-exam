@@ -38,6 +38,7 @@ const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
 			<Table>
 				<TableHeader>
 					<TableRow>
+						<TableHead></TableHead>
 						{columns.map((column) => (
 							<TableHead key={column}>{column}</TableHead>
 						))}
@@ -46,6 +47,7 @@ const CodeOutput = ({ data }: { data: Record<string, string>[] | string }) => {
 				<TableBody>
 					{data.map((row, rowIndex) => (
 						<TableRow key={rowIndex}>
+							<TableCell>{rowIndex + 1}</TableCell>
 							{columns.map((column) => (
 								<TableCell key={`${rowIndex}-${column}`}>
 									{row[column] ?? "-"}
