@@ -193,7 +193,7 @@ export default function Navigation() {
 										<span>Profile</span>
 									</Button>
 								</Link>
-								<Link href="https://www.coderschool.vn">
+								<Link href="/courses">
 									<Button
 										variant="ghost"
 										className="flex items-center"
