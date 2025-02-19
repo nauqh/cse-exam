@@ -5,28 +5,16 @@ import Link from "next/link";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-	BsBook,
-	BsCardChecklist,
-	BsPeople,
-	BsHouseDoor,
-	BsGraphUp,
-	BsGear,
-	BsPerson,
-	BsClockHistory,
+	BsHouseDoorFill,
+	BsClockFill,
 	BsGearFill,
+	BsFillPatchQuestionFill,
 } from "react-icons/bs";
-import { MdOutlineQuiz } from "react-icons/md";
 import { BiLogIn } from "react-icons/bi";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { ReactNode } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface NavButtonProps {
 	href: string;
@@ -34,6 +22,7 @@ interface NavButtonProps {
 	label: string;
 	onClick?: () => void;
 	className?: string;
+	variant?: "ghost" | "default" | "outline";
 }
 
 const NavButton = ({
@@ -42,14 +31,13 @@ const NavButton = ({
 	label,
 	onClick,
 	className = "",
+	variant = "ghost",
 }: NavButtonProps) => (
 	<Link href={href}>
 		<Button
-			variant="ghost"
+			variant={variant}
 			onClick={onClick}
-			className={`w-full justify-start text-base font-normal h-11 
-			px-2 sm:px-3 transition-all
-			${className}`}
+			className={`w-full justify-center sm:justify-start text-base font-normal h-11 px-2 sm:px-3 transition-all ${className}`}
 		>
 			<span className="mr-0 sm:mr-2 md:mr-3 text-lg sm:text-base">
 				{icon}
@@ -61,32 +49,13 @@ const NavButton = ({
 	</Link>
 );
 
-const navItems = {
-	main: [
-		{ href: "/", icon: <BsHouseDoor />, label: "Home" },
-		{ href: "/profile", icon: <BsPerson />, label: "Profile" },
-		{ href: "/exams", icon: <MdOutlineQuiz />, label: "Exams" },
-	],
-	management: [
-		{ href: "/courses", icon: <BsBook />, label: "Courses" },
-		{ href: "/students", icon: <BsPeople />, label: "Students" },
-		{ href: "/results", icon: <BsCardChecklist />, label: "Results" },
-	],
-	tools: [
-		{ href: "/analytics", icon: <BsGraphUp />, label: "Analytics" },
-		{ href: "/settings", icon: <BsGear />, label: "Settings" },
-	],
-};
-
-interface SidebarProps {
-	currentView?: "history" | "settings";
-	setCurrentView?: (view: "history" | "settings") => void;
-}
-
-export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
+export default function Sidebar() {
 	const { user } = useUser();
 	const { signOut } = useClerk();
 	const { toast } = useToast();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const currentView = searchParams.get("view") || "history";
 
 	const handleSignOut = () => {
 		toast({
@@ -95,28 +64,27 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 		signOut();
 	};
 
-	const viewIcons = {
-		history: <BsClockHistory className="h-4 w-4" />,
-		settings: <BsGearFill className="h-4 w-4" />,
-	};
-
-	const renderNavSection = (title: string, items: typeof navItems.main) => (
-		<div className="px-2 md:px-4 py-2">
-			<h3 className="hidden md:block text-sm font-medium text-gray-500">
-				{title}
-			</h3>
-			<div className="space-y-1 mt-2">
-				{items.map((item) => (
-					<NavButton key={item.href} {...item} />
-				))}
-			</div>
-		</div>
-	);
+	const navItems = [
+		{ href: "/", icon: <BsHouseDoorFill />, label: "Home" },
+		{ href: "/exams", icon: <BsFillPatchQuestionFill />, label: "Exams" },
+		{
+			href: "/profile?view=history",
+			icon: <BsClockFill />,
+			label: "Exam History",
+			isActive: pathname === "/profile" && currentView === "history",
+		},
+		{
+			href: "/profile?view=settings",
+			icon: <BsGearFill />,
+			label: "Profile Settings",
+			isActive: pathname === "/profile" && currentView === "settings",
+		},
+	];
 
 	return (
 		<div
-			className="h-screen w-14 sm:w-48 md:w-56 lg:w-64 border-r bg-white flex flex-col 
-		transition-all duration-300 ease-in-out"
+			className="fixed left-4 top-20 h-[calc(100vh-6rem)] rounded-xl w-14 sm:w-48 md:w-56 lg:w-64 border bg-white flex flex-col 
+            shadow-lg transition-all duration-300 ease-in-out"
 		>
 			<div className="p-2 sm:p-3 md:p-4 border-b">
 				<div className="flex items-center gap-2 sm:gap-3">
@@ -140,62 +108,23 @@ export default function Sidebar({ currentView, setCurrentView }: SidebarProps) {
 			</div>
 
 			<div className="flex flex-col flex-1 overflow-y-auto">
-				<div className="px-2 sm:px-3 md:px-4 py-3 md:py-4 border-b">
-					<div className="sm:hidden flex items-center justify-center">
-						{viewIcons[currentView || "history"]}
+				<div className="px-2 md:px-4 py-2">
+					<div className="flex flex-col gap-2">
+						{navItems.map((item) => {
+							// Set variant to "default" if the item is active.
+							const variant = item.isActive ? "default" : "ghost";
+							return (
+								<NavButton
+									key={item.href}
+									href={item.href}
+									icon={item.icon}
+									label={item.label}
+									variant={variant}
+								/>
+							);
+						})}
 					</div>
-					{setCurrentView && (
-						<div className="hidden sm:block">
-							<Select
-								value={currentView}
-								onValueChange={(
-									value: "history" | "settings"
-								) => setCurrentView(value)}
-							>
-								<SelectTrigger className="w-full h-10 md:h-11 text-sm md:text-base focus:ring-0 focus:ring-offset-0">
-									<SelectValue
-										placeholder={
-											<div className="flex items-center">
-												{
-													viewIcons[
-														currentView || "history"
-													]
-												}
-												<span className="ml-2 truncate">
-													{currentView === "history"
-														? "Exam History"
-														: "Profile Settings"}
-												</span>
-											</div>
-										}
-									/>
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="history">
-										<div className="flex items-center">
-											<BsClockHistory className="h-4 w-4 mr-2 md:mr-4" />
-											<span className="text-sm md:text-base">
-												Exam history
-											</span>
-										</div>
-									</SelectItem>
-									<SelectItem value="settings">
-										<div className="flex items-center">
-											<BsGearFill className="h-4 w-4 mr-2 md:mr-4" />
-											<span className="text-sm md:text-base">
-												Profile settings
-											</span>
-										</div>
-									</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-					)}
 				</div>
-
-				{renderNavSection("Main", navItems.main)}
-				{renderNavSection("Management", navItems.management)}
-				{/* {renderNavSection("Tools", navItems.tools)} */}
 
 				<div className="mt-auto border-t px-1 sm:px-2 md:px-4 py-2 md:py-3">
 					<NavButton

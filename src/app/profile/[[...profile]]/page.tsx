@@ -1,5 +1,7 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { StatusFilters } from "@/components/exam/StatusFilters";
@@ -11,12 +13,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DateRange } from "react-day-picker";
 import { useUser, UserProfile } from "@clerk/nextjs";
 import { ChevronDown, ChevronUp, Filter } from "lucide-react";
+import Navigation from "@/components/Navigation";
 
 export default function ProfilePage() {
 	const { user } = useUser();
-	const [currentView, setCurrentView] = useState<"history" | "settings">(
-		"history"
-	);
+	const searchParams = useSearchParams();
+	// Default view is "history" if no view is specified
+	const view = searchParams.get("view") || "history";
+	const isSettings = view === "settings";
+
 	const [examHistory, setExamHistory] = useState<ExamSubmission[]>([]);
 	const [selectedExam, setSelectedExam] = useState<string | null>(null);
 	const [selectedStatus, setSelectedStatus] = useState<
@@ -28,6 +33,9 @@ export default function ProfilePage() {
 	const [showFilters, setShowFilters] = useState(false);
 
 	useEffect(() => {
+		// Only fetch exam history if we are in the history view.
+		if (view !== "history" || !user?.emailAddresses) return;
+
 		const fetchExamHistory = async () => {
 			try {
 				setIsLoading(true);
@@ -62,7 +70,7 @@ export default function ProfilePage() {
 		};
 
 		fetchExamHistory();
-	}, [user?.emailAddresses]);
+	}, [user?.emailAddresses, view]);
 
 	const filteredHistory = examHistory
 		.filter((exam) =>
@@ -99,145 +107,146 @@ export default function ProfilePage() {
 	);
 
 	return (
-		<div className="flex h-screen">
-			<Sidebar
-				currentView={currentView}
-				setCurrentView={setCurrentView}
-			/>
-
-			<main className="flex-1 overflow-auto">
-				<div className="container mx-auto px-4 py-8">
-					<div className="max-w-4xl mx-auto space-y-8">
-						<section className="text-center space-y-4">
-							<h1 className="text-3xl font-bold">My Profile</h1>
-							<p className="text-lg text-muted-foreground">
-								View your exam history and manage your profile
-							</p>
-						</section>
-
-						{currentView === "settings" ? (
-							<section className="space-y-6">
-								<UserProfile />
-							</section>
-						) : (
-							<section className="space-y-6">
-								<div className="flex items-center justify-between">
-									<h2 className="text-xl font-semibold">
-										Exam History
-									</h2>
-									<Button
-										variant="outline"
-										size="sm"
-										onClick={() =>
-											setShowFilters(!showFilters)
-										}
-										className="flex items-center gap-2"
-									>
-										<Filter className="h-4 w-4" />
-										Filters
-										{showFilters ? (
-											<ChevronUp className="h-4 w-4" />
-										) : (
-											<ChevronDown className="h-4 w-4" />
-										)}
-									</Button>
-								</div>
-
-								{isLoading ? (
-									<LoadingSkeleton />
-								) : error ? (
-									<div className="flex items-center justify-center p-8 rounded-lg bg-red-50 border border-red-200">
-										<p className="text-red-600 font-medium text-lg flex items-center gap-2">
-											<BiCommentError />
-											{error}
-										</p>
-									</div>
-								) : (
-									<div className="space-y-4">
-										<div
-											className={`space-y-2 transition-all duration-300 ${
-												showFilters ? "block" : "hidden"
-											} bg-muted/50 p-4 rounded-lg border`}
+		<>
+			<Navigation />
+			<div className="min-h-screen pt-16">
+				<Sidebar />
+				<main className="ml-10 sm:ml-52 md:ml-64 lg:ml-72 px-8 py-4">
+					<div className="container mx-auto px-4 py-8">
+						<div className="max-w-4xl mx-auto space-y-8">
+							{isSettings ? (
+								<section className="space-y-6">
+									<UserProfile />
+								</section>
+							) : (
+								<section className="space-y-6">
+									<div className="flex items-center justify-between">
+										<h2 className="text-xl font-semibold">
+											Exam History
+										</h2>
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												setShowFilters(!showFilters)
+											}
+											className="flex items-center gap-2"
 										>
-											<div className="flex flex-wrap gap-2">
-												<Button
-													variant={
-														selectedExam === null
-															? "default"
-															: "outline"
-													}
-													onClick={() => {
-														setSelectedExam(null);
-														setSelectedStatus(null);
-													}}
-												>
-													All Exams
-												</Button>
-												{[
-													{
-														id: "M11",
-														label: "SQL Intro",
-													},
-													{
-														id: "M12",
-														label: "Advanced SQL",
-													},
-													{
-														id: "M21",
-														label: "Python 101",
-													},
-													{
-														id: "M31",
-														label: "Pandas 101",
-													},
-												].map((filter) => (
+											<Filter className="h-4 w-4" />
+											Filters
+											{showFilters ? (
+												<ChevronUp className="h-4 w-4" />
+											) : (
+												<ChevronDown className="h-4 w-4" />
+											)}
+										</Button>
+									</div>
+
+									{isLoading ? (
+										<LoadingSkeleton />
+									) : error ? (
+										<div className="flex items-center justify-center p-8 rounded-lg bg-red-50 border border-red-200">
+											<p className="text-red-600 font-medium text-lg flex items-center gap-2">
+												<BiCommentError />
+												{error}
+											</p>
+										</div>
+									) : (
+										<div className="space-y-4">
+											<div
+												className={`space-y-2 transition-all duration-300 ${
+													showFilters
+														? "block"
+														: "hidden"
+												} bg-muted/50 p-4 rounded-lg border`}
+											>
+												<div className="flex flex-wrap gap-2">
 													<Button
-														key={filter.id}
 														variant={
 															selectedExam ===
-															filter.id
+															null
 																? "default"
 																: "outline"
 														}
-														onClick={() =>
+														onClick={() => {
 															setSelectedExam(
-																filter.id
-															)
-														}
+																null
+															);
+															setSelectedStatus(
+																null
+															);
+														}}
 													>
-														{filter.label}
+														All Exams
 													</Button>
-												))}
+													{[
+														{
+															id: "M11",
+															label: "SQL Intro",
+														},
+														{
+															id: "M12",
+															label: "Advanced SQL",
+														},
+														{
+															id: "M21",
+															label: "Python 101",
+														},
+														{
+															id: "M31",
+															label: "Pandas 101",
+														},
+													].map((filter) => (
+														<Button
+															key={filter.id}
+															variant={
+																selectedExam ===
+																filter.id
+																	? "default"
+																	: "outline"
+															}
+															onClick={() =>
+																setSelectedExam(
+																	filter.id
+																)
+															}
+														>
+															{filter.label}
+														</Button>
+													))}
+												</div>
+												<StatusFilters
+													selectedStatus={
+														selectedStatus
+													}
+													setSelectedStatus={
+														setSelectedStatus
+													}
+												/>
+												<DateFilter
+													dateRange={dateRange}
+													setDateRange={setDateRange}
+												/>
 											</div>
-											<StatusFilters
-												selectedStatus={selectedStatus}
-												setSelectedStatus={
-													setSelectedStatus
-												}
-											/>
-											<DateFilter
-												dateRange={dateRange}
-												setDateRange={setDateRange}
-											/>
-										</div>
 
-										<div className="grid gap-4">
-											{filteredHistory.map(
-												(exam, index) => (
-													<ExamCard
-														key={index}
-														exam={exam}
-													/>
-												)
-											)}
+											<div className="grid gap-4">
+												{filteredHistory.map(
+													(exam, index) => (
+														<ExamCard
+															key={index}
+															exam={exam}
+														/>
+													)
+												)}
+											</div>
 										</div>
-									</div>
-								)}
-							</section>
-						)}
+									)}
+								</section>
+							)}
+						</div>
 					</div>
-				</div>
-			</main>
-		</div>
+				</main>
+			</div>
+		</>
 	);
 }
