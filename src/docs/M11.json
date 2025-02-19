@@ -44,7 +44,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Y8xDe9w.png)",
+            "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "#ChocolateProducts": 1
@@ -53,7 +53,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**What are the names and unit prices of the five most expensive products?**\n\nOrder these products from most expensive to least expensive.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/x3jCGYQ.png)",
+            "question": "**What are the names and unit prices of the five most expensive products?**\n\nOrder these products from most expensive to least expensive.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "ProductName": "Côte de Blaye",
@@ -79,7 +79,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**Get the list of five countries with the most number of customers staying there.**\n\nOrder these countries from most customers to least customers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/RHSnPK7.png)",
+            "question": "**Get the list of five countries with the most number of customers staying there.**\n\nOrder these countries from most customers to least customers.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "Country": "USA",
@@ -105,7 +105,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**Get the list of five countries with the least number of suppliers staying there.**\n\nOrder the result by number of suppliers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Z3nScfY.png)",
+            "question": "**Get the list of five countries with the least number of suppliers staying there.**\n\nOrder the result by number of suppliers.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "Country": "Brazil",
@@ -131,7 +131,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**Retrieve the list of category names with number of products in each category.**\n\nOrder the result by number of product descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/r3UZdT7.png)",
+            "question": "**Retrieve the list of category names with number of products in each category.**\n\nOrder the result by number of product descending.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "CategoryName": "Confections",
@@ -169,7 +169,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**Retrieve the names and total revenue of the top 5 selling products.**\n\nOrder the result by total revenue descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Qai3Crt.png)",
+            "question": "**Retrieve the names and total revenue of the top 5 selling products.**\n\nOrder the result by total revenue descending.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "ProductName": "Côte de Blaye",
@@ -195,7 +195,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**How many orders does the company ship to \"Western Europe\" each year?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/VY3zjgm.png)",
+            "question": "**How many orders does the company ship to \"Western Europe\" each year?**\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "Year": 2016,
@@ -215,7 +215,7 @@
             ]
         },
         {
-            "question": "**What are the company names of the customers who have ordered the product 'Tofu'?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/OkIYI2i.png)",
+            "question": "**What are the company names of the customers who have ordered the product 'Tofu'?**\n\n<br/>\n\n_Expected output_:\n\n",
             "resultType": "SQL",
             "tableData": [
                 {
@@ -276,7 +276,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**Retrieve customer IDs and company names of customer companies that have never placed an order.**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/v8ezSiO.png)",
+            "question": "**Retrieve customer IDs and company names of customer companies that have never placed an order.**\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "CustomerID": "FISSA",
@@ -297,7 +297,7 @@
             ]
         },
         {
-            "question": "**What are the company names of the suppliers that supply only one product?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/UHvFhzG.png)",
+            "question": "**What are the company names of the suppliers that supply only one product?**\n\n<br/>\n\n_Expected output_:\n\n",
             "resultType": "SQL",
             "tableData": [
                 {
@@ -313,7 +313,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**What are the names of employees who have taken orders from customers who live in the same city as the employee?**\n\nOrder the result by EmployeeID.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/yohxKjS.png)",
+            "question": "**What are the names of employees who have taken orders from customers who live in the same city as the employee?**\n\nOrder the result by EmployeeID.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "EmployeeID": 1,
@@ -349,7 +349,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**List the top 5 products based on total quantity ordered.**\n\nOrder the result by total quantity descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/xA2yU1e.png)",
+            "question": "**List the top 5 products based on total quantity ordered.**\n\nOrder the result by total quantity descending.\n\n<br/>\n\n_Expected output_:\n\n",
             "tableData": [
                 {
                     "ProductName": "Camembert Pierrot",
@@ -374,7 +374,7 @@
             ]
         },
         {
-            "question": "**Find the total number of orders and the total number of customers who have made orders in each country.**\n\n<br/>\n\n_Expected output_: (ordered by \"Total Order\" descending, and \"Total Customers\" ascending)\n\n![](https://i.imgur.com/qJsGkti.png)",
+            "question": "**Find the total number of orders and the total number of customers who have made orders in each country.**\n\n<br/>\n\n_Expected output_: (ordered by \"Total Order\" descending, and \"Total Customers\" ascending)\n\n",
             "resultType": "SQL",
             "tableData": [
                 {
@@ -486,7 +486,7 @@
         },
         {
             "resultType": "SQL",
-            "question": "**Find the average revenue for each product category.**\n\n<br/>\n\n_Expected output_: (ordered by average revenue descending)\n\n![](https://i.imgur.com/wwdkkuJ.png)",
+            "question": "**Find the average revenue for each product category.**\n\n<br/>\n\n_Expected output_: (ordered by average revenue descending)\n\n",
             "tableData": [
                 {
                     "CategoryName": "Meat/Poultry",
