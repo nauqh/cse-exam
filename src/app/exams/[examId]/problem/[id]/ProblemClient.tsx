@@ -261,6 +261,7 @@ export default function ProblemClient({
 								name="description"
 								content={currentProblem?.question}
 								questionNumber={currentPage}
+								tableData={currentProblem?.tableData}
 							/>
 							<ProblemDescription name="solutions" />
 							<ProblemDescription name="discussion" />

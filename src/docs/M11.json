@@ -44,7 +44,27 @@
         },
         {
             "resultType": "SQL",
-            "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Y8xDe9w.png)"
+            "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Y8xDe9w.png)",
+            "tableData": [
+                {
+                    "testCase": "Test Case 1",
+                    "input": "5",
+                    "expectedOutput": "120",
+                    "explanation": "Factorial of 5"
+                },
+                {
+                    "testCase": "Test Case 2",
+                    "input": "3",
+                    "expectedOutput": "6",
+                    "explanation": "Factorial of 3"
+                },
+                {
+                    "testCase": "Test Case 3",
+                    "input": "0",
+                    "expectedOutput": "1",
+                    "explanation": "Factorial of 0"
+                }
+            ]
         },
         {
             "resultType": "SQL",

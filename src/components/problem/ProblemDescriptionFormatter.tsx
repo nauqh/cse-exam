@@ -2,8 +2,22 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import ZoomableImage from "../ZoomableImage";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 
-const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
+const ProblemDescriptionFormatter = ({
+	content,
+	tableData,
+}: {
+	content: string;
+	tableData?: { [key: string]: string }[];
+}) => {
 	const processedContent = content.replace(/<br\/>/g, "\n\n");
 	const parts = processedContent.split(/(```[^`]*```)/g);
 
@@ -69,6 +83,42 @@ const ProblemDescriptionFormatter = ({ content }: { content: string }) => {
 					);
 				}
 			})}
+
+			{tableData && (
+				<div className="my-4">
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead></TableHead>
+								{Object.keys(tableData[0]).map((header) => (
+									<TableHead
+										key={header}
+										className="capitalize"
+									>
+										{header
+											.replace(/([A-Z])/g, " $1")
+											.trim()}
+									</TableHead>
+								))}
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{tableData.map((row, index) => (
+								<TableRow key={index}>
+									<TableCell>{index + 1}</TableCell>
+									{Object.values(row).map(
+										(value, cellIndex) => (
+											<TableCell key={cellIndex}>
+												{value}
+											</TableCell>
+										)
+									)}
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</div>
+			)}
 		</div>
 	);
 };
