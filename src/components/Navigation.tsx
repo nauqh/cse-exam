@@ -27,7 +27,16 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Fragment } from "react";
 
 export default function Navigation() {
 	const { user } = useUser();
@@ -36,6 +45,7 @@ export default function Navigation() {
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const router = useRouter();
+	const pathname = usePathname();
 
 	const searchPaths = {
 		profile: "/profile",
@@ -95,172 +105,245 @@ export default function Navigation() {
 		}
 	};
 
+	const generateBreadcrumbs = () => {
+		if (!pathname || pathname === "/") return [];
+
+		const segments = pathname.split("/").filter((segment) => segment);
+		let path = "";
+
+		return segments.map((segment, index) => {
+			path += `/${segment}`;
+			const formattedSegment = segment
+				.split("-")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" ");
+
+			return {
+				label: formattedSegment,
+				href: path,
+				isLast: index === segments.length - 1,
+			};
+		});
+	};
+
 	return (
 		<>
 			<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm shadow-sm z-50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex justify-between items-center h-16">
-						<Link href="/" className="flex-shrink-0">
-							<Image
-								src="/logo.png"
-								alt="eExams Logo"
-								width={180}
-								height={100}
-								className="hover:opacity-90 transition-opacity"
-							/>
-						</Link>
-
-						{/* Search Button Group */}
-						<div className="hidden sm:flex items-center max-w-md flex-1 mx-8">
-							<div
-								className="flex items-center w-full border border-gray-200 rounded-lg transition-colors cursor-pointer group hover:border-primary bg-gray-50/50"
-								onClick={() => setIsSearchOpen(!isSearchOpen)}
-							>
-								<input
-									type="text"
-									placeholder="Quick search..."
-									className="w-full px-4 py-2 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary"
-									value={searchQuery}
-									onChange={(e) =>
-										setSearchQuery(e.target.value)
-									}
+					<div className="flex flex-col gap-2">
+						<div className="flex justify-between items-center h-16">
+							<Link href="/" className="flex-shrink-0">
+								<Image
+									src="/logo.png"
+									alt="eExams Logo"
+									width={180}
+									height={100}
+									className="hover:opacity-90 transition-opacity"
 								/>
-								<div className="p-2.5 text-gray-400 group-hover:text-primary transition-all duration-200">
-									<BiSearch className="h-5 w-5" />
+							</Link>
+
+							{/* Search Button Group */}
+							<div className="hidden sm:flex items-center max-w-md flex-1 mx-8">
+								<div
+									className="flex items-center w-full border border-gray-200 rounded-lg transition-colors cursor-pointer group hover:border-primary bg-gray-50/50"
+									onClick={() =>
+										setIsSearchOpen(!isSearchOpen)
+									}
+								>
+									<input
+										type="text"
+										placeholder="Quick search..."
+										className="w-full px-4 py-2 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary"
+										value={searchQuery}
+										onChange={(e) =>
+											setSearchQuery(e.target.value)
+										}
+									/>
+									<div className="p-2.5 text-gray-400 group-hover:text-primary transition-all duration-200">
+										<BiSearch className="h-5 w-5" />
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div className="hidden md:flex items-center space-x-2 text-primary">
-							<Link href="/">
-								<Button
-									variant="ghost"
-									className="flex items-center "
-								>
-									<BiHome className="h-6 w-6" />
-									<span>Home</span>
-								</Button>
-							</Link>
-							<Link href="/exams">
-								<Button
-									variant="ghost"
-									className="flex items-center "
-								>
-									<BiBook className="h-6 w-6" />
-									<span>Exams</span>
-								</Button>
-							</Link>
-							<Link href="/profile">
-								<Button
-									variant="ghost"
-									className="flex items-center "
-								>
-									<BiUser className="h-6 w-6" />
-									<span>Profile</span>
-								</Button>
-							</Link>
-							<Link href="https://www.coderschool.vn">
-								<Button
-									variant="ghost"
-									className="flex items-center"
-								>
-									<BiChalkboard className="h-6 w-6" />
-									<span>Courses</span>
-								</Button>
-							</Link>
-						</div>
-
-						<SignedIn>
-							<div className="flex items-center gap-2 ml-4">
-								<Button
-									variant="ghost"
-									className="md:hidden"
-									onClick={() => setIsSearchOpen(true)}
-								>
-									<BiSearch
-										style={{
-											height: "1.2rem",
-											width: "1.2rem",
-										}}
-									/>
-								</Button>
-								<DropdownMenu>
-									<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-50 rounded-full p-1.5 transition-colors outline-none">
-										<Avatar className="h-8 w-8">
-											<AvatarImage src={user?.imageUrl} />
-											<AvatarFallback>CN</AvatarFallback>
-										</Avatar>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent
-										align="end"
-										className="min-w-max p-2 rounded-md shadow-lg bg-white border border-gray-200"
+							<div className="hidden md:flex items-center space-x-2 text-primary">
+								<Link href="/">
+									<Button
+										variant="ghost"
+										className="flex items-center "
 									>
-										<DropdownMenuLabel className="px-3 py-2">
-											<div className="flex items-center gap-3">
-												<Avatar className="h-8 w-8">
-													<AvatarImage
-														src={user?.imageUrl}
-													/>
-													<AvatarFallback>
-														CN
-													</AvatarFallback>
-												</Avatar>
-												<div className="flex flex-col">
-													<span className="font-semibold text-primary">
-														{user?.fullName ||
-															"User"}
-													</span>
-													<span className="text-xs text-primary/50">
-														{user?.emailAddresses[0]
-															.emailAddress ||
-															"email"}
-													</span>
-												</div>
-											</div>
-										</DropdownMenuLabel>
-										<DropdownMenuSeparator />
-										<Link href="/profile">
-											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
-												<BiUser className="h-5 w-5 text-gray-600" />
-												View profile
-												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
-											</DropdownMenuItem>
-										</Link>
-										<Link href="/settings">
-											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
-												<BiCog className="h-5 w-5 text-gray-600" />
-												Settings
-												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
-											</DropdownMenuItem>
-										</Link>
-										<Link href="/help">
-											<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
-												<BiHelpCircle className="h-5 w-5 text-gray-600" />
-												Help
-												<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
-											</DropdownMenuItem>
-										</Link>
-										<DropdownMenuSeparator />
-										<DropdownMenuItem
-											className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 text-red-600 rounded-lg cursor-pointer group"
-											onClick={handleSignOut}
-										>
-											<BiLogIn className="h-5 w-5" />
-											Sign out
-											<BiChevronRight className="h-5 w-5 ml-auto transform transition-transform group-hover:translate-x-1" />
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
-							</div>
-						</SignedIn>
-
-						<SignedOut>
-							<div className="flex items-center gap-4">
-								<Link href="/auth/sign-in">
-									<Button className="px-6">Sign in</Button>
+										<BiHome className="h-6 w-6" />
+										<span>Home</span>
+									</Button>
+								</Link>
+								<Link href="/exams">
+									<Button
+										variant="ghost"
+										className="flex items-center "
+									>
+										<BiBook className="h-6 w-6" />
+										<span>Exams</span>
+									</Button>
+								</Link>
+								<Link href="/profile">
+									<Button
+										variant="ghost"
+										className="flex items-center "
+									>
+										<BiUser className="h-6 w-6" />
+										<span>Profile</span>
+									</Button>
+								</Link>
+								<Link href="https://www.coderschool.vn">
+									<Button
+										variant="ghost"
+										className="flex items-center"
+									>
+										<BiChalkboard className="h-6 w-6" />
+										<span>Courses</span>
+									</Button>
 								</Link>
 							</div>
-						</SignedOut>
+
+							<SignedIn>
+								<div className="flex items-center gap-2 ml-4">
+									<Button
+										variant="ghost"
+										className="md:hidden"
+										onClick={() => setIsSearchOpen(true)}
+									>
+										<BiSearch
+											style={{
+												height: "1.2rem",
+												width: "1.2rem",
+											}}
+										/>
+									</Button>
+									<DropdownMenu>
+										<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-50 rounded-full p-1.5 transition-colors outline-none">
+											<Avatar className="h-8 w-8">
+												<AvatarImage
+													src={user?.imageUrl}
+												/>
+												<AvatarFallback>
+													CN
+												</AvatarFallback>
+											</Avatar>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent
+											align="end"
+											className="min-w-max p-2 rounded-md shadow-lg bg-white border border-gray-200"
+										>
+											<DropdownMenuLabel className="px-3 py-2">
+												<div className="flex items-center gap-3">
+													<Avatar className="h-8 w-8">
+														<AvatarImage
+															src={user?.imageUrl}
+														/>
+														<AvatarFallback>
+															CN
+														</AvatarFallback>
+													</Avatar>
+													<div className="flex flex-col">
+														<span className="font-semibold text-primary">
+															{user?.fullName ||
+																"User"}
+														</span>
+														<span className="text-xs text-primary/50">
+															{user
+																?.emailAddresses[0]
+																.emailAddress ||
+																"email"}
+														</span>
+													</div>
+												</div>
+											</DropdownMenuLabel>
+											<DropdownMenuSeparator />
+											<Link href="/profile">
+												<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
+													<BiUser className="h-5 w-5 text-gray-600" />
+													View profile
+													<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
+												</DropdownMenuItem>
+											</Link>
+											<Link href="/settings">
+												<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
+													<BiCog className="h-5 w-5 text-gray-600" />
+													Settings
+													<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
+												</DropdownMenuItem>
+											</Link>
+											<Link href="/help">
+												<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
+													<BiHelpCircle className="h-5 w-5 text-gray-600" />
+													Help
+													<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
+												</DropdownMenuItem>
+											</Link>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem
+												className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 text-red-600 rounded-lg cursor-pointer group"
+												onClick={handleSignOut}
+											>
+												<BiLogIn className="h-5 w-5" />
+												Sign out
+												<BiChevronRight className="h-5 w-5 ml-auto transform transition-transform group-hover:translate-x-1" />
+											</DropdownMenuItem>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</div>
+							</SignedIn>
+
+							<SignedOut>
+								<div className="flex items-center gap-4">
+									<Link href="/auth/sign-in">
+										<Button className="px-6">
+											Sign in
+										</Button>
+									</Link>
+								</div>
+							</SignedOut>
+						</div>
+
+						{/* Dynamic breadcrumb */}
+						{pathname !== "/" && (
+							<div className="pb-2">
+								<Breadcrumb>
+									<BreadcrumbList>
+										<BreadcrumbItem>
+											<BreadcrumbLink href="/">
+												Home
+											</BreadcrumbLink>
+										</BreadcrumbItem>
+										{generateBreadcrumbs().map(
+											(breadcrumb) => (
+												<Fragment key={breadcrumb.href}>
+													<BreadcrumbSeparator />
+													<BreadcrumbItem>
+														{breadcrumb.isLast ? (
+															<BreadcrumbPage>
+																{
+																	breadcrumb.label
+																}
+															</BreadcrumbPage>
+														) : (
+															<BreadcrumbLink
+																href={
+																	breadcrumb.href
+																}
+															>
+																{
+																	breadcrumb.label
+																}
+															</BreadcrumbLink>
+														)}
+													</BreadcrumbItem>
+												</Fragment>
+											)
+										)}
+									</BreadcrumbList>
+								</Breadcrumb>
+							</div>
+						)}
 					</div>
 				</div>
 			</nav>

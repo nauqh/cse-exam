@@ -32,6 +32,7 @@ export default function ProfilePage() {
 	const [showFilters, setShowFilters] = useState(false);
 
 	useEffect(() => {
+		// Only fetch exam history if we are in the history view.
 		if (view !== "history" || !user?.emailAddresses) return;
 
 		const fetchExamHistory = async () => {

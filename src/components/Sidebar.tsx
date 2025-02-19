@@ -79,8 +79,8 @@ export default function Sidebar() {
 
 	return (
 		<div
-			className="fixed left-4 top-20 h-[calc(100vh-6rem)] rounded-xl w-14 sm:w-48 md:w-56 lg:w-64 border bg-white flex flex-col 
-            shadow-lg transition-all duration-300 ease-in-out"
+			className="fixed left-4 top-1/2 -translate-y-1/2 h-[60vh] rounded-xl w-14 sm:w-48 md:w-56 lg:w-64 border bg-white flex flex-col 
+			shadow-lg transition-all duration-300 ease-in-out"
 		>
 			<div className="p-2 sm:p-3 md:p-4 border-b">
 				<div className="flex items-center gap-2 sm:gap-3">
@@ -107,7 +107,6 @@ export default function Sidebar() {
 				<div className="px-2 md:px-4 py-2">
 					<div className="flex flex-col gap-2">
 						{navItems.map((item) => {
-							// Set variant to "default" if the item is active.
 							const variant = item.isActive ? "default" : "ghost";
 							return (
 								<NavButton

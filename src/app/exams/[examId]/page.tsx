@@ -1,4 +1,6 @@
 import ExamContent from "@/app/exams/[examId]/ExamContent";
+import Navigation from "@/components/Navigation";
+
 const examTitles: { [key: string]: string } = {
 	M11: "M1.1 Introduction to SQL",
 	M12: "M1.2 Advanced SQL",
@@ -14,5 +16,12 @@ export default async function ExamPage({
 	const { examId } = await params;
 	const examTitle = examTitles[examId] || "Exam";
 
-	return <ExamContent examId={examId} examTitle={examTitle} />;
+	return (
+		<>
+			<Navigation />
+			<main className="min-h-screen pt-12 px-4 sm:px-6 lg:px-8">
+				<ExamContent examId={examId} examTitle={examTitle} />
+			</main>
+		</>
+	);
 }
