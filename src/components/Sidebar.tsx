@@ -121,7 +121,7 @@ export default function Sidebar() {
 					</div>
 				</div>
 
-				<div className="mt-auto border-t px-1 sm:px-2 md:px-4 py-2 md:py-3">
+				<div className="mt-auto border-t p-2 ">
 					<NavButton
 						href=""
 						icon={<BiLogIn />}
