@@ -184,15 +184,6 @@ export default function Navigation() {
 										<span>Exams</span>
 									</Button>
 								</Link>
-								<Link href="/profile">
-									<Button
-										variant="ghost"
-										className="flex items-center "
-									>
-										<BiUser className="h-6 w-6" />
-										<span>Profile</span>
-									</Button>
-								</Link>
 								<Link href="/courses">
 									<Button
 										variant="ghost"
