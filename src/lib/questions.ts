@@ -4,6 +4,7 @@ export interface Question {
   question: string;
   resultType: string;
   choices?: string[];
+  tableData?: { [key: string]: string }[];
 }
 
 export interface ExamContent {
