@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	BiBook,
+	BiHome,
 	BiUser,
 	BiCog,
 	BiChalkboard,
@@ -131,6 +132,15 @@ export default function Navigation() {
 						</div>
 
 						<div className="hidden md:flex items-center space-x-2 text-primary">
+							<Link href="/">
+								<Button
+									variant="ghost"
+									className="flex items-center "
+								>
+									<BiHome className="h-6 w-6" />
+									<span>Home</span>
+								</Button>
+							</Link>
 							<Link href="/exams">
 								<Button
 									variant="ghost"

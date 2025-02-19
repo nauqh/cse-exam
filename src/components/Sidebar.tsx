@@ -39,12 +39,8 @@ const NavButton = ({
 			onClick={onClick}
 			className={`w-full justify-center sm:justify-start text-base font-normal h-11 px-2 sm:px-3 transition-all ${className}`}
 		>
-			<span className="mr-0 sm:mr-2 md:mr-3 text-lg sm:text-base">
-				{icon}
-			</span>
-			<span className="hidden sm:inline text-sm md:text-base">
-				{label}
-			</span>
+			<span className="mr-0 sm:mr-2 md:mr-3 text-lg">{icon}</span>
+			<span className="hidden sm:inline text-sm">{label}</span>
 		</Button>
 	</Link>
 );

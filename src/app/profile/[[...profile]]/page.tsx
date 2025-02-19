@@ -18,7 +18,6 @@ import Navigation from "@/components/Navigation";
 export default function ProfilePage() {
 	const { user } = useUser();
 	const searchParams = useSearchParams();
-	// Default view is "history" if no view is specified
 	const view = searchParams.get("view") || "history";
 	const isSettings = view === "settings";
 
@@ -33,7 +32,6 @@ export default function ProfilePage() {
 	const [showFilters, setShowFilters] = useState(false);
 
 	useEffect(() => {
-		// Only fetch exam history if we are in the history view.
 		if (view !== "history" || !user?.emailAddresses) return;
 
 		const fetchExamHistory = async () => {
