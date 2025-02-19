@@ -47,76 +47,480 @@
             "question": "**How many products have the word 'chocolate' in their product name?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Y8xDe9w.png)",
             "tableData": [
                 {
-                    "testCase": "Test Case 1",
-                    "input": "5",
-                    "expectedOutput": "120",
-                    "explanation": "Factorial of 5"
-                },
-                {
-                    "testCase": "Test Case 2",
-                    "input": "3",
-                    "expectedOutput": "6",
-                    "explanation": "Factorial of 3"
-                },
-                {
-                    "testCase": "Test Case 3",
-                    "input": "0",
-                    "expectedOutput": "1",
-                    "explanation": "Factorial of 0"
+                    "#ChocolateProducts": 1
                 }
             ]
         },
         {
             "resultType": "SQL",
-            "question": "**What are the names and unit prices of the five most expensive products?**\n\nOrder these products from most expensive to least expensive.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/x3jCGYQ.png)"
+            "question": "**What are the names and unit prices of the five most expensive products?**\n\nOrder these products from most expensive to least expensive.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/x3jCGYQ.png)",
+            "tableData": [
+                {
+                    "ProductName": "Côte de Blaye",
+                    "UnitPrice": 263.50
+                },
+                {
+                    "ProductName": "Thüringer Rostbratwurst",
+                    "UnitPrice": 123.79
+                },
+                {
+                    "ProductName": "Mishi Kobe Niku",
+                    "UnitPrice": 97.00
+                },
+                {
+                    "ProductName": "Sir Rodney's Marmalade",
+                    "UnitPrice": 81.00
+                },
+                {
+                    "ProductName": "Carnarvon Tigers",
+                    "UnitPrice": 62.50
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**Get the list of five countries with the most number of customers staying there.**\n\nOrder these countries from most customers to least customers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/RHSnPK7.png)"
+            "question": "**Get the list of five countries with the most number of customers staying there.**\n\nOrder these countries from most customers to least customers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/RHSnPK7.png)",
+            "tableData": [
+                {
+                    "Country": "USA",
+                    "#Customers": 13
+                },
+                {
+                    "Country": "Germany",
+                    "#Customers": 11
+                },
+                {
+                    "Country": "France",
+                    "#Customers": 11
+                },
+                {
+                    "Country": "Brazil",
+                    "#Customers": 9
+                },
+                {
+                    "Country": "UK",
+                    "#Customers": 7
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**Get the list of five countries with the least number of suppliers staying there.**\n\nOrder the result by number of suppliers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Z3nScfY.png)"
+            "question": "**Get the list of five countries with the least number of suppliers staying there.**\n\nOrder the result by number of suppliers.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Z3nScfY.png)",
+            "tableData": [
+                {
+                    "Country": "Brazil",
+                    "#Suppliers": 1
+                },
+                {
+                    "Country": "Denmark",
+                    "#Suppliers": 1
+                },
+                {
+                    "Country": "Finland",
+                    "#Suppliers": 1
+                },
+                {
+                    "Country": "Netherlands",
+                    "#Suppliers": 1
+                },
+                {
+                    "Country": "Norway",
+                    "#Suppliers": 1
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**Retrieve the list of category names with number of products in each category.**\n\nOrder the result by number of product descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/r3UZdT7.png)"
+            "question": "**Retrieve the list of category names with number of products in each category.**\n\nOrder the result by number of product descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/r3UZdT7.png)",
+            "tableData": [
+                {
+                    "CategoryName": "Confections",
+                    "#Product": 13
+                },
+                {
+                    "CategoryName": "Seafood",
+                    "#Product": 12
+                },
+                {
+                    "CategoryName": "Condiments",
+                    "#Product": 12
+                },
+                {
+                    "CategoryName": "Beverages",
+                    "#Product": 12
+                },
+                {
+                    "CategoryName": "Dairy Products",
+                    "#Product": 10
+                },
+                {
+                    "CategoryName": "Grains/Cereals",
+                    "#Product": 7
+                },
+                {
+                    "CategoryName": "Meat/Poultry",
+                    "#Product": 6
+                },
+                {
+                    "CategoryName": "Produce",
+                    "#Product": 5
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**Retrieve the names and total revenue of the top 5 selling products.**\n\nOrder the result by total revenue descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Qai3Crt.png)"
+            "question": "**Retrieve the names and total revenue of the top 5 selling products.**\n\nOrder the result by total revenue descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/Qai3Crt.png)",
+            "tableData": [
+                {
+                    "ProductName": "Côte de Blaye",
+                    "TotalRevenue": 149984.2
+                },
+                {
+                    "ProductName": "Thüringer Rostbratwurst",
+                    "TotalRevenue": 87736.4
+                },
+                {
+                    "ProductName": "Raclette Courdavault",
+                    "TotalRevenue": 76296.0
+                },
+                {
+                    "ProductName": "Camembert Pierrot",
+                    "TotalRevenue": 50286.0
+                },
+                {
+                    "ProductName": "Tarte au sucre",
+                    "TotalRevenue": 49827.9
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**How many orders does the company ship to \"Western Europe\" each year?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/VY3zjgm.png)"
+            "question": "**How many orders does the company ship to \"Western Europe\" each year?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/VY3zjgm.png)",
+            "tableData": [
+                {
+                    "Year": 2016,
+                    "#Orders": 52,
+                    "ShipRegion": "Western Europe"
+                },
+                {
+                    "Year": 2017,
+                    "#Orders": 139,
+                    "ShipRegion": "Western Europe"
+                },
+                {
+                    "Year": 2018,
+                    "#Orders": 85,
+                    "ShipRegion": "Western Europe"
+                }
+            ]
         },
         {
             "question": "**What are the company names of the customers who have ordered the product 'Tofu'?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/OkIYI2i.png)",
-            "resultType": "SQL"
+            "resultType": "SQL",
+            "tableData": [
+                {
+                    "CompanyName": "Toms Spezialitäten"
+                },
+                {
+                    "CompanyName": "Königlich Essen"
+                },
+                {
+                    "CompanyName": "Wartian Herkku"
+                },
+                {
+                    "CompanyName": "Hungry Coyote Import Store"
+                },
+                {
+                    "CompanyName": "Save-a-lot Markets"
+                },
+                {
+                    "CompanyName": "Océano Atlántico Ltda."
+                },
+                {
+                    "CompanyName": "Piccolo und mehr"
+                },
+                {
+                    "CompanyName": "Pericles Comidas clásicas"
+                },
+                {
+                    "CompanyName": "Hungry Owl All-Night Grocers"
+                },
+                {
+                    "CompanyName": "Ernst Handel"
+                },
+                {
+                    "CompanyName": "Ottilies Käseladen"
+                },
+                {
+                    "CompanyName": "Frankenversand"
+                },
+                {
+                    "CompanyName": "Ana Trujillo Emparedados y helados"
+                },
+                {
+                    "CompanyName": "Great Lakes Food Market"
+                },
+                {
+                    "CompanyName": "Hungry Cactus snabbköp"
+                },
+                {
+                    "CompanyName": "Que Delícia"
+                },
+                {
+                    "CompanyName": "Bon app'"
+                },
+                {
+                    "CompanyName": "Rattlesnake Canyon Grocery"
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**Retrieve customer IDs and company names of customer companies that have never placed an order.**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/v8ezSiO.png)"
+            "question": "**Retrieve customer IDs and company names of customer companies that have never placed an order.**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/v8ezSiO.png)",
+            "tableData": [
+                {
+                    "CustomerID": "FISSA",
+                    "UnorderedCustomers": "FISSA Fabrica Inter. Salchichas S.A."
+                },
+                {
+                    "CustomerID": "PARIS",
+                    "UnorderedCustomers": "Paris spécialités"
+                },
+                {
+                    "CustomerID": "Val2",
+                    "UnorderedCustomers": "IT"
+                },
+                {
+                    "CustomerID": "VALON",
+                    "UnorderedCustomers": "IT"
+                }
+            ]
         },
         {
             "question": "**What are the company names of the suppliers that supply only one product?**\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/UHvFhzG.png)",
-            "resultType": "SQL"
+            "resultType": "SQL",
+            "tableData": [
+                {
+                    "CompanyName": "Escargots Nouveaux"
+                },
+                {
+                    "CompanyName": "Nord-Ost-Fisch Handelsgesellschaft mbH"
+                },
+                {
+                    "CompanyName": "Refrescos Americanas LTDA"
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**What are the names of employees who have taken orders from customers who live in the same city as the employee?**\n\nOrder the result by EmployeeID.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/yohxKjS.png)"
+            "question": "**What are the names of employees who have taken orders from customers who live in the same city as the employee?**\n\nOrder the result by EmployeeID.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/yohxKjS.png)",
+            "tableData": [
+                {
+                    "EmployeeID": 1,
+                    "LastName": "Davolio",
+                    "FirstName": "Nancy"
+                },
+                {
+                    "EmployeeID": 5,
+                    "LastName": "Buchanan",
+                    "FirstName": "Steven"
+                },
+                {
+                    "EmployeeID": 6,
+                    "LastName": "Suyama",
+                    "FirstName": "Michael"
+                },
+                {
+                    "EmployeeID": 7,
+                    "LastName": "King",
+                    "FirstName": "Robert"
+                },
+                {
+                    "EmployeeID": 8,
+                    "LastName": "Callahan",
+                    "FirstName": "Laura"
+                },
+                {
+                    "EmployeeID": 9,
+                    "LastName": "Dodsworth",
+                    "FirstName": "Anne"
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**List the top 5 products based on total quantity ordered.**\n\nOrder the result by total quantity descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/xA2yU1e.png)"
+            "question": "**List the top 5 products based on total quantity ordered.**\n\nOrder the result by total quantity descending.\n\n<br/>\n\n_Expected output_:\n\n![](https://i.imgur.com/xA2yU1e.png)",
+            "tableData": [
+                {
+                    "ProductName": "Camembert Pierrot",
+                    "TotalQuantity": 1577
+                },
+                {
+                    "ProductName": "Raclette Courdavault",
+                    "TotalQuantity": 1496
+                },
+                {
+                    "ProductName": "Gorgonzola Telino",
+                    "TotalQuantity": 1397
+                },
+                {
+                    "ProductName": "Gnocchi di nonna Alice",
+                    "TotalQuantity": 1263
+                },
+                {
+                    "ProductName": "Pavlova",
+                    "TotalQuantity": 1158
+                }
+            ]
         },
         {
             "question": "**Find the total number of orders and the total number of customers who have made orders in each country.**\n\n<br/>\n\n_Expected output_: (ordered by \"Total Order\" descending, and \"Total Customers\" ascending)\n\n![](https://i.imgur.com/qJsGkti.png)",
-            "resultType": "SQL"
+            "resultType": "SQL",
+            "tableData": [
+                {
+                    "Country": "Germany",
+                    "TotalOrders": 122,
+                    "TotalCustomers": 11
+                },
+                {
+                    "Country": "USA",
+                    "TotalOrders": 122,
+                    "TotalCustomers": 13
+                },
+                {
+                    "Country": "Brazil",
+                    "TotalOrders": 83,
+                    "TotalCustomers": 9
+                },
+                {
+                    "Country": "France",
+                    "TotalOrders": 77,
+                    "TotalCustomers": 10
+                },
+                {
+                    "Country": "UK",
+                    "TotalOrders": 56,
+                    "TotalCustomers": 7
+                },
+                {
+                    "Country": "Venezuela",
+                    "TotalOrders": 46,
+                    "TotalCustomers": 4
+                },
+                {
+                    "Country": "Austria",
+                    "TotalOrders": 40,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Sweden",
+                    "TotalOrders": 37,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Canada",
+                    "TotalOrders": 30,
+                    "TotalCustomers": 3
+                },
+                {
+                    "Country": "Italy",
+                    "TotalOrders": 28,
+                    "TotalCustomers": 3
+                },
+                {
+                    "Country": "Mexico",
+                    "TotalOrders": 28,
+                    "TotalCustomers": 5
+                },
+                {
+                    "Country": "Spain",
+                    "TotalOrders": 23,
+                    "TotalCustomers": 4
+                },
+                {
+                    "Country": "Finland",
+                    "TotalOrders": 22,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Ireland",
+                    "TotalOrders": 19,
+                    "TotalCustomers": 1
+                },
+                {
+                    "Country": "Belgium",
+                    "TotalOrders": 19,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Denmark",
+                    "TotalOrders": 18,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Switzerland",
+                    "TotalOrders": 18,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Argentina",
+                    "TotalOrders": 16,
+                    "TotalCustomers": 3
+                },
+                {
+                    "Country": "Portugal",
+                    "TotalOrders": 13,
+                    "TotalCustomers": 2
+                },
+                {
+                    "Country": "Poland",
+                    "TotalOrders": 7,
+                    "TotalCustomers": 1
+                },
+                {
+                    "Country": "Norway",
+                    "TotalOrders": 6,
+                    "TotalCustomers": 1
+                }
+            ]
         },
         {
             "resultType": "SQL",
-            "question": "**Find the average revenue for each product category.**\n\n<br/>\n\n_Expected output_: (ordered by average revenue descending)\n\n![](https://i.imgur.com/wwdkkuJ.png)"
+            "question": "**Find the average revenue for each product category.**\n\n<br/>\n\n_Expected output_: (ordered by average revenue descending)\n\n![](https://i.imgur.com/wwdkkuJ.png)",
+            "tableData": [
+                {
+                    "CategoryName": "Meat/Poultry",
+                    "AVGRevenue": 1029.9931
+                },
+                {
+                    "CategoryName": "Produce",
+                    "AVGRevenue": 774.0338
+                },
+                {
+                    "CategoryName": "Beverages",
+                    "AVGRevenue": 709.2251
+                },
+                {
+                    "CategoryName": "Dairy Products",
+                    "AVGRevenue": 686.6954
+                },
+                {
+                    "CategoryName": "Confections",
+                    "AVGRevenue": 530.2368
+                },
+                {
+                    "CategoryName": "Condiments",
+                    "AVGRevenue": 526.3646
+                },
+                {
+                    "CategoryName": "Grains/Cereals",
+                    "AVGRevenue": 513.9122
+                },
+                {
+                    "CategoryName": "Seafood",
+                    "AVGRevenue": 429.1609
+                }
+            ]
         }
     ]
 }
