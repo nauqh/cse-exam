@@ -294,7 +294,7 @@ export default function Navigation() {
 							</SignedIn>
 
 							<SignedOut>
-								<div className="flex items-center gap-4">
+								<div className="flex items-center gap-4 ml-4">
 									<Link href="/auth/sign-in">
 										<Button className="px-6">
 											Sign in
