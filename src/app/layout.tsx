@@ -12,32 +12,14 @@ const manrope = Manrope({
 export const metadata: Metadata = {
 	title: "Coderschool e-Exam",
 	description: "Final Assessment Platform for Coderschool Students",
-	icons: {
-		icon: "/favicon.png",
-	},
 	openGraph: {
-		type: "website",
-		locale: "en_US",
-		url: "https://csassessment.it.com",
-		siteName: "Coderschool e-Exam",
-		title: "Coderschool e-Exam Platform",
-		description: "Final Assessment Platform for Coderschool Students",
-		images: [
-			{
-				url: "/banner.png",
-				width: 1200,
-				height: 630,
-				alt: "Coderschool e-Exam Platform",
-			},
-		],
+		images: ["/banner.png"],
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Coderschool e-Exam Platform",
 		site: "csassessment.it.com",
-		description: "Final Assessment Platform for Coderschool Students",
-		images: ["/banner.png"],
 		creator: "@nauqh",
+		images: ["/banner.png"],
 	},
 };
 
