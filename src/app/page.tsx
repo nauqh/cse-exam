@@ -1,6 +1,6 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import {
 	FaBook,
@@ -15,11 +15,9 @@ import {
 const Navigation = dynamic(() => import("@/components/Navigation"), {
 	ssr: true,
 });
+
 const HeroSection = dynamic(() => import("@/components/Hero"), {
-	ssr: false,
-	loading: () => (
-		<div className="h-64 flex items-center justify-center">Loading...</div>
-	),
+	ssr: true,
 });
 
 const supportCards = [
@@ -29,7 +27,7 @@ const supportCards = [
 		description:
 			"Essential tips and guidelines to help you prepare effectively",
 		href: "/guides/exam-prep",
-		image: "https://img.freepik.com/free-vector/college-project-concept-illustration_114360-10211.jpg",
+		image: "https://img.freepik.com/free-vector/college-project-concept-illustration_114360-10211.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 	{
 		icon: <FaDesktop className="w-6 h-6" />,
@@ -37,7 +35,7 @@ const supportCards = [
 		description:
 			"Step-by-step guide to configure your system for online exams",
 		href: "/guides/system-setup",
-		image: "https://img.freepik.com/free-vector/developer-activity-concept-illustration_114360-1981.jpg",
+		image: "https://img.freepik.com/free-vector/developer-activity-concept-illustration_114360-1981.jpg?t=st=1739328626~exp=1739332226~hmac=3ed8f2d0f748287434944221a7182e7b44b5f9911849cffe29ff3c0b2d4cba17&w=1480",
 	},
 	{
 		icon: <FaQuestion className="w-6 h-6" />,
@@ -45,14 +43,14 @@ const supportCards = [
 		description:
 			"Common issues and their solutions for a smooth exam experience",
 		href: "/guides/troubleshoot",
-		image: "https://img.freepik.com/free-vector/school-supplies-concept-illustration_114360-20281.jpg",
+		image: "https://img.freepik.com/free-vector/school-supplies-concept-illustration_114360-20281.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 	{
 		icon: <FaHeadset className="w-6 h-6" />,
 		title: "Getting Help and Support",
 		description: "Access our support resources and contact assistance",
 		href: "/support",
-		image: "https://img.freepik.com/free-vector/call-center-concept-illustration_114360-3430.jpg",
+		image: "https://img.freepik.com/free-vector/call-center-concept-illustration_114360-3430.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 	{
 		icon: <FaBook className="w-6 h-6" />,
@@ -60,7 +58,7 @@ const supportCards = [
 		description:
 			"Access sample exams and practice questions to build confidence",
 		href: "/practice-tests",
-		image: "https://img.freepik.com/free-vector/teacher-student-concept-illustration_114360-7905.jpg",
+		image: "https://img.freepik.com/free-vector/teacher-student-concept-illustration_114360-7905.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 	{
 		icon: <FaDesktop className="w-6 h-6" />,
@@ -68,7 +66,7 @@ const supportCards = [
 		description:
 			"Detailed specifications for hardware and software requirements",
 		href: "/technical-requirements",
-		image: "https://img.freepik.com/free-vector/online-test-concept-illustration_114360-5456.jpg",
+		image: "https://img.freepik.com/free-vector/online-test-concept-illustration_114360-5456.jpg?ga=GA1.1.68743632.1739328592&semt=ais_hybrid",
 	},
 ];
 
@@ -137,7 +135,10 @@ export default function Home() {
 							width={500}
 							height={300}
 							className="rounded-2xl shadow-2xl"
-							priority
+							priority={true}
+							loading="eager"
+							placeholder="blur"
+							blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR4SEhwYHCoXFyodHRodHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
 						/>
 					</div>
 					<div className="w-full md:w-1/2 space-y-6">
@@ -175,6 +176,13 @@ export default function Home() {
 									<p className="text-gray-600 leading-relaxed">
 										{card.description}
 									</p>
+									<Image
+										src={card.image}
+										alt={card.title}
+										width={300}
+										height={200}
+										loading="lazy"
+									/>
 								</div>
 							</Link>
 						))}
@@ -208,6 +216,7 @@ export default function Home() {
 									alt="eExams Logo"
 									width={200}
 									height={100}
+									loading="lazy"
 									className="hover:opacity-90 transition-opacity"
 								/>
 							</Link>
