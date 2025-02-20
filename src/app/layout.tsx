@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 		card: "summary_large_image",
 		site: "csassessment.it.com",
 		creator: "@nauqh",
-		images: ["https://csassessment.it.com/banner.png"], // Made URL consistent with OpenGraph
+		images: ["https://csassessment.it.com/banner.png"],
 	},
 };
 
