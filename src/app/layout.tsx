@@ -13,6 +13,10 @@ export const metadata: Metadata = {
 	title: "Coderschool e-Exam",
 	description: "Final Assessment Platform for Coderschool Students",
 	openGraph: {
+		title: "Coderschool e-Exam",
+		description: "Final Assessment Platform for Coderschool Students",
+		type: "website",
+		url: "https://csassessment.it.com",
 		images: ["/banner.png"],
 	},
 	twitter: {
