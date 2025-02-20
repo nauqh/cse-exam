@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 	icons: {
 		icon: "/favicon.png",
 	},
-	metadataBase: new URL("https://csassessment.it.com"),
 	openGraph: {
 		type: "website",
 		locale: "en_US",
@@ -34,7 +33,9 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: "summary_large_image",
+		title: "Coderschool e-Exam Platform",
 		site: "csassessment.it.com",
+		description: "Final Assessment Platform for Coderschool Students",
 		images: ["/banner.png"],
 		creator: "@nauqh",
 	},
