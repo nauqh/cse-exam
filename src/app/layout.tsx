@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 		description: "Final Assessment Platform for Coderschool Students",
 		type: "website",
 		url: "https://csassessment.it.com",
-		images: ["/banner.png"],
+		images: [
+			{
+				url: "https://csassessment.it.com/banner.png",
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
