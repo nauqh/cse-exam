@@ -44,7 +44,7 @@ export default function ExamHome() {
 		<div className="min-h-screen">
 			<Navigation />
 
-			<main className="container mx-auto px-4 py-12 mt-16">
+			<main className="container mx-auto px-4 py-12">
 				<div className="max-w-5xl mx-auto">
 					<header className="text-center mb-12">
 						<h1 className="text-5xl font-extrabold text-gray-800 mb-4">

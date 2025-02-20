@@ -7,15 +7,13 @@ import { SignedIn, SignedOut, useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-	BiBook,
-	BiHome,
 	BiUser,
 	BiCog,
-	BiChalkboard,
 	BiSearch,
 	BiHelpCircle,
 	BiLogIn,
 	BiChevronRight,
+	BiMenu,
 } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -43,6 +41,7 @@ export default function Navigation() {
 	const { signOut } = useClerk();
 	const { toast } = useToast();
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
+	const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const router = useRouter();
 	const pathname = usePathname();
@@ -128,92 +127,87 @@ export default function Navigation() {
 
 	return (
 		<>
-			<nav className="fixed top-0 w-full bg-white/80 backdrop-blur-sm shadow-sm z-50">
+			<nav className="sticky top-0 w-full bg-white/90 backdrop-blur-sm shadow-md z-50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex flex-col gap-2">
-						<div className="flex justify-between items-center h-16">
-							<Link href="/">
-								<Image
-									src="/logo.png"
-									alt="eExams Logo"
-									width={180}
-									height={100}
-									className="hover:opacity-90 transition-opacity"
-									style={{ objectFit: "contain" }}
-									priority
-								/>
-							</Link>
-
-							{/* Search Button Group */}
-							<div className="hidden sm:flex items-center max-w-md flex-1 mx-8">
-								<div
-									className="flex items-center w-full border border-gray-200 rounded-lg transition-colors cursor-pointer group hover:border-primary bg-gray-50/50"
+						<div className="flex justify-between items-center h-16 text-gray-700">
+							{/* Left Section: Hamburger, Logo & Navigation Links */}
+							<div className="flex items-center gap-4">
+								<BiMenu
+									className={`sm:hidden h-6 w-6 transition-transform duration-200 ${
+										isMobileNavOpen ? "rotate-90" : ""
+									}`}
 									onClick={() =>
-										setIsSearchOpen(!isSearchOpen)
+										setIsMobileNavOpen(!isMobileNavOpen)
 									}
-								>
-									<input
-										type="text"
-										placeholder="Quick search..."
-										className="w-full px-4 py-2 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary"
-										value={searchQuery}
-										onChange={(e) =>
-											setSearchQuery(e.target.value)
-										}
+								/>
+								<Link href="/">
+									<Image
+										src="/logo.png"
+										alt="eExams Logo"
+										width={150}
+										height={50}
+										className="hover:opacity-90 transition-opacity"
 									/>
-									<div className="p-2.5 text-gray-400 group-hover:text-primary transition-all duration-200">
-										<BiSearch className="h-5 w-5" />
-									</div>
+								</Link>
+								<div className="hidden sm:flex items-center gap-8 ml-8">
+									<Link
+										href="/"
+										className="hover:text-primary"
+									>
+										Home
+									</Link>
+									<Link
+										href="/exams"
+										className="hover:text-primary"
+									>
+										Exams
+									</Link>
+									<Link
+										href="/courses"
+										className="hover:text-primary"
+									>
+										Courses
+									</Link>
 								</div>
 							</div>
 
-							<div className="hidden md:flex items-center space-x-2 text-primary">
-								<Link href="/">
-									<Button
-										variant="ghost"
-										className="flex items-center "
+							{/* Right Section: Search & User */}
+							<div className="flex items-center gap-4">
+								<div className="hidden sm:flex items-center">
+									<div
+										className="flex items-center w-full border border-gray-200 rounded-lg transition-colors cursor-pointer group hover:border-primary bg-gray-50/50"
+										onClick={() =>
+											setIsSearchOpen(!isSearchOpen)
+										}
 									>
-										<BiHome className="h-6 w-6" />
-										<span>Home</span>
-									</Button>
-								</Link>
-								<Link href="/exams">
-									<Button
-										variant="ghost"
-										className="flex items-center "
-									>
-										<BiBook className="h-6 w-6" />
-										<span>Exams</span>
-									</Button>
-								</Link>
-								<Link href="/courses">
-									<Button
-										variant="ghost"
-										className="flex items-center"
-									>
-										<BiChalkboard className="h-6 w-6" />
-										<span>Courses</span>
-									</Button>
-								</Link>
-							</div>
-
-							<SignedIn>
-								<div className="flex items-center gap-2 ml-4">
-									<Button
-										variant="ghost"
-										className="md:hidden"
-										onClick={() => setIsSearchOpen(true)}
-									>
-										<BiSearch
-											style={{
-												height: "1.2rem",
-												width: "1.2rem",
-											}}
+										<input
+											type="text"
+											placeholder="Search..."
+											className="w-full px-3 py-1.5 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary"
+											value={searchQuery}
+											onChange={(e) =>
+												setSearchQuery(e.target.value)
+											}
 										/>
-									</Button>
+										<div className="px-2 text-gray-400 group-hover:text-primary">
+											<BiSearch className="h-4 w-4" />
+										</div>
+									</div>
+								</div>
+
+								{/* Mobile Search Button */}
+
+								<BiSearch
+									className="sm:hidden h-6 w-6"
+									onClick={() => setIsSearchOpen(true)}
+								/>
+
+								{/* User Section */}
+								<SignedIn>
 									<DropdownMenu modal={false}>
 										<DropdownMenuTrigger className="flex items-center gap-2 hover:bg-gray-50 rounded-full p-1.5 transition-colors outline-none">
-											<Avatar className="h-8 w-8">
+											<Avatar className="h-7 w-7">
 												<AvatarImage
 													src={user?.imageUrl}
 												/>
@@ -283,21 +277,17 @@ export default function Navigation() {
 											</DropdownMenuItem>
 										</DropdownMenuContent>
 									</DropdownMenu>
-								</div>
-							</SignedIn>
+								</SignedIn>
 
-							<SignedOut>
-								<div className="flex items-center gap-4 ml-4">
+								<SignedOut>
 									<Link href="/auth/sign-in">
-										<Button className="px-6">
-											Sign in
-										</Button>
+										<Button>Sign in</Button>
 									</Link>
-								</div>
-							</SignedOut>
+								</SignedOut>
+							</div>
 						</div>
 
-						{/* Dynamic breadcrumb */}
+						{/* Dynamic Breadcrumb */}
 						{pathname !== "/" && (
 							<div className="pb-2">
 								<Breadcrumb>
@@ -341,14 +331,46 @@ export default function Navigation() {
 				</div>
 			</nav>
 
+			{/* Mobile Navigation Dropdown */}
+			<div
+				className={`sm:hidden fixed top-16 left-0 w-full bg-white/95 backdrop-blur-sm transition-all duration-200 ease-in-out z-50 ${
+					isMobileNavOpen
+						? "opacity-100 visible"
+						: "opacity-0 invisible"
+				}`}
+			>
+				<div className="px-4 py-3 space-y-1">
+					<Link
+						href="/"
+						onClick={() => setIsMobileNavOpen(false)}
+						className="block py-2.5 px-4 text-gray-700 hover:bg-gray-50 rounded-lg hover:text-primary transition-colors"
+					>
+						Home
+					</Link>
+					<Link
+						href="/exams"
+						onClick={() => setIsMobileNavOpen(false)}
+						className="block py-2.5 px-4 text-gray-700 hover:bg-gray-50 rounded-lg hover:text-primary transition-colors"
+					>
+						Exams
+					</Link>
+					<Link
+						href="/courses"
+						onClick={() => setIsMobileNavOpen(false)}
+						className="block py-2.5 px-4 text-gray-700 hover:bg-gray-50 rounded-lg hover:text-primary transition-colors"
+					>
+						Courses
+					</Link>
+				</div>
+			</div>
+
 			{/* Full Screen Search Overlay */}
 			<div
-				className={`fixed inset-0 w-full h-full bg-white/95 backdrop-blur-sm z-[60] transition-all duration-300 ease-in-out
-                    ${
-						isSearchOpen
-							? "opacity-100 visible scale-100"
-							: "opacity-0 invisible scale-95"
-					}`}
+				className={`fixed inset-0 w-full h-full bg-white/95 backdrop-blur-sm z-[60] transition-all duration-300 ease-in-out ${
+					isSearchOpen
+						? "opacity-100 visible scale-100"
+						: "opacity-0 invisible scale-95"
+				}`}
 				onClick={() => setIsSearchOpen(false)}
 			>
 				<div className="container mx-auto p-8 max-w-5xl h-full">
@@ -390,11 +412,7 @@ export default function Navigation() {
 								].map((tag) => (
 									<button
 										key={tag}
-										className="px-4 py-2 rounded-full border border-gray-200 
-												 bg-white text-gray-700 text-sm font-medium
-												 hover:bg-primary hover:text-white hover:border-primary
-												 transform transition-all duration-200 ease-in-out
-												 hover:shadow-md active:scale-95"
+										className="px-4 py-2 rounded-full border border-gray-200 bg-white text-gray-700 text-sm font-medium hover:bg-primary hover:text-white hover:border-primary transform transition-all duration-200 ease-in-out hover:shadow-md active:scale-95"
 										onClick={() => setSearchQuery(tag)}
 									>
 										#{tag}
@@ -405,6 +423,7 @@ export default function Navigation() {
 					</div>
 				</div>
 			</div>
+
 			<Toaster />
 		</>
 	);
