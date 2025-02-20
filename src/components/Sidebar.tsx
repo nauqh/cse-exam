@@ -9,6 +9,7 @@ import {
 	BsClockFill,
 	BsGearFill,
 	BsFillPatchQuestionFill,
+	BsDiscord,
 } from "react-icons/bs";
 import { BiLogIn } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
@@ -72,15 +73,20 @@ export default function Sidebar() {
 		{
 			href: "/profile?view=settings",
 			icon: <BsGearFill />,
-			label: "Profile Settings",
+			label: "Settings",
 			isActive: pathname === "/profile" && currentView === "settings",
+		},
+		{
+			href: "https://discord.com/channels/957854915194126336/1081063200377806899",
+			icon: <BsDiscord />,
+			label: "Community",
 		},
 	];
 
 	return (
 		<div
-			className="fixed left-4 top-1/2 -translate-y-1/2 h-[60vh] rounded-xl w-14 sm:w-48 md:w-56 lg:w-64 border bg-white flex flex-col 
-			shadow-lg transition-all duration-300 ease-in-out"
+			className="fixed mt-2 left-4 top-1/2 -translate-y-1/2 h-[60vh] rounded-lg w-64 border bg-white  
+			shadow-lg transition-all duration-300 ease-in-out hidden md:flex flex-col"
 		>
 			<div className="p-2 sm:p-3 md:p-4 border-b">
 				<div className="flex items-center gap-2 sm:gap-3">

@@ -110,7 +110,7 @@ export default function ProfilePage() {
 			<Navigation />
 			<div className="min-h-screen">
 				<Sidebar />
-				<main className="ml-10 sm:ml-52 md:ml-64 lg:ml-72 px-8 py-4">
+				<main className="sm:ml-52 md:ml-64 lg:ml-72 px-8 py-4">
 					<div className="container mx-auto px-4 py-8">
 						<div className="max-w-4xl mx-auto space-y-8">
 							{isSettings ? (

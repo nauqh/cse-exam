@@ -128,7 +128,7 @@ export default function Navigation() {
 
 	return (
 		<>
-			<nav className="sticky top-0 w-full bg-white/90 backdrop-blur-sm shadow-md z-50">
+			<nav className="sticky top-0 w-full bg-white/90 backdrop-blur-sm z-50">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex flex-col gap-2">
 						<div className="flex justify-between items-center h-16 text-gray-700">
@@ -265,13 +265,6 @@ export default function Navigation() {
 												<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
 													<BiUser className="h-5 w-5 text-gray-600" />
 													View profile
-													<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
-												</DropdownMenuItem>
-											</Link>
-											<Link href="/settings">
-												<DropdownMenuItem className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg cursor-pointer group">
-													<BiCog className="h-5 w-5 text-gray-600" />
-													Settings
 													<BiChevronRight className="h-5 w-5 text-gray-600 ml-auto transform transition-transform group-hover:translate-x-1" />
 												</DropdownMenuItem>
 											</Link>
