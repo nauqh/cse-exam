@@ -14,6 +14,7 @@ import {
 	BiLogIn,
 	BiChevronRight,
 	BiMenu,
+	BiX,
 } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
@@ -133,14 +134,29 @@ export default function Navigation() {
 						<div className="flex justify-between items-center h-16 text-gray-700">
 							{/* Left Section: Hamburger, Logo & Navigation Links */}
 							<div className="flex items-center gap-4">
-								<BiMenu
-									className={`sm:hidden h-6 w-6 transition-transform duration-200 ${
-										isMobileNavOpen ? "rotate-90" : ""
-									}`}
+								<div
+									className="relative w-6 h-6 sm:hidden cursor-pointer"
 									onClick={() =>
 										setIsMobileNavOpen(!isMobileNavOpen)
 									}
-								/>
+								>
+									<BiMenu
+										className={`absolute h-6 w-6 transition-all duration-300 ease-in-out
+          ${
+				isMobileNavOpen
+					? "opacity-0 transform rotate-90"
+					: "opacity-100 transform rotate-0"
+			}`}
+									/>
+									<BiX
+										className={`absolute h-6 w-6 transition-all duration-300 ease-in-out
+          ${
+				isMobileNavOpen
+					? "opacity-100 transform rotate-0"
+					: "opacity-0 transform -rotate-90"
+			}`}
+									/>
+								</div>
 								<Link href="/">
 									<Image
 										src="/logo.png"
