@@ -15,6 +15,29 @@ export const metadata: Metadata = {
 	icons: {
 		icon: "/favicon.png",
 	},
+	openGraph: {
+		type: "website",
+		locale: "en_US",
+		url: "https://csassessment.it.com",
+		siteName: "Coderschool e-Exam",
+		title: "Coderschool e-Exam Platform",
+		description: "Final Assessment Platform for Coderschool Students",
+		images: [
+			{
+				url: "/logo.png",
+				width: 1200,
+				height: 630,
+				alt: "Coderschool e-Exam Platform",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Coderschool e-Exam Platform",
+		description: "Final Assessment Platform for Coderschool Students",
+		images: ["/logo.png"],
+		creator: "@coderschool",
+	},
 };
 
 export default function RootLayout({
