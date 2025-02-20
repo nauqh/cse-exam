@@ -12,6 +12,9 @@ const manrope = Manrope({
 export const metadata: Metadata = {
 	title: "Coderschool e-Exam",
 	description: "Final Assessment Platform for Coderschool Students",
+	icons: {
+		icon: "/favicon.png",
+	},
 	openGraph: {
 		title: "Coderschool e-Exam",
 		description: "Final Assessment Platform for Coderschool Students",
