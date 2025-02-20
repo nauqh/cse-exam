@@ -14,12 +14,12 @@ export const metadata: Metadata = {
 	description: "Final Assessment Platform for Coderschool Students",
 	metadataBase: new URL("https://csassessment.it.com"),
 	openGraph: {
-		images: ["banner.png"],
+		images: ["/banner.png"],
 	},
 	twitter: {
 		card: "summary_large_image",
 		site: "csassessment.it.com",
-		images: ["banner.png"],
+		images: ["/banner.png"],
 		creator: "@nauqh",
 		title: "Coderschool e-Exam",
 		description: "Final Assessment Platform for Coderschool Students",
