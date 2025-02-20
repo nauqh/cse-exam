@@ -13,16 +13,27 @@ export const metadata: Metadata = {
 	title: "Coderschool e-Exam",
 	description: "Final Assessment Platform for Coderschool Students",
 	metadataBase: new URL("https://csassessment.it.com"),
+	openGraph: {
+		type: "website",
+		locale: "en_US",
+		url: "https://csassessment.it.com",
+		siteName: "Coderschool e-Exam",
+		title: "Coderschool e-Exam Platform",
+		description: "Final Assessment Platform for Coderschool Students",
+		images: [
+			{
+				url: "/banner.png",
+				width: 1200,
+				height: 630,
+				alt: "Coderschool e-Exam Platform",
+			},
+		],
+	},
 	twitter: {
 		card: "summary_large_image",
 		site: "csassessment.it.com",
-		images: ["https://csassessment.it.com/banner.png"],
+		images: ["/banner.png"],
 		creator: "@nauqh",
-		title: "Coderschool e-Exam",
-		description: "Final Assessment Platform for Coderschool Students",
-	},
-	openGraph: {
-		images: ["https://csassessment.it.com/banner.png"],
 	},
 };
 
