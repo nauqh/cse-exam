@@ -139,6 +139,8 @@ export default function Navigation() {
 									width={180}
 									height={100}
 									className="hover:opacity-90 transition-opacity"
+									style={{ objectFit: "contain" }}
+									priority
 								/>
 							</Link>
 
