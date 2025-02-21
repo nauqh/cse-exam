@@ -200,7 +200,7 @@ export default function Navigation() {
 										<input
 											type="text"
 											placeholder="Search..."
-											className="w-full px-3 py-1.5 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary"
+											className="w-full px-3 py-1.5 bg-transparent rounded-lg focus:outline-none text-sm placeholder:text-gray-400 group-hover:placeholder:text-primary hover:cursor-pointer"
 											value={searchQuery}
 											onChange={(e) =>
 												setSearchQuery(e.target.value)
