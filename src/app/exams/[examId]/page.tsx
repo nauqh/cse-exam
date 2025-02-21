@@ -19,7 +19,7 @@ export default async function ExamPage({
 	return (
 		<>
 			<Navigation />
-			<main className="min-h-screen pt-12 px-4 sm:px-6 lg:px-8">
+			<main className="min-h-screen px-4 sm:px-6 lg:px-8">
 				<ExamContent examId={examId} examTitle={examTitle} />
 			</main>
 		</>
