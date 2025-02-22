@@ -283,8 +283,8 @@ export default function HelpPage() {
 								Contact Information
 							</h3>
 							<div className="text-sm text-gray-500 space-y-1">
-								<p>Email: support@examsystem.com</p>
-								<p>Phone: +1 (555) 123-4567</p>
+								<p>Email: apply@coderschool.vn</p>
+								<p>Phone: 085 469 0015</p>
 								<p>
 									Hours: Monday - Friday, 9:00 AM - 5:00 PM
 									EST
