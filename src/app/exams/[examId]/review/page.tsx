@@ -4,9 +4,9 @@ import { getExamQuestions, getExamProblemQuestions } from "@/lib/questions";
 export default async function ReviewPage({
 	params,
 }: {
-	params: { examId: string };
+	params: Promise<{ examId: string }>;
 }) {
-	const { examId } = params;
+	const { examId } = await params;
 	const [multichoiceData, problemData] = await Promise.all([
 		getExamQuestions(examId),
 		getExamProblemQuestions(examId),
