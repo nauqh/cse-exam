@@ -118,6 +118,30 @@ export default function HelpPage() {
 						</p>
 					</div>
 
+					<div className="bg-white rounded-lg border p-4 space-y-3">
+						<h2 className="font-semibold">
+							Who Should Use This Form?
+						</h2>
+						<ul className="list-disc list-inside space-y-2 text-gray-600">
+							<li>
+								Students experiencing technical difficulties
+								during exams
+							</li>
+							<li>
+								Users having trouble with account access or
+								settings
+							</li>
+							<li>
+								Students with questions about exam rules or
+								procedures
+							</li>
+							<li>
+								Users who need immediate assistance with
+								platform features
+							</li>
+						</ul>
+					</div>
+
 					<div className="bg-white rounded-lg border p-6 space-y-6">
 						<form onSubmit={handleSubmit} className="space-y-4">
 							<div className="space-y-2">
@@ -268,6 +292,19 @@ export default function HelpPage() {
 							</div>
 						</div>
 					</div>
+				</div>
+				<div className="text-center space-y-4 m-12">
+					<p>Do you need more help?</p>
+					<Button
+						variant="outline"
+						className="px-6 rounded-full border-primary text-primary hover:bg-primary/10"
+						onClick={() =>
+							(window.location.href =
+								"mailto:staff@coderschool.vn")
+						}
+					>
+						Contact Coderschool Staff
+					</Button>
 				</div>
 			</main>
 		</>
