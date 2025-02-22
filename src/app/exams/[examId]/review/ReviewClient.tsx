@@ -193,84 +193,94 @@ export default function ReviewClient({
 								})}
 							</div>
 
-							{question.choices &&
-								submissionAnswer?.type === "multichoice" && (
-									<div
+							{/* Unified Answer Display Section */}
+							<div className="mt-4">
+								<div
+									className={cn(
+										"p-4 rounded-lg",
+										isCorrect ? "bg-green-50" : "bg-red-50"
+									)}
+								>
+									<p
 										className={cn(
-											"mt-4 p-4 rounded-lg",
+											"font-medium mb-2",
 											isCorrect
-												? "bg-green-50"
-												: "bg-red-50"
+												? "text-green-700"
+												: "text-red-700"
 										)}
 									>
+										{isCorrect
+											? "✓ Correct Answer"
+											: "✗ Incorrect Answer"}
+									</p>
+
+									{/* Multiple Choice Answer */}
+									{question.choices &&
+										submissionAnswer?.type ===
+											"multichoice" && (
+											<div className="mt-2">
+												<p
+													className={cn(
+														"text-sm",
+														isCorrect
+															? "text-green-600"
+															: "text-red-600"
+													)}
+												>
+													Your answer:{" "}
+													{submissionAnswer.answer}
+												</p>
+											</div>
+										)}
+
+									{/* Code Answer */}
+									{(submissionAnswer?.type === "sql" ||
+										submissionAnswer?.type === "python" ||
+										submissionAnswer?.type ===
+											"pandas") && (
+										<div className="mt-2">
+											<p
+												className={cn(
+													"text-sm mb-2",
+													isCorrect
+														? "text-green-600"
+														: "text-red-600"
+												)}
+											>
+												Your{" "}
+												{submissionAnswer.type.toUpperCase()}{" "}
+												solution:
+											</p>
+											<pre
+												className={cn(
+													"p-3 rounded-lg overflow-x-auto text-sm font-mono",
+													isCorrect
+														? "bg-green-100 border border-green-200"
+														: "bg-red-100 border border-red-200"
+												)}
+											>
+												<code>
+													{submissionAnswer.answer}
+												</code>
+											</pre>
+										</div>
+									)}
+
+									{!isCorrect && (
 										<p
 											className={cn(
-												"font-medium mb-2",
-												isCorrect
-													? "text-green-700"
-													: "text-red-700"
+												"text-sm mt-3",
+												"text-red-600"
 											)}
 										>
-											{isCorrect
-												? "Correct Answer"
-												: "Incorrect Answer"}
+											{submissionAnswer?.type ===
+											"multichoice"
+												? "Please review the correct option for this question."
+												: "Check your logic and try to identify any errors in your code."}
 										</p>
-										<div
-											className={cn(
-												"text-sm",
-												isCorrect
-													? "text-green-600"
-													: "text-red-600"
-											)}
-										>
-											You selected:{" "}
-											{submissionAnswer.answer}
-										</div>
-									</div>
-								)}
-
-							{(submissionAnswer?.type === "sql" ||
-								submissionAnswer?.type === "python" ||
-								submissionAnswer?.type === "pandas") && (
-								<div className="mt-4">
-									<h3 className="font-medium mb-2">
-										Your{" "}
-										{submissionAnswer.type.toUpperCase()}{" "}
-										Solution:
-									</h3>
-									<pre
-										className={cn(
-											"p-4 rounded-lg overflow-x-auto text-sm font-mono",
-											isCorrect
-												? "bg-green-50 border border-green-200"
-												: "bg-red-50 border border-red-200"
-										)}
-									>
-										<code>{submissionAnswer.answer}</code>
-									</pre>
-									<div
-										className={cn(
-											"mt-2 p-3 rounded-lg",
-											isCorrect
-												? "bg-green-50 text-green-700"
-												: "bg-red-50 text-red-700"
-										)}
-									>
-										<p className="font-medium">
-											{isCorrect
-												? "✓ Solution Correct"
-												: "✗ Solution Incorrect"}
-										</p>
-										{!isCorrect && (
-											<p className="text-sm mt-1">
-												Check your logic and try to
-												identify any errors in your
-												code.
-											</p>
-										)}
-									</div>
+									)}
 								</div>
-							)}
+							</div>
 						</div>
 					);
 				})}
