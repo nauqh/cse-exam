@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 export default function HelpPage() {
 	const { toast } = useToast();
 	const { user } = useUser();
+	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [images, setImages] = useState<File[]>([]);
 	const [previews, setPreviews] = useState<string[]>([]);
@@ -56,6 +57,10 @@ export default function HelpPage() {
 			URL.revokeObjectURL(prev[index]);
 			return newPreviews;
 		});
+		// Reset file input
+		if (fileInputRef.current) {
+			fileInputRef.current.value = "";
+		}
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -226,6 +231,7 @@ export default function HelpPage() {
 									</span>
 								</div>
 								<Input
+									ref={fileInputRef}
 									type="file"
 									accept="image/*"
 									multiple
