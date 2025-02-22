@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 type SubmissionAnswer = {
 	answer: string;
-	type: "multichoice" | "sql";
+	type: "multichoice" | "sql" | "python" | "pandas";
 	isCorrect?: boolean;
 };
 
@@ -42,7 +42,7 @@ export default function ReviewClient({
 		const fetchSubmission = async () => {
 			try {
 				const response = await fetch(
-					"https://cspyclient.up.railway.app/submissions/M11/hodominhquan.self@gmail.com"
+					"https://cspyclient.up.railway.app/submissions/M21/hodominhquan.self@gmail.com"
 				);
 
 				if (!response.ok) {
@@ -229,21 +229,46 @@ export default function ReviewClient({
 									</div>
 								)}
 
-							{submissionAnswer?.type === "sql" && (
+							{(submissionAnswer?.type === "sql" ||
+								submissionAnswer?.type === "python" ||
+								submissionAnswer?.type === "pandas") && (
 								<div className="mt-4">
 									<h3 className="font-medium mb-2">
-										Your SQL Query:
+										Your{" "}
+										{submissionAnswer.type.toUpperCase()}{" "}
+										Solution:
 									</h3>
 									<pre
 										className={cn(
-											"p-4 rounded-lg overflow-x-auto text-sm",
+											"p-4 rounded-lg overflow-x-auto text-sm font-mono",
 											isCorrect
-												? "bg-green-50"
-												: "bg-red-50"
+												? "bg-green-50 border border-green-200"
+												: "bg-red-50 border border-red-200"
 										)}
 									>
 										<code>{submissionAnswer.answer}</code>
 									</pre>
+									<div
+										className={cn(
+											"mt-2 p-3 rounded-lg",
+											isCorrect
+												? "bg-green-50 text-green-700"
+												: "bg-red-50 text-red-700"
+										)}
+									>
+										<p className="font-medium">
+											{isCorrect
+												? "✓ Solution Correct"
+												: "✗ Solution Incorrect"}
+										</p>
+										{!isCorrect && (
+											<p className="text-sm mt-1">
+												Check your logic and try to
+												identify any errors in your
+												code.
+											</p>
+										)}
+									</div>
 								</div>
 							)}
 						</div>

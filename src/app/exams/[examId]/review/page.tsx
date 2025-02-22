@@ -1,5 +1,5 @@
 import ReviewClient from "./ReviewClient";
-import { getExamQuestions } from "@/lib/questions";
+import { getExamQuestions, getExamProblemQuestions } from "@/lib/questions";
 
 export default async function ReviewPage({
 	params,
@@ -7,9 +7,18 @@ export default async function ReviewPage({
 	params: { examId: string };
 }) {
 	const { examId } = params;
-	const data = await getExamQuestions(examId);
+	const [multichoiceData, problemData] = await Promise.all([
+		getExamQuestions(examId),
+		getExamProblemQuestions(examId),
+	]);
 
-	if (data.content.length === 0) {
+	const combinedData = {
+		name: multichoiceData.name,
+		language: multichoiceData.language,
+		content: [...multichoiceData.content, ...problemData.content],
+	};
+
+	if (combinedData.content.length === 0) {
 		return (
 			<div className="flex justify-center items-center h-screen">
 				No questions found
@@ -17,5 +26,5 @@ export default async function ReviewPage({
 		);
 	}
 
-	return <ReviewClient data={data} examId={examId} />;
+	return <ReviewClient data={combinedData} examId={examId} />;
 }
