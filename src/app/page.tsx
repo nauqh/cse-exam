@@ -215,7 +215,7 @@ export default function Home() {
 							<h3 className="text-lg text-primary font-semibold">
 								About
 							</h3>
-							<ul className="mt-4 space-y-2 text-gray-600">
+							<ul className="mt-4 space-y-2 text-gray-600 text-sm">
 								<li>
 									<Link
 										href="/exams/results"
@@ -247,7 +247,7 @@ export default function Home() {
 							<h3 className="text-primary text-lg font-semibold">
 								Follow us on
 							</h3>
-							<ul className="mt-4 space-y-2 text-gray-600">
+							<ul className="mt-4 space-y-2 text-gray-600 text-sm">
 								<li>
 									<Link
 										href="https://www.facebook.com"
@@ -289,7 +289,7 @@ export default function Home() {
 					</div>
 
 					<div className="mt-10 border-t border-gray-300 pt-4">
-						<div className="flex flex-col md:flex-row justify-between items-center md:space-y-0 space-y-4 text-sm text-gray-500">
+						<div className="flex flex-col md:flex-row justify-between items-center md:space-y-0 space-y-4 text-xs text-gray-500">
 							<div>
 								Copyright © {new Date().getFullYear()} Nauqh.
 							</div>

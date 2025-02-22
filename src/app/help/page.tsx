@@ -159,7 +159,7 @@ export default function HelpPage() {
 						</p>
 					</div>
 
-					<div className="bg-white rounded-lg border p-4 space-y-3">
+					<div className="bg-white rounded-lg border p-4 space-y-3 shadow-md">
 						<h2 className="font-semibold">
 							Who Should Use This Form?
 						</h2>
@@ -183,7 +183,7 @@ export default function HelpPage() {
 						</ul>
 					</div>
 
-					<div className="bg-white rounded-lg border p-6 space-y-6">
+					<div className="bg-white rounded-lg border p-6 space-y-6 shadow-md">
 						<form onSubmit={handleSubmit} className="space-y-4">
 							<div className="space-y-2">
 								<label className="text-sm font-medium">
