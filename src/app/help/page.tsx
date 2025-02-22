@@ -68,8 +68,40 @@ export default function HelpPage() {
 		setIsSubmitting(true);
 
 		try {
-			// Simulate API call with file upload
-			await new Promise((resolve) => setTimeout(resolve, 1500));
+			const imageBase64Promises = images.map(
+				(image) =>
+					new Promise<string>((resolve, reject) => {
+						const reader = new FileReader();
+						reader.onload = () => resolve(reader.result as string);
+						reader.onerror = reject;
+						reader.readAsDataURL(image);
+					})
+			);
+
+			const imageBase64Array = await Promise.all(imageBase64Promises);
+
+			const jsonData = {
+				category: formData.category,
+				subject: formData.subject,
+				description: formData.description,
+				userId: user?.id || "",
+				images: imageBase64Array,
+			};
+
+			const response = await fetch(
+				"https://cspyclient.up.railway.app/help",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(jsonData),
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
 
 			toast({
 				title: "Report Submitted",
