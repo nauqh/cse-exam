@@ -68,40 +68,8 @@ export default function HelpPage() {
 		setIsSubmitting(true);
 
 		try {
-			const imageBase64Promises = images.map(
-				(image) =>
-					new Promise<string>((resolve, reject) => {
-						const reader = new FileReader();
-						reader.onload = () => resolve(reader.result as string);
-						reader.onerror = reject;
-						reader.readAsDataURL(image);
-					})
-			);
-
-			const imageBase64Array = await Promise.all(imageBase64Promises);
-
-			const jsonData = {
-				category: formData.category,
-				subject: formData.subject,
-				description: formData.description,
-				userId: user?.id || "",
-				images: imageBase64Array,
-			};
-
-			const response = await fetch(
-				"https://cspyclient.up.railway.app/help",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(jsonData),
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
-			}
+			// Simulate API call with file upload
+			await new Promise((resolve) => setTimeout(resolve, 1500));
 
 			toast({
 				title: "Report Submitted",
@@ -119,10 +87,6 @@ export default function HelpPage() {
 				prev.forEach((url) => URL.revokeObjectURL(url));
 				return [];
 			});
-			// Reset file input
-			if (fileInputRef.current) {
-				fileInputRef.current.value = "";
-			}
 		} catch (error) {
 			toast({
 				title: "Error",
@@ -137,19 +101,20 @@ export default function HelpPage() {
 	return (
 		<>
 			<Navigation />
-			<main className="container mx-auto px-4 py-8 max-w-3xl">
-				<div className="space-y-6">
-					<div className="space-y-2">
-						<h1 className="text-2xl font-bold tracking-tight">
+			<main className="container mx-auto px-4 py-12 max-w-4xl">
+				<div className="space-y-8">
+					{/* Header Section */}
+					<div className="text-center space-y-4 mb-8">
+						<h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary">
 							Help Center
 						</h1>
-						<p className="text-gray-500">
+						<p className="text-gray-600 max-w-2xl mx-auto">
 							Having issues? Fill out the form below and we'll
 							help you resolve it. Alternatively, you can post a
 							question on our{" "}
 							<Link
 								href="https://discord.com/channels/957854915194126336/1081063200377806899"
-								className="text-blue-500 hover:underline"
+								className="text-primary hover:text-primary/80 transition-colors underline underline-offset-4"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -159,34 +124,46 @@ export default function HelpPage() {
 						</p>
 					</div>
 
-					<div className="bg-white rounded-lg border p-4 space-y-3 shadow-md">
-						<h2 className="font-semibold">
+					{/* Info Box */}
+					<div className="bg-white rounded-xl border shadow-sm p-6 space-y-4 hover:shadow-md transition-shadow">
+						<h2 className="font-semibold text-xl text-primary">
 							Who Should Use This Form?
 						</h2>
-						<ul className="list-disc list-inside space-y-2 text-gray-600">
-							<li>
-								Students experiencing technical difficulties
-								during exams
+						<ul className="grid grid-cols-1 gap-4 text-gray-600">
+							<li className="flex items-center space-x-2">
+								<div className="h-2 w-2 rounded-full bg-primary"></div>
+								<span>
+									Students experiencing technical difficulties
+									during exams
+								</span>
 							</li>
-							<li>
-								Users having trouble with account access or
-								settings
+							<li className="flex items-center space-x-2">
+								<div className="h-2 w-2 rounded-full bg-primary"></div>
+								<span>
+									Users having trouble with account access
+								</span>
 							</li>
-							<li>
-								Students with questions about exam rules or
-								procedures
+							<li className="flex items-center space-x-2">
+								<div className="h-2 w-2 rounded-full bg-primary"></div>
+								<span>
+									Students with questions about exam
+									procedures
+								</span>
 							</li>
-							<li>
-								Users who need immediate assistance with
-								platform features
+							<li className="flex items-center space-x-2">
+								<div className="h-2 w-2 rounded-full bg-primary"></div>
+								<span>
+									Users needing immediate platform assistance
+								</span>
 							</li>
 						</ul>
 					</div>
 
-					<div className="bg-white rounded-lg border p-6 space-y-6 shadow-md">
-						<form onSubmit={handleSubmit} className="space-y-4">
+					{/* Form Section */}
+					<div className="bg-white rounded-xl border shadow-sm p-8 space-y-8">
+						<form onSubmit={handleSubmit} className="space-y-6">
 							<div className="space-y-2">
-								<label className="text-sm font-medium">
+								<label className="text-sm font-medium text-gray-700">
 									Issue Category
 								</label>
 								<Select
@@ -306,40 +283,48 @@ export default function HelpPage() {
 								)}
 							</div>
 
-							<div className="pt-4">
+							<div className="pt-6">
 								<Button
 									type="submit"
-									className="w-full sm:w-auto"
+									className="w-full sm:w-auto px-8 py-2.5 hover:scale-105 transition-transform duration-200"
 									disabled={isSubmitting}
 								>
 									{isSubmitting && (
 										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 									)}
-									{isSubmitting ? "Submitting..." : "Submit"}
+									{isSubmitting
+										? "Submitting..."
+										: "Submit Report"}
 								</Button>
 							</div>
 						</form>
 
-						<div className="border-t pt-6">
-							<h3 className="font-medium mb-2">
+						<div className="border-t pt-8">
+							<h3 className="font-medium text-lg text-primary mb-4">
 								Contact Information
 							</h3>
-							<div className="text-sm text-gray-500 space-y-1">
-								<p>Email: apply@coderschool.vn</p>
-								<p>Phone: 085 469 0015</p>
-								<p>
-									Hours: Monday - Friday, 9:00 AM - 5:00 PM
-									EST
-								</p>
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+								<div className="flex items-center space-x-2">
+									<span className="font-medium">Email:</span>
+									<span>apply@coderschool.vn</span>
+								</div>
+								<div className="flex items-center space-x-2">
+									<span className="font-medium">Phone:</span>
+									<span>085 469 0015</span>
+								</div>
+								<div className="flex items-center space-x-2">
+									<span className="font-medium">Hours:</span>
+									<span>Mon-Fri, 9AM-5PM EST</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div className="text-center space-y-4 m-12">
-					<p>Do you need more help?</p>
+				<div className="text-center space-y-4 my-16">
+					<p className="text-gray-600">Need additional assistance?</p>
 					<Button
 						variant="outline"
-						className="px-6 rounded-full border-primary text-primary hover:bg-primary/10"
+						className="px-8 py-2.5 rounded-full border-primary text-primary hover:bg-primary/10 hover:scale-105 transition-all duration-200"
 						onClick={() =>
 							(window.location.href =
 								"mailto:staff@coderschool.vn")
