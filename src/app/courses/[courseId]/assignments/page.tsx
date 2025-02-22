@@ -67,7 +67,7 @@ export default function CourseAssignmentsPage() {
 		<div className="min-h-screen bg-gray-50">
 			<Navigation />
 
-			<main className="container mx-auto px-4 py-12 mt-24">
+			<main className="container mx-auto px-4 py-12">
 				<div className="max-w-5xl mx-auto">
 					<header className="mb-12">
 						<h1 className="text-4xl font-bold text-gray-800 mb-4">
