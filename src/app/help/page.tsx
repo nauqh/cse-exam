@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 import {
 	Select,
 	SelectContent,
@@ -103,7 +104,17 @@ export default function HelpPage() {
 						</h1>
 						<p className="text-gray-500">
 							Having issues? Fill out the form below and we'll
-							help you resolve it.
+							help you resolve it. Alternatively, you can post a
+							question on our{" "}
+							<Link
+								href="https://discord.com/channels/957854915194126336/1081063200377806899"
+								className="text-blue-500 hover:underline"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Discord forum
+							</Link>
+							.
 						</p>
 					</div>
 
