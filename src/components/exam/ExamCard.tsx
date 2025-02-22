@@ -63,23 +63,24 @@ export function ExamCard({ exam }: { exam: ExamSubmission }) {
 					{exam.score !== undefined && (
 						<span>
 							{exam.status === "marking"
-								? " (_)"
+								? " (...)"
 								: ` (${exam.score})`}
 						</span>
 					)}
 				</div>
-				{exam.status === "failed" ? (
-					<Link href={`/exams/${exam.exam_id}`}>
-						<Button variant="outline">Retry</Button>
-					</Link>
-				) : (
-					<Button
-						variant="outline"
-						onClick={() => setShowModal(true)}
-					>
-						View
-					</Button>
-				)}
+				{exam.status !== "marking" &&
+					(exam.status === "failed" ? (
+						<Link href={`/exams/${exam.exam_id}`}>
+							<Button variant="outline">Retry</Button>
+						</Link>
+					) : (
+						<Button
+							variant="outline"
+							onClick={() => setShowModal(true)}
+						>
+							View
+						</Button>
+					))}
 			</div>
 			{showModal && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
