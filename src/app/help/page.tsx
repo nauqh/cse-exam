@@ -119,6 +119,10 @@ export default function HelpPage() {
 				prev.forEach((url) => URL.revokeObjectURL(url));
 				return [];
 			});
+			// Reset file input
+			if (fileInputRef.current) {
+				fileInputRef.current.value = "";
+			}
 		} catch (error) {
 			toast({
 				title: "Error",
