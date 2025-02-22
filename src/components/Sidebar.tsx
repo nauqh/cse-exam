@@ -4,13 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-	BsHouseDoorFill,
-	BsClockFill,
-	BsGearFill,
-	BsFillPatchQuestionFill,
-	BsDiscord,
-} from "react-icons/bs";
+import { BsHouseDoorFill, BsClock, BsGear, BsDiscord } from "react-icons/bs";
 import { BiLogIn } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
@@ -62,17 +56,15 @@ export default function Sidebar() {
 	};
 
 	const navItems = [
-		{ href: "/", icon: <BsHouseDoorFill />, label: "Home" },
-		{ href: "/exams", icon: <BsFillPatchQuestionFill />, label: "Exams" },
 		{
 			href: "/profile?view=history",
-			icon: <BsClockFill />,
+			icon: <BsClock />,
 			label: "Exam History",
 			isActive: pathname === "/profile" && currentView === "history",
 		},
 		{
 			href: "/profile?view=settings",
-			icon: <BsGearFill />,
+			icon: <BsGear />,
 			label: "Settings",
 			isActive: pathname === "/profile" && currentView === "settings",
 		},
