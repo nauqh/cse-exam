@@ -10,6 +10,7 @@ export type SubmissionStatus =
 	| "marking";
 
 export interface ExamSubmission {
+	id: number;
 	email: string;
 	exam_id: string;
 	exam_name: string;

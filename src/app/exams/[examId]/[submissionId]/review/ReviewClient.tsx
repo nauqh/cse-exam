@@ -4,6 +4,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 import ReactMarkdown from "react-markdown";
 import { ExamContent } from "@/lib/questions";
 import { cn } from "@/lib/utils";
+import TableDisplay from "@/components/problem/TableDisplay";
 
 type SubmissionAnswer = {
 	answer: string;
@@ -29,10 +30,10 @@ const processMarkdown = (content: string) => {
 
 export default function ReviewClient({
 	data,
-	examId,
+	submissionId,
 }: {
 	data: ExamContent;
-	examId: string;
+	submissionId: number;
 }) {
 	const [submission, setSubmission] = useState<Submission | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -42,7 +43,7 @@ export default function ReviewClient({
 		const fetchSubmission = async () => {
 			try {
 				const response = await fetch(
-					"https://cspyclient.up.railway.app/submissions/M21/hodominhquan.self@gmail.com"
+					`https://cspyclient.up.railway.app/submissions/${submissionId}`
 				);
 
 				if (!response.ok) {
@@ -191,6 +192,11 @@ export default function ReviewClient({
 										);
 									}
 								})}
+								{question.tableData && (
+									<TableDisplay
+										tableData={question.tableData}
+									/>
+								)}
 							</div>
 
 							{/* Unified Answer Display Section */}
