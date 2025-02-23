@@ -69,19 +69,33 @@ export function ExamCard({ exam }: { exam: ExamSubmission }) {
 						</span>
 					)}
 				</div>
-				{exam.status !== "marking" &&
-					(exam.status === "failed" ? (
-						<Link href={`/exams/${exam.exam_id}`}>
-							<Button variant="outline">Retry</Button>
-						</Link>
-					) : (
-						<Button
-							variant="outline"
-							onClick={() => setShowModal(true)}
-						>
-							View
-						</Button>
-					))}
+				<div className="flex gap-2">
+					{exam.status !== "marking" && (
+						<>
+							{exam.status === "failed" ? (
+								<Link href={`/exams/${exam.exam_id}`}>
+									<Button variant="outline">Retry</Button>
+								</Link>
+							) : (
+								<>
+									<Button
+										variant="outline"
+										onClick={() => setShowModal(true)}
+									>
+										Summary
+									</Button>
+									<Link
+										href={`/exams/${exam.exam_id}/submissions/${exam.id}`}
+									>
+										<Button variant="default">
+											View Details
+										</Button>
+									</Link>
+								</>
+							)}
+						</>
+					)}
+				</div>
 			</div>
 			{showModal && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
