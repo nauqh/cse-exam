@@ -6,14 +6,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import SubmittingOverlay from "@/components/SubmittingOverlay";
 import { ExamResults, MultiChoiceAnswer, ProblemAnswer } from "@/types/exam";
-import { useUser } from "@clerk/nextjs";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [response, setResponse] = useState("");
 	const { toast } = useToast();
 	const router = useRouter();
-	const { user } = useUser();
 
 	const multichoiceAnswers: MultiChoiceAnswer = JSON.parse(
 		localStorage.getItem("multichoiceAnswers") || "{}"
@@ -30,15 +28,21 @@ export default function FinalClient({ examId }: { examId: string }) {
 	};
 
 	const handleSubmit = async () => {
-		// const cachedResults = localStorage.getItem(`examResults_${examId}`);
-		// if (cachedResults) {
-		// 	setResponse(JSON.parse(cachedResults));
-		// 	return;
-		// }
-
 		setIsSubmitting(true);
+		const userEmail = localStorage.getItem("examUserEmail");
+
+		if (!userEmail) {
+			toast({
+				description: "Email not found. Please start the exam again.",
+				className: "bg-red-100 text-red-900",
+				duration: 3000,
+			});
+			router.push(`/v0/${examId}`);
+			return;
+		}
+
 		const examResults: ExamResults = {
-			email: user?.emailAddresses[0].emailAddress || "",
+			email: userEmail,
 			exam_id: examId,
 			exam_name: examDict[examId],
 			answers: [
@@ -67,8 +71,6 @@ export default function FinalClient({ examId }: { examId: string }) {
 			);
 
 			const data = await response.json();
-			// Cache the results
-			// localStorage.setItem(`examResults_${examId}`, JSON.stringify(data));
 			setResponse(data);
 
 			if (!response.ok) {
