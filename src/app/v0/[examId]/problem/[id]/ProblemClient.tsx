@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
-import { BiHelpCircle, BiCodeAlt, BiMessageRoundedDots } from "react-icons/bi";
+import { BiHelpCircle, BiNetworkChart } from "react-icons/bi";
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -234,7 +234,7 @@ export default function ProblemClient({
 							defaultValue="description"
 							className="overflow-auto [&::-webkit-scrollbar]:w-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100"
 						>
-							<TabsList className="grid w-full grid-cols-3 bg-gray-50 rounded-none sticky top-0 z-10">
+							<TabsList className="grid w-full grid-cols-2 bg-gray-50 rounded-none sticky top-0 z-10">
 								<TabsTrigger
 									value="description"
 									className="hover:bg-gray-100 flex items-center gap-2"
@@ -243,19 +243,19 @@ export default function ProblemClient({
 									Description
 								</TabsTrigger>
 								<TabsTrigger
-									value="solutions"
+									value="erd"
 									className="hover:bg-gray-100 flex items-center gap-2"
 								>
-									<BiCodeAlt className="w-4 h-4" />
-									Solutions
+									<BiNetworkChart className="w-4 h-4" />
+									ERD
 								</TabsTrigger>
-								<TabsTrigger
+								{/* <TabsTrigger
 									value="discussion"
 									className="hover:bg-gray-100 flex items-center gap-2"
 								>
 									<BiMessageRoundedDots className="w-4 h-4" />
 									Discussion
-								</TabsTrigger>
+								</TabsTrigger> */}
 							</TabsList>
 							<ProblemDescription
 								name="description"
@@ -265,8 +265,11 @@ export default function ProblemClient({
 									tableData: currentProblem.tableData,
 								})}
 							/>
-							<ProblemDescription name="solutions" />
-							<ProblemDescription name="discussion" />
+							<ProblemDescription
+								name="erd"
+								erdImageUrl="https://camo.githubusercontent.com/a0a377ee0279de8567c9fcb6492e04c76cde6bac5aeb04e2acf5b69b62fd9184/68747470733a2f2f7374617469632e7061636b742d63646e2e636f6d2f70726f64756374732f393738313738323137303930372f67726170686963732f30393037454e5f30325f30392e6a7067"
+							/>
+							{/* <ProblemDescription name="discussion" /> */}
 						</Tabs>
 						<div className="flex items-center justify-center gap-2 p-2 border-b">
 							{Array.from(
