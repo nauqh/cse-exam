@@ -85,7 +85,7 @@ export function ExamCard({ exam }: { exam: ExamSubmission }) {
 										Summary
 									</Button>
 									<Link
-										href={`/exams/${exam.exam_id}/submissions/${exam.id}`}
+										href={`/submissions/${exam.exam_id}/${exam.id}`}
 									>
 										<Button variant="default">
 											View Details
