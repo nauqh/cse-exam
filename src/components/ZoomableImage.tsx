@@ -39,8 +39,8 @@ export default function ZoomableImage({ src }: { src: string }) {
 							<Image
 								src={src}
 								alt="Zoomed diagram"
-								width={800}
-								height={600}
+								width={1600}
+								height={1200}
 								className="max-w-full max-h-[90vh] object-contain rounded-sm"
 							/>
 						</div>
