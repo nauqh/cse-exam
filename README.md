@@ -252,6 +252,7 @@ The application is organized into two main components:
 │       │   └── /[id]      
 │       └── /final          # Final submission and review page
 │           └── /success   
+├── /help                   # Report issue page
 │
 ├── /profile                # User profile and settings management
 │   ├── /?view=history    
