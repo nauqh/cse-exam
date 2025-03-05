@@ -73,7 +73,7 @@ Key architectural components include:
 1. **Frontend Layer**: 
    - React-based UI with Next.js for server-side rendering and route handling
    - Client-side state management with React Hooks
-   - UI components built with Radix UI and styled with Tailwind CSS
+   - UI components built with Shadcn UI and styled with Tailwind CSS
 
 2. **Backend Layer**:
    - FastAPI server for backend processing and API endpoints
@@ -88,10 +88,6 @@ Key architectural components include:
 4. **Data Storage**: 
    - PostgreSQL database for storing user submissions and exam results
    - AWS S3 for storing exam content, problem descriptions, and test cases
-
-5. **API Communication**:
-   - RESTful API endpoints for data exchange
-   - WebSocket connections for real-time notifications
 
 ## Key Features
 
