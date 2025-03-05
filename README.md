@@ -91,6 +91,16 @@ Key architectural components include:
 - Detailed performance analytics
 - Custom scoring and feedback mechanisms
 
+<div style="display: flex;">
+  <img width="400" src="docs/imgs/multichoice.png" style="margin-right: 10px;">
+  <img width="400" src="docs/imgs/code.png">
+</div>
+
+<div style="display: flex; margin-top: 10px;">
+  <img width="400" src="docs/imgs/query.png" style="margin-right: 10px;">
+  <img width="400" src="docs/imgs/submissions.png">
+</div>
+
 ## Tech Stack
 
 ### Frontend
