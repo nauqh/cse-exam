@@ -305,7 +305,7 @@ The application is organized into two main components:
 │   ├── create_db.py          # Database creation script
 │   └── load.northwind.sample.sql # SQL script for initializing sample data
 │
-├── /solutions                # Reference solutions for autograding
+├── /solutions                # Reference solutions for autograding (A copy is stored on AWS S3)
 │   ├── M11.yml               # Solution files for each exam module
 │   ├── M12.yml
 │   ├── M21.yml
