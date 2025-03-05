@@ -61,7 +61,7 @@ Key architectural components include:
    - Clerk for secure user authentication and session management
    - Role-based access control
 
-4. **Data Persistence**: 
+4. **Data Storage**: 
    - PostgreSQL database for storing user submissions and exam results
    - AWS S3 for storing exam content, problem descriptions, and test cases
 
