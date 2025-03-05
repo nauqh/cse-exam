@@ -22,7 +22,6 @@ This document provides a detailed overview of the eExam System, an online platfo
     - [Backend (FastAPI)](#backend-fastapi)
   - [Authentication](#authentication)
   - [Detailed Component Documentation](#detailed-component-documentation)
-  - [Related Documentation](#related-documentation)
 
 ## Project Overview
 
@@ -337,10 +336,3 @@ For more detailed documentation on specific components and functionality, please
 - [Backend API](./docs/BACKEND_API.md) - Documentation of FastAPI endpoints
 - [Technical Configuration](./docs/TECHNICAL.md) - Server and environment setup
 - [Exam Types](./docs/EXAM_TYPES.md) - Different problem types and grading
-- [Customization Guide](./docs/CUSTOMIZATION.md) - Extending the platform
-
-## Related Documentation
-
-- [Deployment Guide](./docs/DEPLOYMENT.md)
-- [API Reference](./docs/API_REFERENCE.md)
-- [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
