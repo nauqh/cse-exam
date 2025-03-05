@@ -39,9 +39,34 @@ The system follows a modular approach with distinct sections for different types
 
 The application follows a modern web architecture with a clear separation between frontend and backend components:
 
-```
-Frontend (Next.js) <-> Backend (FastAPI) <-> Data Storage (PostgreSQL, AWS S3)
-                   <-> Authentication (Clerk)
+```mermaid
+graph LR
+    User((User)) --> Frontend
+    
+    subgraph Client
+        Frontend[Frontend Next.js]
+    end
+    
+    subgraph Server
+        Backend[Backend FastAPI]
+    end
+    
+    subgraph External Services
+        Auth[Authentication Clerk]
+        Storage1[Database PostgreSQL]
+        Storage2[Cloud Storage AWS S3]
+    end
+    
+    Frontend <--> Backend
+    Frontend <--> Auth
+    Backend <--> Storage1
+    Backend <--> Storage2
+    
+    style Frontend fill:#47b8e0,stroke:#333,color:white
+    style Backend fill:#ff9e64,stroke:#333,color:white
+    style Auth fill:#9e86c8,stroke:#333,color:white
+    style Storage1 fill:#68c964,stroke:#333,color:white
+    style Storage2 fill:#68c964,stroke:#333,color:white
 ```
 
 Key architectural components include:
