@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
-import { BiHelpCircle, BiNetworkChart } from "react-icons/bi";
+import { BiHelpCircle, BiNetworkChart, BiX, BiUpload } from "react-icons/bi";
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -23,10 +23,18 @@ import { Toaster } from "@/components/ui/toaster";
 import { ExamContent } from "@/lib/questions";
 import CodeOutput from "@/components/CodeOutput";
 import type { EditorView } from "@uiw/react-codemirror";
+import { Input } from "@/components/ui/input";
 
 type OutputType = {
 	output: Record<string, string>[] | string;
 	language: string;
+};
+
+type FileData = {
+	name: string;
+	size: number;
+	type: string;
+	content: string;
 };
 
 export default function ProblemClient({
@@ -41,6 +49,7 @@ export default function ProblemClient({
 	const { toast } = useToast();
 	const router = useRouter();
 	const editorRef = useRef<{ view?: EditorView }>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [code, setCode] = useState<string>("");
 	const [output, setOutput] = useState<OutputType>({
 		output: "",
@@ -49,9 +58,14 @@ export default function ProblemClient({
 	const [language, setLanguage] = useState(data.language);
 	const [currentPage, setCurrentPage] = useState(initialProblemId);
 	const [answeredProblems, setAnsweredProblems] = useState<{
-		[problemId: number]: { code: string; language: string };
+		[problemId: number]: {
+			code: string;
+			language: string;
+			files?: FileData[];
+		};
 	}>({});
 	const [showSummary, setShowSummary] = useState(false);
+	const [uploadedFiles, setUploadedFiles] = useState<FileData[]>([]);
 
 	useEffect(() => {
 		const savedAnswers = localStorage.getItem("problemAnswers");
@@ -70,8 +84,10 @@ export default function ProblemClient({
 		if (answeredProblems[currentPage]) {
 			setCode(answeredProblems[currentPage].code);
 			setLanguage(answeredProblems[currentPage].language);
+			setUploadedFiles(answeredProblems[currentPage].files || []);
 		} else {
 			setCode("");
+			setUploadedFiles([]);
 		}
 	}, [currentPage, answeredProblems]);
 
@@ -98,6 +114,48 @@ export default function ProblemClient({
 	const handleCodeChange = useCallback((value: string) => {
 		setCode(value);
 	}, []);
+
+	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files) {
+			const files = Array.from(e.target.files);
+
+			if (uploadedFiles.length + files.length > 3) {
+				toast({
+					description: "Maximum 3 files allowed per problem",
+					className: "bg-yellow-100 text-yellow-900 border-none",
+					duration: 3000,
+				});
+				return;
+			}
+
+			// Process each file
+			files.forEach((file) => {
+				const reader = new FileReader();
+				reader.onload = (event) => {
+					if (event.target && event.target.result) {
+						const newFile: FileData = {
+							name: file.name,
+							size: file.size,
+							type: file.type,
+							content: event.target.result as string,
+						};
+
+						setUploadedFiles((prev) => [...prev, newFile]);
+					}
+				};
+				reader.readAsDataURL(file);
+			});
+
+			// Reset file input
+			if (fileInputRef.current) {
+				fileInputRef.current.value = "";
+			}
+		}
+	};
+
+	const removeFile = (index: number) => {
+		setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+	};
 
 	const handleRunCode = useCallback(async () => {
 		try {
@@ -143,7 +201,11 @@ export default function ProblemClient({
 
 		const newAnswers = {
 			...answeredProblems,
-			[currentPage]: { code, language },
+			[currentPage]: {
+				code,
+				language,
+				files: uploadedFiles.length > 0 ? uploadedFiles : undefined,
+			},
 		};
 
 		setAnsweredProblems(newAnswers);
@@ -164,6 +226,7 @@ export default function ProblemClient({
 		examId,
 		router,
 		toast,
+		uploadedFiles,
 	]);
 
 	const handleReset = () => {
@@ -172,6 +235,7 @@ export default function ProblemClient({
 		setAnsweredProblems(newAnswers);
 		setCode("");
 		setOutput({ output: "", language });
+		setUploadedFiles([]);
 		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
 	};
 
@@ -348,8 +412,77 @@ export default function ProblemClient({
 											Python
 										</SelectItem>
 										<SelectItem value="sql">SQL</SelectItem>
+										<SelectItem value="text">Text</SelectItem>
 									</SelectContent>
 								</Select>
+							</div>
+
+							{/* File upload section */}
+							<div className="bg-gray-50 p-2 border-b">
+								<div className="flex items-center justify-between">
+									<label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+										<BiUpload className="h-4 w-4" />
+										Attach files
+									</label>
+									<span className="text-xs text-gray-500">
+										{uploadedFiles.length}/3 files
+									</span>
+								</div>
+								<div className="flex items-center gap-2 mt-1">
+									<Input
+										ref={fileInputRef}
+										type="file"
+										accept=".java,.py,.js,.c,.cpp,.sql,.html,.css,.tsx,.jsx,.ts"
+										multiple
+										onChange={handleFileUpload}
+										className="cursor-pointer text-xs"
+										disabled={uploadedFiles.length >= 3}
+									/>
+									
+									<Button
+										variant="outline"
+										size="sm"
+										className="text-xs"
+										disabled={uploadedFiles.length >= 3}
+										onClick={() =>	
+											fileInputRef.current?.click()
+										}
+									>
+										Browse
+									</Button>
+								</div>
+								<p className="mt-1 text-xs text-gray-500">
+										Accepted formats: .java, .py, .js, .c, .cpp, .sql, .html, .css, .tsx, .jsx, .ts
+								</p>
+
+								{/* Display uploaded files */}
+								{uploadedFiles.length > 0 && (
+									<div className="flex flex-wrap gap-2 mt-2">
+										{uploadedFiles.map((file, index) => (
+											<div
+												key={index}
+												className="flex items-center gap-1 text-xs bg-gray-100 p-1 pr-2 rounded-md group"
+											>
+												<button
+													type="button"
+													onClick={() =>
+														removeFile(index)
+													}
+													className="p-1 text-red-500 rounded-full hover:bg-red-100"
+												>
+													<BiX className="h-3 w-3" />
+												</button>
+												<span className="truncate max-w-[150px]">
+													{file.name} (
+													{Math.round(
+														file.size / 1024
+													)}
+													KB)
+												</span>
+											</div>
+										))}
+									</div>
+								)}
 							</div>
 
 							<div className="flex-1 overflow-auto">
@@ -363,43 +496,73 @@ export default function ProblemClient({
 							</div>
 						</ResizablePanel>
 
-						<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
+						{language !== "text" ? (
+							<>
+								<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
-						{/* Output panel */}
-						<ResizablePanel
-							defaultSize={35}
-							minSize={35}
-							className="h-52 p-4 border-t flex flex-col"
-						>
-							<div className="text-lg mb-2 font-semibold">
-								Output
-							</div>
-
-							{memoizedOutput}
-
-							{/* Action buttons */}
-							<div className="flex gap-4 justify-end mt-auto pt-2">
-								<Button variant="outline" onClick={handleReset}>
-									Reset
-								</Button>
-								<Button
-									variant="outline"
-									onClick={handleRunCode}
+								{/* Output panel */}
+								<ResizablePanel
+									defaultSize={35}
+									minSize={35}
+									className="h-52 p-4 border-t flex flex-col"
 								>
-									Run Code
-								</Button>
-								<Button onClick={handleSubmit}>Submit</Button>
-								{Object.keys(answeredProblems).length ===
-									data.content.length && (
-									<Button
-										onClick={() => setShowSummary(true)}
-										variant="success"
-									>
-										Review
-									</Button>
-								)}
-							</div>
-						</ResizablePanel>
+									<div className="text-lg mb-2 font-semibold">
+										Output
+									</div>
+
+									{memoizedOutput}
+
+									{/* Action buttons */}
+									<div className="flex gap-4 justify-end mt-auto pt-2">
+										<Button variant="outline" onClick={handleReset}>
+											Reset
+										</Button>
+										<Button
+											variant="outline"
+											onClick={handleRunCode}
+										>
+											Run Code
+										</Button>
+										<Button onClick={handleSubmit}>Submit</Button>
+										{Object.keys(answeredProblems).length ===
+											data.content.length && (
+											<Button
+												onClick={() => setShowSummary(true)}
+												variant="success"
+											>
+												Review
+											</Button>
+										)}
+									</div>
+								</ResizablePanel>
+							</>
+						) : (
+							<>
+								<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
+								<ResizablePanel
+									defaultSize={10}
+									minSize={10}
+									maxSize={10}
+									className="h-52 p-4 border-t flex flex-col"
+								>
+									<div className="flex gap-4 justify-end mt-auto pt-2">
+										<Button variant="outline" onClick={handleReset}>
+											Reset
+										</Button>
+										<Button onClick={handleSubmit}>Submit</Button>
+										{Object.keys(answeredProblems).length ===
+											data.content.length && (
+											<Button
+												onClick={() => setShowSummary(true)}
+												variant="success"
+											>
+												Review
+											</Button>
+										)}
+									</div>
+								</ResizablePanel>
+							</>
+						)}
 					</ResizablePanelGroup>
 				</ResizablePanel>
 			</ResizablePanelGroup>
@@ -426,6 +589,36 @@ export default function ProblemClient({
 										{answeredProblems[index + 1]?.code ||
 											"No code submitted"}
 									</pre>
+
+									{/* Display uploaded files in summary */}
+									{answeredProblems[index + 1]?.files &&
+										answeredProblems[index + 1]?.files!
+											.length > 0 && (
+											<div className="mt-2">
+												<p className="text-sm font-medium">
+													Attached Files:
+												</p>
+												<div className="flex flex-wrap gap-2 mt-1">
+													{answeredProblems[
+														index + 1
+													]?.files!.map(
+														(file, fileIndex) => (
+															<div
+																key={fileIndex}
+																className="text-xs bg-gray-100 p-1 px-2 rounded-md"
+															>
+																{file.name} (
+																{Math.round(
+																	file.size /
+																		1024
+																)}
+																KB)
+															</div>
+														)
+													)}
+												</div>
+											</div>
+										)}
 								</div>
 							))}
 						</div>

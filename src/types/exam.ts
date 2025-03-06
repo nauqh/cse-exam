@@ -17,9 +17,17 @@ export type MultiChoiceAnswer = {
   answer: string;
 };
 
+export type FileData = {
+  name: string;
+  size: number;
+  type: string;
+  content: string;
+};
+
 export type ProblemAnswer = {
   code: string;
   language: string;
+  files?: FileData[];
 };
 
 export type ExamResults = {
@@ -29,7 +37,6 @@ export type ExamResults = {
   answers: Array<{
     answer: string;
     type: string;
+    files?: FileData[];
   }>;
 };
-
-

@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import SubmittingOverlay from "@/components/SubmittingOverlay";
 import { ExamResults, MultiChoiceAnswer, ProblemAnswer } from "@/types/exam";
+import { Paperclip } from "lucide-react";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,6 +54,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 				...Object.entries(problemAnswers).map(([_, answer]) => ({
 					answer: answer.code,
 					type: answer.language,
+					files: answer.files || undefined,
 				})),
 			],
 		};
@@ -134,6 +136,31 @@ export default function FinalClient({ examId }: { examId: string }) {
 									<pre className="bg-gray-50 p-3 rounded mt-2 overflow-x-auto">
 										<code>{data.code}</code>
 									</pre>
+									
+									{/* Display uploaded files */}
+									{data.files && data.files.length > 0 && (
+										<div className="mt-3">
+											<div className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+												<Paperclip className="h-4 w-4" />
+												<span>Attached Files ({data.files.length})</span>
+											</div>
+											<div className="flex flex-wrap gap-2">
+												{data.files.map((file, index) => (
+													<div 
+														key={index} 
+														className="flex items-center gap-2 bg-gray-100 p-2 rounded-md text-sm"
+													>
+														<span className="font-medium truncate max-w-[200px]">
+															{file.name}
+														</span>
+														<span className="text-gray-500">
+															({Math.round(file.size / 1024)} KB)
+														</span>
+													</div>
+												))}
+											</div>
+										</div>
+									)}
 								</div>
 							)
 						)}
