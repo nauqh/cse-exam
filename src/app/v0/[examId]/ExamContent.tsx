@@ -163,7 +163,7 @@ export default function ExamContent({
 			<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
 				<DialogContent>
 					<DialogHeader>
-						<DialogTitle>Enter Your Email</DialogTitle>
+						<DialogTitle>Enter your email</DialogTitle>
 					</DialogHeader>
 					<div className="space-y-2">
 						<Input
@@ -174,6 +174,11 @@ export default function ExamContent({
 								setEmail(e.target.value);
 								setEmailError("");
 							}}
+							onKeyDown={(e) => {
+								if (e.key === "Enter") {
+									handleEmailSubmit();
+								}
+							}}
 							className={emailError ? "border-red-500" : ""}
 						/>
 						{emailError && (
@@ -183,7 +188,7 @@ export default function ExamContent({
 							className="w-full mt-4"
 							onClick={handleEmailSubmit}
 						>
-							Continue to Exam
+							Continue to exam
 						</Button>
 					</div>
 				</DialogContent>
