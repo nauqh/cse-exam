@@ -58,6 +58,7 @@ export default function ProblemClient({
 	const router = useRouter();
 	const editorRef = useRef<{ view?: EditorView }>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const linkInputRef = useRef<HTMLInputElement>(null);
 	const [code, setCode] = useState<string>("");
 	const [output, setOutput] = useState<OutputType>({
 		output: "",
@@ -294,6 +295,14 @@ export default function ProblemClient({
 			return true;
 		} catch {
 			return false;
+		}
+	};
+
+	// Handle link input keydown for Enter key
+	const handleLinkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			handleAddLink();
 		}
 	};
 
@@ -652,9 +661,11 @@ export default function ProblemClient({
 											<div className="flex flex-col space-y-3">
 												<div className="flex space-x-2">
 													<Input
+														ref={linkInputRef}
 														type="url"
 														value={currentLink}
 														onChange={(e) => setCurrentLink(e.target.value)}
+														onKeyDown={handleLinkKeyDown}
 														placeholder="https://example.com/your-solution"
 														className="flex-1 p-2 border rounded-md focus:ring-2 focus:ring-primary"
 													/>
@@ -683,6 +694,7 @@ export default function ProblemClient({
 														type="text"
 														value={currentLinkDescription}
 														onChange={(e) => setCurrentLinkDescription(e.target.value)}
+														onKeyDown={handleLinkKeyDown}
 														placeholder="Briefly describe what this link contains"
 														className="w-full p-2 border rounded-md focus:ring-2 focus:ring-primary"
 													/>
