@@ -206,7 +206,7 @@ export default function ProblemClient({
 
 	// Update submit handler for client-side navigation
 	const handleSubmit = useCallback(() => {
-		if (language !== "link" && !code.trim()) {
+		if (language !== "link" && language !== "file" && !code.trim()) {
 			toast({
 				description: "Please write some code before submitting",
 				className: "bg-yellow-100 text-yellow-900 border-none",
@@ -218,6 +218,15 @@ export default function ProblemClient({
 		if (language === "link" && submittedLinks.length === 0 && !currentLink) {
 			toast({
 				description: "Please add at least one link before submitting",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+		
+		if (language === "file" && uploadedFiles.length === 0) {
+			toast({
+				description: "Please upload at least one file before submitting",
 				className: "bg-yellow-100 text-yellow-900 border-none",
 				duration: 3000,
 			});
@@ -578,76 +587,9 @@ export default function ProblemClient({
 										<SelectItem value="sql">SQL</SelectItem>
 										<SelectItem value="text">Text</SelectItem>
 										<SelectItem value="link">Link</SelectItem>
+										<SelectItem value="file">File</SelectItem>
 									</SelectContent>
 								</Select>
-							</div>
-
-							{/* File upload section */}
-							<div className="bg-gray-50 p-2 border-b">
-								<div className="flex items-center justify-between">
-									<label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-										<BiUpload className="h-4 w-4" />
-										Attach files
-									</label>
-									<span className="text-xs text-gray-500">
-										{uploadedFiles.length}/3 files
-									</span>
-								</div>
-								<div className="flex items-center gap-2 mt-1">
-									<Input
-										ref={fileInputRef}
-										type="file"
-										accept=".java,.py,.js,.c,.cpp,.sql,.html,.css,.tsx,.jsx,.ts"
-										multiple
-										onChange={handleFileUpload}
-										className="cursor-pointer text-xs"
-										disabled={uploadedFiles.length >= 3}
-									/>
-									
-									<Button
-										variant="outline"
-										size="sm"
-										className="text-xs"
-										disabled={uploadedFiles.length >= 3}
-										onClick={() =>	
-											fileInputRef.current?.click()
-										}
-									>
-										Browse
-									</Button>
-								</div>
-								<p className="mt-1 text-xs text-gray-500">
-										Accepted formats: .java, .py, .js, .c, .cpp, .sql, .html, .css, .tsx, .jsx, .ts
-								</p>
-
-								{/* Display uploaded files */}
-								{uploadedFiles.length > 0 && (
-									<div className="flex flex-wrap gap-2 mt-2">
-										{uploadedFiles.map((file, index) => (
-											<div
-												key={index}
-												className="flex items-center gap-1 text-xs bg-gray-100 p-1 px-2 rounded-md group"
-											>
-												<button
-													type="button"
-													onClick={() =>
-														removeFile(index)
-													}
-													className="p-1 text-red-500 rounded-full hover:bg-red-100"
-												>
-													<BiX className="h-3 w-3" />
-												</button>
-												<span className="truncate max-w-[150px]">
-													{file.name} (
-													{Math.round(
-														file.size / 1024
-													)}
-													KB)
-												</span>
-											</div>
-										))}
-									</div>
-								)}
 							</div>
 
 							<div className="flex-1 overflow-auto">
@@ -773,6 +715,93 @@ export default function ProblemClient({
 											</div>
 										)}
 									</div>
+								) : language === "file" ? (
+									<div className="p-4 h-full overflow-y-auto">
+										<div className="mb-4">
+											<label className="block text-sm font-medium text-gray-700 mb-2">
+												Upload files
+											</label>
+											<div className="flex flex-col space-y-4">
+												<div>
+													<div className="flex items-center justify-between">
+														<span className="text-sm font-medium text-gray-700 flex items-center gap-2">
+															<BiUpload className="h-4 w-4" />
+															Files
+														</span>
+														<span className="text-xs text-gray-500">
+															{uploadedFiles.length}/3 files
+														</span>
+													</div>
+													<div className="border-2 border-dashed border-gray-300 rounded-md p-6 mt-2 text-center">
+														<input
+															ref={fileInputRef}
+															type="file"
+															accept=".java,.py,.js,.c,.cpp,.sql,.html,.css,.tsx,.jsx,.ts"
+															multiple
+															onChange={handleFileUpload}
+															className="hidden"
+														/>
+														<div className="space-y-2">
+															<BiUpload className="mx-auto h-10 w-10 text-gray-400" />
+															<p className="text-sm text-gray-500">
+																Drag and drop files, or{" "}
+																<button
+																	type="button"
+																	onClick={() => fileInputRef.current?.click()}
+																	className="text-blue-500 hover:text-blue-700 font-medium"
+																>
+																	browse
+																</button>
+															</p>
+															<p className="text-xs text-gray-400">
+																Accepted formats: .java, .py, .js, .c, .cpp, .sql, .html, .css, .tsx, .jsx, .ts
+															</p>
+														</div>
+													</div>
+												</div>
+												
+												{/* Display uploaded files */}
+												{uploadedFiles.length > 0 && (
+													<div className="mt-4">
+														<h3 className="text-sm font-medium text-gray-700 mb-2">
+															Uploaded files:
+														</h3>
+														<div className="space-y-2">
+															{uploadedFiles.map((file, index) => (
+																<div
+																	key={index}
+																	className="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200"
+																>
+																	<div className="flex items-center">
+																		<span className="truncate max-w-xs">
+																			{file.name}
+																		</span>
+																		<span className="ml-2 text-xs text-gray-500">
+																			({Math.round(file.size / 1024)} KB)
+																		</span>
+																	</div>
+																	<button
+																		type="button"
+																		onClick={() => removeFile(index)}
+																		className="p-1 text-red-500 rounded hover:bg-red-50"
+																		title="Remove file"
+																	>
+																		<BiX className="h-4 w-4" />
+																	</button>
+																</div>
+															))}
+														</div>
+													</div>
+												)}
+												
+												{uploadedFiles.length === 0 && (
+													<p className="text-sm text-gray-500 italic">
+														No files uploaded yet. Please upload at least one file for your solution.
+													</p>
+												)}
+											</div>
+										</div>
+									</div>
 								) : (
 									<CodeMirror
 										ref={editorRef}
@@ -785,7 +814,7 @@ export default function ProblemClient({
 							</div>
 						</ResizablePanel>
 
-						{language !== "text" && language !== "link" ? (
+						{language !== "text" && language !== "link" && language !== "file" ? (
 							<>
 								<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
@@ -874,10 +903,26 @@ export default function ProblemClient({
 									<p className="font-semibold">
 										Problem {index + 1}:
 									</p>
-									<pre className="bg-gray-50 p-2 mt-1 rounded">
-										{answeredProblems[index + 1]?.code ||
-											"No code submitted"}
-									</pre>
+									
+									{/* Show different content based on language type */}
+									{answeredProblems[index + 1]?.language === "file" ? (
+										<div className="mt-2">
+											{/* <p className="text-sm text-gray-600">
+												Solution submitted as file upload
+											</p> */}
+										</div>
+									) : answeredProblems[index + 1]?.language === "link" ? (
+										<div className="mt-2">
+											{/* <p className="text-sm text-gray-600">
+												Solution submitted as links
+											</p> */}
+										</div>
+									) : (
+										<pre className="bg-gray-50 p-2 mt-1 rounded">
+											{answeredProblems[index + 1]?.code ||
+												"No code submitted"}
+										</pre>
+									)}
 
 									{/* Display uploaded files in summary */}
 									{answeredProblems[index + 1]?.files &&
@@ -885,7 +930,7 @@ export default function ProblemClient({
 											.length > 0 && (
 											<div className="mt-2">
 												<p className="text-sm font-medium">
-													Attached Files:
+													Attached files:
 												</p>
 												<div className="flex flex-wrap gap-2 mt-1">
 													{answeredProblems[
@@ -914,7 +959,7 @@ export default function ProblemClient({
 											.length > 0 && (
 											<div className="mt-2">
 												<p className="text-sm font-medium">
-													Solution Links:
+													Solution links:
 												</p>
 												<ul className="list-disc pl-5 mt-1 space-y-1">
 													{answeredProblems[
@@ -928,12 +973,12 @@ export default function ProblemClient({
 																className="text-blue-600 hover:underline text-sm break-all"
 															>
 																{link.url}
-																{link.description && (
-																	<span className="text-gray-500 italic ml-1">
-																		- {link.description}
-																	</span>
-																)}
 															</a>
+															{link.description && (
+																<span className="block text-gray-500 italic text-xs ml-2">
+																	"{link.description}"
+																</span>
+															)}
 														</li>
 													))}
 												</ul>

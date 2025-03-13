@@ -5,7 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import SubmittingOverlay from "@/components/SubmittingOverlay";
-import { ExamResults, MultiChoiceAnswer, ProblemAnswer } from "@/types/exam";
+import {
+	ExamResults,
+	LinkData,
+	MultiChoiceAnswer,
+	ProblemAnswer,
+} from "@/types/exam";
 import { Paperclip } from "lucide-react";
 
 export default function FinalClient({ examId }: { examId: string }) {
@@ -133,31 +138,77 @@ export default function FinalClient({ examId }: { examId: string }) {
 									<p className="font-medium">
 										Problem {problem}
 									</p>
-									<pre className="bg-gray-50 p-3 rounded mt-2 overflow-x-auto">
-										<code>{data.code}</code>
-									</pre>
-									
+									{data.language === "file" ? (
+										<div className="mt-2">
+											{/* The user commented out this text */}
+										</div>
+									) : data.language === "link" ? (
+										<div className="mt-2">
+											{data.links &&
+											data.links.length > 0 ? (
+												<div className="mt-2">
+													<p className="text-sm font-medium">
+														Solution links:
+													</p>
+													<ul className="list-disc pl-5 mt-1 space-y-1">
+														{data.links.map(
+															(
+																link: LinkData,
+																index: number
+															) => (
+																<li key={index}>
+																	<a
+																		href={link.url}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		className="text-blue-600 hover:underline text-sm break-all"
+																	>
+																		{link.url}
+																	</a>
+																	{link.description && (
+																		<span className="block text-gray-500 italic text-xs ml-2">
+																			"{link.description}"
+																		</span>
+																	)}
+																</li>
+															)
+														)}
+													</ul>
+												</div>
+											) : (
+												<p className="text-sm italic text-gray-500">
+													No links provided
+												</p>
+											)}
+										</div>
+									) : (
+										<pre className="bg-gray-50 p-3 rounded mt-2 overflow-x-auto">
+											<code>{data.code}</code>
+										</pre>
+									)}
+
 									{/* Display uploaded files */}
 									{data.files && data.files.length > 0 && (
-										<div className="mt-3">
-											<div className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-												<Paperclip className="h-4 w-4" />
-												<span>Attached Files ({data.files.length})</span>
-											</div>
-											<div className="flex flex-wrap gap-2">
-												{data.files.map((file, index) => (
-													<div 
-														key={index} 
-														className="flex items-center gap-2 bg-gray-100 p-2 rounded-md text-sm"
-													>
-														<span className="font-medium truncate max-w-[200px]">
-															{file.name}
-														</span>
-														<span className="text-gray-500">
-															({Math.round(file.size / 1024)} KB)
-														</span>
-													</div>
-												))}
+										<div className="mt-2">
+											<p className="text-sm font-medium">
+												Attached files:
+											</p>
+											<div className="flex flex-wrap gap-2 mt-1">
+												{data.files.map(
+													(file, index) => (
+														<div
+															key={index}
+															className="text-xs bg-gray-100 p-1 px-2 rounded-md"
+														>
+															{file.name} (
+															{Math.round(
+																file.size /
+																	1024
+															)}{" "}
+															KB)
+														</div>
+													)
+												)}
 											</div>
 										</div>
 									)}

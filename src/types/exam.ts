@@ -24,10 +24,16 @@ export type FileData = {
   content: string;
 };
 
+export type LinkData = {
+  url: string;
+  description?: string;
+};
+
 export type ProblemAnswer = {
   code: string;
   language: string;
   files?: FileData[];
+  links?: LinkData[];
 };
 
 export type ExamResults = {
