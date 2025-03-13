@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
-import { BiHelpCircle, BiNetworkChart, BiX, BiUpload } from "react-icons/bi";
+import { BiHelpCircle, BiNetworkChart, BiX, BiUpload, BiLinkAlt, BiPlus, BiEdit } from "react-icons/bi";
 import {
 	ResizableHandle,
 	ResizablePanel,
@@ -37,6 +37,14 @@ type FileData = {
 	content: string;
 };
 
+type LinkData = {
+	id: string;
+	url: string;
+	description: string;
+	type: "github" | "codepen" | "jsfiddle" | "replit" | "other";
+	addedAt: number;
+};
+
 export default function ProblemClient({
 	data,
 	examId,
@@ -62,10 +70,15 @@ export default function ProblemClient({
 			code: string;
 			language: string;
 			files?: FileData[];
+			links?: LinkData[];
 		};
 	}>({});
 	const [showSummary, setShowSummary] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState<FileData[]>([]);
+	const [submittedLinks, setSubmittedLinks] = useState<LinkData[]>([]);
+	const [currentLink, setCurrentLink] = useState("");
+	const [currentLinkDescription, setCurrentLinkDescription] = useState("");
+	const [editingLinkIndex, setEditingLinkIndex] = useState<number | null>(null);
 
 	useEffect(() => {
 		const savedAnswers = localStorage.getItem("problemAnswers");
@@ -85,9 +98,11 @@ export default function ProblemClient({
 			setCode(answeredProblems[currentPage].code);
 			setLanguage(answeredProblems[currentPage].language);
 			setUploadedFiles(answeredProblems[currentPage].files || []);
+			setSubmittedLinks(answeredProblems[currentPage].links || []);
 		} else {
 			setCode("");
 			setUploadedFiles([]);
+			setSubmittedLinks([]);
 		}
 	}, [currentPage, answeredProblems]);
 
@@ -190,7 +205,7 @@ export default function ProblemClient({
 
 	// Update submit handler for client-side navigation
 	const handleSubmit = useCallback(() => {
-		if (!code.trim()) {
+		if (language !== "link" && !code.trim()) {
 			toast({
 				description: "Please write some code before submitting",
 				className: "bg-yellow-100 text-yellow-900 border-none",
@@ -199,12 +214,27 @@ export default function ProblemClient({
 			return;
 		}
 
+		if (language === "link" && submittedLinks.length === 0 && !currentLink) {
+			toast({
+				description: "Please add at least one link before submitting",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		// If there's a pending link, add it before submitting
+		if (language === "link" && currentLink && isValidUrl(currentLink)) {
+			handleAddLink();
+		}
+
 		const newAnswers = {
 			...answeredProblems,
 			[currentPage]: {
 				code,
 				language,
 				files: uploadedFiles.length > 0 ? uploadedFiles : undefined,
+				links: submittedLinks.length > 0 ? submittedLinks : undefined,
 			},
 		};
 
@@ -227,6 +257,8 @@ export default function ProblemClient({
 		router,
 		toast,
 		uploadedFiles,
+		submittedLinks,
+		currentLink,
 	]);
 
 	const handleReset = () => {
@@ -236,7 +268,130 @@ export default function ProblemClient({
 		setCode("");
 		setOutput({ output: "", language });
 		setUploadedFiles([]);
+		setSubmittedLinks([]);
+		setCurrentLink("");
+		setCurrentLinkDescription("");
+		setEditingLinkIndex(null);
 		localStorage.setItem("problemAnswers", JSON.stringify(newAnswers));
+	};
+
+	// Function to detect link type based on URL
+	const detectLinkType = (url: string): "github" | "codepen" | "jsfiddle" | "replit" | "other" => {
+		if (!url) return "other";
+		
+		if (url.includes("github.com")) return "github";
+		if (url.includes("codepen.io")) return "codepen";
+		if (url.includes("jsfiddle.net")) return "jsfiddle";
+		if (url.includes("replit.com")) return "replit";
+		
+		return "other";
+	};
+
+	// Function to validate URL
+	const isValidUrl = (url: string): boolean => {
+		try {
+			new URL(url);
+			return true;
+		} catch {
+			return false;
+		}
+	};
+
+	// Handle adding or updating a link
+	const handleAddLink = () => {
+		if (!currentLink) {
+			toast({
+				description: "Please enter a valid URL",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		if (!isValidUrl(currentLink)) {
+			toast({
+				description: "Please enter a valid URL format (e.g., https://example.com)",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		if (submittedLinks.length >= 3 && editingLinkIndex === null) {
+			toast({
+				description: "Maximum 3 links allowed per problem",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		if (editingLinkIndex !== null) {
+			// Update existing link
+			const updatedLinks = [...submittedLinks];
+			updatedLinks[editingLinkIndex] = {
+				...updatedLinks[editingLinkIndex],
+				url: currentLink,
+				description: currentLinkDescription,
+				type: detectLinkType(currentLink),
+			};
+			setSubmittedLinks(updatedLinks);
+		} else {
+			// Add new link
+			const newLink: LinkData = {
+				id: Date.now().toString(),
+				url: currentLink,
+				description: currentLinkDescription,
+				type: detectLinkType(currentLink),
+				addedAt: Date.now(),
+			};
+			setSubmittedLinks([...submittedLinks, newLink]);
+		}
+
+		// Reset form
+		setCurrentLink("");
+		setCurrentLinkDescription("");
+		setEditingLinkIndex(null);
+
+		// Also update code state with the URLs to maintain backward compatibility
+		const urlsText = [...submittedLinks, { url: currentLink }]
+			.map(link => link.url)
+			.join("\n");
+		setCode(urlsText);
+	};
+
+	// Function to edit a link
+	const handleEditLink = (index: number) => {
+		const link = submittedLinks[index];
+		setCurrentLink(link.url);
+		setCurrentLinkDescription(link.description);
+		setEditingLinkIndex(index);
+	};
+
+	// Function to remove a link
+	const handleRemoveLink = (index: number) => {
+		const updatedLinks = submittedLinks.filter((_, i) => i !== index);
+		setSubmittedLinks(updatedLinks);
+		
+		// Also update code state with the remaining URLs
+		const urlsText = updatedLinks.map(link => link.url).join("\n");
+		setCode(urlsText);
+	};
+
+	// Link icon mapping
+	const getLinkIcon = (type: LinkData['type']) => {
+		switch (type) {
+			case "github":
+				return "🔗 GitHub";
+			case "codepen":
+				return "🖌️ CodePen";
+			case "jsfiddle":
+				return "📝 JSFiddle";
+			case "replit":
+				return "💻 Replit";
+			default:
+				return "🔗 Link";
+		}
 	};
 
 	const handleFinishSection = () => {
@@ -413,6 +568,7 @@ export default function ProblemClient({
 										</SelectItem>
 										<SelectItem value="sql">SQL</SelectItem>
 										<SelectItem value="text">Text</SelectItem>
+										<SelectItem value="link">Link</SelectItem>
 									</SelectContent>
 								</Select>
 							</div>
@@ -461,7 +617,7 @@ export default function ProblemClient({
 										{uploadedFiles.map((file, index) => (
 											<div
 												key={index}
-												className="flex items-center gap-1 text-xs bg-gray-100 p-1 pr-2 rounded-md group"
+												className="flex items-center gap-1 text-xs bg-gray-100 p-1 px-2 rounded-md group"
 											>
 												<button
 													type="button"
@@ -486,17 +642,138 @@ export default function ProblemClient({
 							</div>
 
 							<div className="flex-1 overflow-auto">
-								<CodeMirror
-									ref={editorRef}
-									value={code}
-									height="100%"
-									onChange={handleCodeChange}
-									className="h-full 2xl:text-xl"
-								/>
+								{language === "link" ? (
+									<div className="p-4 h-full overflow-y-auto">
+										<div className="mb-4">
+											<label className="block text-sm font-medium text-gray-700 mb-2">
+												{editingLinkIndex !== null ? "Edit solution link:" : "Add solution link:"}
+											</label>
+											
+											<div className="flex flex-col space-y-3">
+												<div className="flex space-x-2">
+													<Input
+														type="url"
+														value={currentLink}
+														onChange={(e) => setCurrentLink(e.target.value)}
+														placeholder="https://example.com/your-solution"
+														className="flex-1 p-2 border rounded-md focus:ring-2 focus:ring-primary"
+													/>
+													<Button 
+														onClick={handleAddLink} 
+														size="sm"
+														className="whitespace-nowrap"
+													>
+														{editingLinkIndex !== null ? (
+															<>
+																<BiEdit className="mr-1 h-4 w-4" /> Update
+															</>
+														) : (
+															<>
+																<BiPlus className="mr-1 h-4 w-4" /> Add Link
+															</>
+														)}
+													</Button>
+												</div>
+												
+												<div>
+													<label className="block text-xs font-medium text-gray-600 mb-1">
+														Description (optional):
+													</label>
+													<Input
+														type="text"
+														value={currentLinkDescription}
+														onChange={(e) => setCurrentLinkDescription(e.target.value)}
+														placeholder="Briefly describe what this link contains"
+														className="w-full p-2 border rounded-md focus:ring-2 focus:ring-primary"
+													/>
+												</div>
+											</div>
+											
+											<div className="mt-2 flex items-center">
+												<BiLinkAlt className="h-4 w-4 text-gray-500 mr-1" />
+												<p className="text-xs text-gray-500">
+													Submit links to your solutions (GitHub, CodePen, JSFiddle, etc.). Maximum 3 links per problem.
+												</p>
+											</div>
+											
+											{isValidUrl(currentLink) && (
+												<div className="mt-2 p-2 bg-blue-50 rounded-md border border-blue-100">
+													<p className="text-xs text-blue-600">
+														Link type detected: <strong>{getLinkIcon(detectLinkType(currentLink))}</strong>
+													</p>
+												</div>
+											)}
+										</div>
+										
+										{/* Display submitted links */}
+										{submittedLinks.length > 0 && (
+											<div className="mt-6">
+												<h3 className="text-sm font-medium text-gray-700 mb-2">
+													Submitted Links ({submittedLinks.length}/3):
+												</h3>
+												<div className="space-y-3">
+													{submittedLinks.map((link, index) => (
+														<div 
+															key={link.id} 
+															className="p-3 bg-gray-50 rounded-md border border-gray-200 shadow-sm transition hover:shadow-md"
+														>
+															<div className="flex items-center justify-between">
+																<div className="flex items-center">
+																	<span className="text-sm font-medium mr-2">
+																		{getLinkIcon(link.type)}
+																	</span>
+																</div>
+																<div className="flex space-x-2">
+																	<button
+																		onClick={() => handleEditLink(index)}
+																		className="p-1 text-blue-500 rounded hover:bg-blue-50"
+																		title="Edit this link"
+																	>
+																		<BiEdit className="h-4 w-4" />
+																	</button>
+																	<button
+																		onClick={() => handleRemoveLink(index)}
+																		className="p-1 text-red-500 rounded hover:bg-red-50"
+																		title="Remove this link"
+																	>
+																		<BiX className="h-4 w-4" />
+																	</button>
+																</div>
+															</div>
+															
+															<a 
+																href={link.url} 
+																target="_blank" 
+																rel="noopener noreferrer"
+																className="text-blue-600 hover:underline text-sm break-all mt-1 block"
+															>
+																{link.url}
+															</a>
+															
+															{link.description && (
+																<p className="mt-1 text-xs text-gray-600 italic">
+																	"{link.description}"
+																</p>
+															)}
+														</div>
+													))}
+												</div>
+											</div>
+										)}
+									</div>
+								) : (
+									<CodeMirror
+										ref={editorRef}
+										value={code}
+										height="100%"
+										onChange={handleCodeChange}
+										className="h-full 2xl:text-xl"
+									/>
+								)}
 							</div>
 						</ResizablePanel>
 
-						{language !== "text" ? (
+						{language !== "text" && language !== "link" ? (
 							<>
 								<ResizableHandle className="w-1 bg-gray-50 hover:bg-gray-100 cursor-col-resize" />
 
@@ -617,6 +894,37 @@ export default function ProblemClient({
 														)
 													)}
 												</div>
+											</div>
+										)}
+									
+									{answeredProblems[index + 1]?.links &&
+										answeredProblems[index + 1]?.links!
+											.length > 0 && (
+											<div className="mt-2">
+												<p className="text-sm font-medium">
+													Solution Links:
+												</p>
+												<ul className="list-disc pl-5 mt-1 space-y-1">
+													{answeredProblems[
+														index + 1
+													]?.links!.map((link) => (
+														<li key={link.id}>
+															<a 
+																href={link.url} 
+																target="_blank" 
+																rel="noopener noreferrer"
+																className="text-blue-600 hover:underline text-sm break-all"
+															>
+																{link.url}
+																{link.description && (
+																	<span className="text-gray-500 italic ml-1">
+																		- {link.description}
+																	</span>
+																)}
+															</a>
+														</li>
+													))}
+												</ul>
 											</div>
 										)}
 								</div>
