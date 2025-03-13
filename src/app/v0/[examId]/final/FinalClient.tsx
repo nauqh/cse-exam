@@ -11,7 +11,6 @@ import {
 	MultiChoiceAnswer,
 	ProblemAnswer,
 } from "@/types/exam";
-import { Paperclip } from "lucide-react";
 
 export default function FinalClient({ examId }: { examId: string }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,6 +59,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 					answer: answer.code,
 					type: answer.language,
 					files: answer.files || undefined,
+					links: answer.links || undefined,
 				})),
 			],
 		};

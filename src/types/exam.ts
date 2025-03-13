@@ -44,5 +44,6 @@ export type ExamResults = {
     answer: string;
     type: string;
     files?: FileData[];
+    links?: LinkData[];
   }>;
 };
