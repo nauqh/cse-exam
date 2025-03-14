@@ -26,7 +26,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 		M11: "M1.1 Basics SQL",
 		M12: "M1.2 Advanced SQL",
 		M21: "M2.1 Python 101",
-		M31: "M3.2 Pandas 101",
+		M31: "M3.1 Pandas 101",
 	};
 
 	const handleSubmit = async () => {

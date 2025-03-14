@@ -29,7 +29,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 		M11: "M1.1 Basics SQL",
 		M12: "M1.2 Advanced SQL",
 		M21: "M2.1 Python 101",
-		M31: "M3.2 Pandas 101",
+		M31: "M3.1 Pandas 101",
 	};
 
 	const handleSubmit = async () => {
@@ -158,16 +158,24 @@ export default function FinalClient({ examId }: { examId: string }) {
 															) => (
 																<li key={index}>
 																	<a
-																		href={link.url}
+																		href={
+																			link.url
+																		}
 																		target="_blank"
 																		rel="noopener noreferrer"
 																		className="text-blue-600 hover:underline text-sm break-all"
 																	>
-																		{link.url}
+																		{
+																			link.url
+																		}
 																	</a>
 																	{link.description && (
 																		<span className="block text-gray-500 italic text-xs ml-2">
-																			"{link.description}"
+																			"
+																			{
+																				link.description
+																			}
+																			"
 																		</span>
 																	)}
 																</li>
@@ -202,8 +210,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 														>
 															{file.name} (
 															{Math.round(
-																file.size /
-																	1024
+																file.size / 1024
 															)}{" "}
 															KB)
 														</div>

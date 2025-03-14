@@ -55,16 +55,30 @@ const decodeBase64File = (content: string): string => {
 	}
 };
 
+// Dictionary mapping exam IDs to their solution file URLs
+const solutionUrls: Record<string, string> = {
+	M11: "https://drive.google.com/file/d/1tvZyXZX2ttlD8S7RJl6RJHtKtYxS5j6s/preview",
+	M21: "https://drive.google.com/file/d/1aUYMDcDpnk0YymyHiSyzxULnPjvpLzOE/preview",
+	M31: "https://drive.google.com/file/d/17fS11_ClRjgGvL7x6MnP3019CkO8AFe6/preview",
+};
+
 export default function MarkingClient({
 	submissionId,
 }: {
 	submissionId: string;
 }) {
 	const [submission, setSubmission] = useState<Submission | null>(null);
+	const [examId, setExamId] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [activeTab, setActiveTab] = useState("submission");
 	const [copiedToClipboard, setCopiedToClipboard] = useState(false);
+	const [copiedSolutionLink, setCopiedSolutionLink] = useState(false);
+
+	const getSolutionFileUrl = () => {
+		if (!examId) return "";
+		return solutionUrls[examId] || "";
+	};
 
 	useEffect(() => {
 		const fetchSubmission = async () => {
@@ -79,6 +93,7 @@ export default function MarkingClient({
 
 				const data = await response.json();
 				setSubmission(data);
+				setExamId(data.exam_id);
 			} catch (err) {
 				setError(
 					err instanceof Error
@@ -99,12 +114,25 @@ export default function MarkingClient({
 		setTimeout(() => setCopiedToClipboard(false), 2000);
 	};
 
+	const handleCopySolutionLink = () => {
+		// Get the shareable URL by replacing "/preview" with "/view?usp=drive_link"
+		const shareableUrl = getSolutionFileUrl().replace(
+			"/preview",
+			"/view?usp=drive_link"
+		);
+		navigator.clipboard.writeText(shareableUrl);
+		setCopiedSolutionLink(true);
+		setTimeout(() => setCopiedSolutionLink(false), 2000);
+	};
+
 	if (loading) {
 		return (
 			<div className="container mx-auto py-12 max-w-6xl flex justify-center">
 				<div className="flex flex-col items-center gap-4">
 					<div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-					<p className="text-muted-foreground">Loading submission...</p>
+					<p className="text-muted-foreground">
+						Loading submission...
+					</p>
 				</div>
 			</div>
 		);
@@ -129,12 +157,16 @@ export default function MarkingClient({
 									Submission review
 								</CardTitle>
 								<div className="text-muted-foreground mt-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-									<span className="font-medium">{submission.exam_name}</span>
+									<span className="font-medium">
+										{submission.exam_name}
+									</span>
 									<span className="hidden sm:inline">•</span>
 									<span>{submission.email}</span>
 									<span className="hidden sm:inline">•</span>
 									<span className="text-sm">
-										{new Date(submission.submitted_at).toLocaleString()}
+										{new Date(
+											submission.submitted_at
+										).toLocaleString()}
 									</span>
 								</div>
 							</div>
@@ -151,9 +183,15 @@ export default function MarkingClient({
 								</Badge>
 								<div className="flex items-center gap-2 font-medium">
 									<span>Score:</span>
-									<span className={`text-lg font-bold ${
-										submission.score >= 70 ? 'text-green-600' : 
-										submission.score >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
+									<span
+										className={`text-lg font-bold ${
+											submission.score >= 70
+												? "text-green-600"
+												: submission.score >= 50
+												? "text-amber-600"
+												: "text-red-600"
+										}`}
+									>
 										{submission.score}/100
 									</span>
 								</div>
@@ -168,14 +206,14 @@ export default function MarkingClient({
 					className="w-full"
 				>
 					<TabsList className="mb-4 w-full sm:w-auto">
-						<TabsTrigger 
-							value="submission" 
+						<TabsTrigger
+							value="submission"
 							className="flex-1 sm:flex-initial"
 						>
 							Answers
 						</TabsTrigger>
-						<TabsTrigger 
-							value="summary" 
+						<TabsTrigger
+							value="summary"
 							className="flex-1 sm:flex-initial"
 						>
 							Summary
@@ -195,21 +233,31 @@ export default function MarkingClient({
 						))}
 					</TabsContent>
 
-					<TabsContent 
+					<TabsContent
 						value="summary"
 						className="animate-in fade-in-50 duration-300"
 					>
 						<Card className="shadow-sm">
 							<CardHeader className="pb-3 border-b">
 								<div className="flex justify-between items-center">
-									<CardTitle className="text-lg">Submission Summary</CardTitle>
+									<CardTitle className="text-lg">
+										Summary
+									</CardTitle>
 									<button
-										onClick={() => handleCopyToClipboard(submission.summary)}
+										onClick={() =>
+											handleCopyToClipboard(
+												submission.summary
+											)
+										}
 										className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
 										title="Copy summary to clipboard"
 									>
 										<Copy size={14} />
-										<span>{copiedToClipboard ? "Copied!" : "Copy"}</span>
+										<span>
+											{copiedToClipboard
+												? "Copied!"
+												: "Copy"}
+										</span>
 									</button>
 								</div>
 							</CardHeader>
@@ -219,6 +267,49 @@ export default function MarkingClient({
 								</pre>
 							</CardContent>
 						</Card>
+
+						{/* Solution File Section */}
+						<div className="mt-6">
+							<Card className="shadow-sm">
+								<CardHeader className="pb-3 border-b">
+									<div className="flex justify-between items-center">
+										<CardTitle className="text-lg">
+											Solution
+										</CardTitle>
+										<button
+											onClick={handleCopySolutionLink}
+											className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
+											title="Copy solution link to clipboard"
+											disabled={!getSolutionFileUrl()}
+										>
+											<Copy size={14} />
+											<span>
+												{copiedSolutionLink
+													? "Copied!"
+													: "Copy"}
+											</span>
+										</button>
+									</div>
+								</CardHeader>
+								<CardContent className="pt-4">
+									{getSolutionFileUrl() ? (
+										<div className="rounded-md overflow-hidden border">
+											<iframe
+												src={getSolutionFileUrl()}
+												className="w-full"
+												height="600"
+												allow="autoplay"
+												title="Solution File"
+											></iframe>
+										</div>
+									) : (
+										<p className="text-muted-foreground italic text-center py-8">
+											No solution available for this exam
+										</p>
+									)}
+								</CardContent>
+							</Card>
+						</div>
 					</TabsContent>
 				</Tabs>
 			</div>
@@ -235,7 +326,8 @@ function ErrorState({ error }: { error: string }) {
 					<AlertCircle className="h-12 w-12 text-red-500 mb-4" />
 					<p className="text-lg font-medium text-center">{error}</p>
 					<p className="text-muted-foreground mt-2 text-center">
-						Please try again or contact support if the issue persists.
+						Please try again or contact support if the issue
+						persists.
 					</p>
 				</CardContent>
 			</Card>
@@ -266,9 +358,7 @@ function AnswerCard({
 
 			case "python":
 			case "sql":
-				return (
-					<CodeOutput data={answer.answer} />
-				);
+				return <CodeOutput data={answer.answer} />;
 
 			case "text":
 				return (
@@ -282,7 +372,10 @@ function AnswerCard({
 					<div className="space-y-3">
 						{answer.links?.length ? (
 							answer.links.map((link) => (
-								<div key={link.id} className="flex flex-col p-3 bg-slate-50 border rounded-md">
+								<div
+									key={link.id}
+									className="flex flex-col p-3 bg-slate-50 border rounded-md"
+								>
 									<a
 										href={link.url}
 										target="_blank"
@@ -300,7 +393,9 @@ function AnswerCard({
 								</div>
 							))
 						) : (
-							<p className="text-muted-foreground italic">No links provided</p>
+							<p className="text-muted-foreground italic">
+								No links provided
+							</p>
 						)}
 					</div>
 				);
@@ -321,7 +416,10 @@ function AnswerCard({
 												{file.name}
 											</span>
 										</div>
-										<Badge variant="outline" className="text-xs">
+										<Badge
+											variant="outline"
+											className="text-xs"
+										>
 											{(file.size / 1024).toFixed(1)} KB
 										</Badge>
 									</div>
@@ -335,7 +433,9 @@ function AnswerCard({
 								</div>
 							))
 						) : (
-							<p className="text-muted-foreground italic">No files submitted</p>
+							<p className="text-muted-foreground italic">
+								No files submitted
+							</p>
 						)}
 					</div>
 				);
@@ -350,16 +450,19 @@ function AnswerCard({
 			<CardHeader className="pb-3 flex flex-row justify-between items-center border-b">
 				<div className="flex items-center gap-3">
 					<div className="flex items-center justify-center bg-slate-100 w-8 h-8 rounded-full">
-						<CardTitle className="text-sm font-bold">{questionNumber}</CardTitle>
+						<CardTitle className="text-sm font-bold">
+							{questionNumber}
+						</CardTitle>
 					</div>
-					<Badge variant="outline" className="capitalize text-xs px-2 py-0.5">
+					<Badge
+						variant="outline"
+						className="capitalize text-xs px-2 py-0.5"
+					>
 						{answer.type}
 					</Badge>
 				</div>
 			</CardHeader>
-			<CardContent className="pt-4">
-				{renderAnswerContent()}
-			</CardContent>
+			<CardContent className="pt-4">{renderAnswerContent()}</CardContent>
 		</Card>
 	);
 }
