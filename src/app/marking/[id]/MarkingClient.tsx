@@ -147,7 +147,7 @@ export default function MarkingClient({
 	}
 
 	return (
-		<div className="container mx-auto py-8 max-w-5xl">
+		<div className="container mx-auto p-2 py-8 max-w-5xl">
 			<div className="flex flex-col gap-6">
 				<Card className="shadow-sm">
 					<CardHeader className="pb-3">
