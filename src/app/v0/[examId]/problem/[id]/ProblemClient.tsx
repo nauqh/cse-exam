@@ -479,13 +479,15 @@ export default function ProblemClient({
 									<BiHelpCircle className="w-4 h-4" />
 									Description
 								</TabsTrigger>
-								<TabsTrigger
-									value="erd"
-									className="hover:bg-gray-100 flex items-center gap-2"
-								>
-									<BiNetworkChart className="w-4 h-4" />
-									ERD
-								</TabsTrigger>
+								{["M12", "M11"].includes(examId) && (
+									<TabsTrigger
+										value="erd"
+										className="hover:bg-gray-100 flex items-center gap-2"
+									>
+										<BiNetworkChart className="w-4 h-4" />
+										ERD
+									</TabsTrigger>
+								)}
 								{/* <TabsTrigger
 									value="discussion"
 									className="hover:bg-gray-100 flex items-center gap-2"
@@ -502,10 +504,20 @@ export default function ProblemClient({
 									tableData: currentProblem.tableData,
 								})}
 							/>
-							<ProblemDescription
-								name="erd"
-								erdImageUrl="https://camo.githubusercontent.com/a0a377ee0279de8567c9fcb6492e04c76cde6bac5aeb04e2acf5b69b62fd9184/68747470733a2f2f7374617469632e7061636b742d63646e2e636f6d2f70726f64756374732f393738313738323137303930372f67726170686963732f30393037454e5f30325f30392e6a7067"
-							/>
+							{examId === "M11" && (
+								<ProblemDescription
+									name="erd"
+									erdImageUrl="https://camo.githubusercontent.com/a0a377ee0279de8567c9fcb6492e04c76cde6bac5aeb04e2acf5b69b62fd9184/68747470733a2f2f7374617469632e7061636b742d63646e2e636f6d2f70726f64756374732f393738313738323137303930372f67726170686963732f30393037454e5f30325f30392e6a7067"
+									erdName="Northwind"
+								/>
+							)}
+							{examId === "M12" && (
+								<ProblemDescription
+									name="erd"
+									erdImageUrl="https://raw.githubusercontent.com/nikita-kazakov/chinook-sample-database/refs/heads/main/app/assets/images/chinook_erd.png"
+									erdName="Chinook"
+								/>
+							)}
 							{/* <ProblemDescription name="discussion" /> */}
 						</Tabs>
 						<div className="flex items-center justify-center gap-2 p-2 border-b">

@@ -11,19 +11,21 @@ const ProblemDescription = ({
 	questionNumber,
 	tableData,
 	erdImageUrl,
+	erdName
 }: {
 	name: string;
 	content?: string;
 	questionNumber?: number;
 	tableData?: { [key: string]: string }[];
 	erdImageUrl?: string;
+	erdName?: string;
 }) => {
 	return (
 		<TabsContent value={name} className="overflow-y-auto">
 			<div className="px-4">
 				{name === "description" ? (
 					<>
-						<h2 className="text-xl font-bold">
+						<h2 className="text-xl font-semibold">
 							Question {questionNumber}
 						</h2>
 						{content ? (
@@ -42,24 +44,9 @@ const ProblemDescription = ({
 				) : name === "erd" ? (
 					<div className="space-y-4">
 						<div className="prose max-w-none space-y-2">
-							<h3 className="text-lg font-bold">
-								Entity Relationship Diagram (ERD)
+							<h3 className="text-lg font-semibold">
+								{erdName} ERD
 							</h3>
-							<p>
-								The Northwind database contains the sales data
-								for a fictitious company called{" "}
-								<Link
-									href="https://github.com/yugabyte/yugabyte-db/wiki/Northwind-Sample-Database"
-									className="text-blue-600 hover:text-blue-800 underline"
-									target="_blank"
-								>
-									Northwind Traders
-								</Link>
-								, which imports and exports specialty foods from
-								around the world. The dataset consists of 13
-								tables and the table relationships are showcased
-								in the entity relationship diagram below:
-							</p>
 						</div>
 						<div>
 							{erdImageUrl ? (

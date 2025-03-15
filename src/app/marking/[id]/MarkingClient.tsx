@@ -59,6 +59,7 @@ const decodeBase64File = (content: string): string => {
 const solutionUrls: Record<string, string> = {
 	M11: "https://drive.google.com/file/d/1tvZyXZX2ttlD8S7RJl6RJHtKtYxS5j6s/preview",
 	M21: "https://drive.google.com/file/d/1aUYMDcDpnk0YymyHiSyzxULnPjvpLzOE/preview",
+	M12: "https://drive.google.com/file/d/1-0767BUsbseekFHzufuhDKEG253vclsg/preview",
 	M31: "https://drive.google.com/file/d/17fS11_ClRjgGvL7x6MnP3019CkO8AFe6/preview",
 };
 
