@@ -184,6 +184,11 @@ export default function ProblemClient({
 					body: JSON.stringify({
 						code: code,
 						language: language,
+						database: examId === "M11" 
+							? "northwind" 
+							: examId === "M12" 
+								? "chinook" 
+								: null
 					}),
 				}
 			);
@@ -202,7 +207,7 @@ export default function ProblemClient({
 				language,
 			});
 		}
-	}, [code, language]);
+	}, [code, language, examId]);
 
 	// Update submit handler for client-side navigation
 	const handleSubmit = useCallback(() => {
