@@ -209,6 +209,69 @@ export default function ProblemClient({
 		}
 	}, [code, language, examId]);
 
+	// Handle adding or updating a link
+	const handleAddLink = () => {
+		if (!currentLink) {
+			toast({
+				description: "Please enter a valid URL",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		if (!isValidUrl(currentLink)) {
+			toast({
+				description: "Please enter a valid URL format (e.g., https://example.com)",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		if (submittedLinks.length >= 3 && editingLinkIndex === null) {
+			toast({
+				description: "Maximum 3 links allowed per problem",
+				className: "bg-yellow-100 text-yellow-900 border-none",
+				duration: 3000,
+			});
+			return;
+		}
+
+		if (editingLinkIndex !== null) {
+			// Update existing link
+			const updatedLinks = [...submittedLinks];
+			updatedLinks[editingLinkIndex] = {
+				...updatedLinks[editingLinkIndex],
+				url: currentLink,
+				description: currentLinkDescription,
+				type: detectLinkType(currentLink),
+			};
+			setSubmittedLinks(updatedLinks);
+		} else {
+			// Add new link
+			const newLink: LinkData = {
+				id: Date.now().toString(),
+				url: currentLink,
+				description: currentLinkDescription,
+				type: detectLinkType(currentLink),
+				addedAt: Date.now(),
+			};
+			setSubmittedLinks([...submittedLinks, newLink]);
+		}
+
+		// Reset form
+		setCurrentLink("");
+		setCurrentLinkDescription("");
+		setEditingLinkIndex(null);
+
+		// Also update code state with the URLs to maintain backward compatibility
+		const urlsText = [...submittedLinks, { url: currentLink }]
+			.map(link => link.url)
+			.join("\n");
+		setCode(urlsText);
+	};
+
 	// Update submit handler for client-side navigation
 	const handleSubmit = useCallback(() => {
 		if (language !== "link" && language !== "file" && !code.trim()) {
@@ -274,6 +337,7 @@ export default function ProblemClient({
 		uploadedFiles,
 		submittedLinks,
 		currentLink,
+		handleAddLink,
 	]);
 
 	const handleReset = () => {
@@ -320,68 +384,7 @@ export default function ProblemClient({
 		}
 	};
 
-	// Handle adding or updating a link
-	const handleAddLink = () => {
-		if (!currentLink) {
-			toast({
-				description: "Please enter a valid URL",
-				className: "bg-yellow-100 text-yellow-900 border-none",
-				duration: 3000,
-			});
-			return;
-		}
-
-		if (!isValidUrl(currentLink)) {
-			toast({
-				description: "Please enter a valid URL format (e.g., https://example.com)",
-				className: "bg-yellow-100 text-yellow-900 border-none",
-				duration: 3000,
-			});
-			return;
-		}
-
-		if (submittedLinks.length >= 3 && editingLinkIndex === null) {
-			toast({
-				description: "Maximum 3 links allowed per problem",
-				className: "bg-yellow-100 text-yellow-900 border-none",
-				duration: 3000,
-			});
-			return;
-		}
-
-		if (editingLinkIndex !== null) {
-			// Update existing link
-			const updatedLinks = [...submittedLinks];
-			updatedLinks[editingLinkIndex] = {
-				...updatedLinks[editingLinkIndex],
-				url: currentLink,
-				description: currentLinkDescription,
-				type: detectLinkType(currentLink),
-			};
-			setSubmittedLinks(updatedLinks);
-		} else {
-			// Add new link
-			const newLink: LinkData = {
-				id: Date.now().toString(),
-				url: currentLink,
-				description: currentLinkDescription,
-				type: detectLinkType(currentLink),
-				addedAt: Date.now(),
-			};
-			setSubmittedLinks([...submittedLinks, newLink]);
-		}
-
-		// Reset form
-		setCurrentLink("");
-		setCurrentLinkDescription("");
-		setEditingLinkIndex(null);
-
-		// Also update code state with the URLs to maintain backward compatibility
-		const urlsText = [...submittedLinks, { url: currentLink }]
-			.map(link => link.url)
-			.join("\n");
-		setCode(urlsText);
-	};
+	
 
 	// Function to edit a link
 	const handleEditLink = (index: number) => {
