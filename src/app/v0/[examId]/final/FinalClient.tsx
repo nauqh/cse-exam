@@ -42,8 +42,8 @@ export default function FinalClient({ examId }: { examId: string }) {
 		// Multiple choice answers
 		markdown += `## MULTICHOICE\n\n`;
 		const multichoiceAnswers = Object.entries(examResults.answers)
-			.filter(([_, answer]: [string, any]) => answer.type === "multichoice")
-			.map(([index, answer]: [string, any]) => ({ index, answer: answer.answer as string }));
+			.filter(([_, answer]: [string, { type: string; answer: string }]) => answer.type === "multichoice")
+			.map(([index, answer]: [string, { type: string; answer: string }]) => ({ index, answer: answer.answer as string }));
 		
 		if (multichoiceAnswers.length > 0) {
 			multichoiceAnswers.forEach((item: { index: string, answer: string }, index: number) => {
@@ -133,9 +133,11 @@ export default function FinalClient({ examId }: { examId: string }) {
 			exam_id: examId,
 			exam_name: examDict[examId],
 			answers: [
-				...Object.entries(multichoiceAnswers).map(([_, answer]: [string, any]) => ({
+				...Object.entries(multichoiceAnswers).map(([key, answer]: [string, string]) => ({
 					answer,
 					type: "multichoice",
+					files: undefined,
+					links: undefined
 				})),
 				...Object.entries(problemAnswers).map(([_, answer]: [string, ProblemAnswer]) => ({
 					answer: answer.code,
