@@ -9,7 +9,7 @@ import TableDisplay from "@/components/problem/TableDisplay";
 type SubmissionAnswer = {
 	answer: string;
 	type: "multichoice" | "sql" | "python" | "pandas";
-	isCorrect?: boolean;
+	status?: 'correct' | 'incorrect' | 'partial' | 'not_submitted';
 };
 
 type Submission = {
@@ -26,6 +26,55 @@ type Submission = {
 const processMarkdown = (content: string) => {
 	const processedContent = content.replace(/<br\/>/g, "\n\n");
 	return processedContent.split(/(```[^`]*```)/g);
+};
+
+// Function to parse the exam summary markdown string and extract question correctness
+const parseExamSummary = (summaryMarkdown: string): { questionId: string; status: 'correct' | 'incorrect' | 'partial' | 'not_submitted' }[] => {
+  const results: { questionId: string; status: 'correct' | 'incorrect' | 'partial' | 'not_submitted' }[] = [];
+  
+  // Extract sections for correct, partial, incorrect and not submitted
+  const correctMatch = summaryMarkdown.match(/Correct:[\s\S]*?(Partial:|Incorrect:|Not submitted:|Issue:|FINAL SCORE:)/);
+  const partialMatch = summaryMarkdown.match(/Partial:[\s\S]*?(Correct:|Incorrect:|Not submitted:|Issue:|FINAL SCORE:)/);
+  const incorrectMatch = summaryMarkdown.match(/Incorrect:[\s\S]*?(Correct:|Partial:|Not submitted:|Issue:|FINAL SCORE:)/);
+  const notSubmittedMatch = summaryMarkdown.match(/Not submitted:[\s\S]*?(Correct:|Partial:|Incorrect:|Issue:|FINAL SCORE:)/);
+  
+  // Helper function to extract question IDs from a section
+  const extractQuestionIds = (sectionText: string | null): string[] => {
+    if (!sectionText) return [];
+    
+    // Match all question IDs in the format "Q1", "Q2", etc.
+    const matches = sectionText.matchAll(/- Q(\d+)/g);
+    return Array.from(matches).map(match => match[1]);
+  };
+  
+  // Process correct questions
+  const correctQuestions = extractQuestionIds(correctMatch?.[0] || null);
+  correctQuestions.forEach(qId => {
+    results.push({ questionId: qId, status: 'correct' });
+  });
+  
+  // Process partially correct questions
+  const partialQuestions = extractQuestionIds(partialMatch?.[0] || null);
+  partialQuestions.forEach(qId => {
+    results.push({ questionId: qId, status: 'partial' });
+  });
+  
+  // Process incorrect questions
+  const incorrectQuestions = extractQuestionIds(incorrectMatch?.[0] || null);
+  incorrectQuestions.forEach(qId => {
+    results.push({ questionId: qId, status: 'incorrect' });
+  });
+  
+  // Process not submitted questions
+  const notSubmittedQuestions = extractQuestionIds(notSubmittedMatch?.[0] || null);
+  notSubmittedQuestions.forEach(qId => {
+    results.push({ questionId: qId, status: 'not_submitted' });
+  });
+  
+  // Sort results by question ID (numerically)
+  results.sort((a, b) => parseInt(a.questionId) - parseInt(b.questionId));
+  
+  return results;
 };
 
 export default function ReviewClient({
@@ -51,10 +100,22 @@ export default function ReviewClient({
 				}
 
 				const data = await response.json();
-				data.answers = data.answers.map((answer: SubmissionAnswer) => ({
-					...answer,
-					isCorrect: Math.random() > 0.5,
-				}));
+				
+				// Parse the exam summary to get correctness for each question
+				const questionResults = parseExamSummary(data.summary);
+				
+				// Map the answers with the correct status value based on questionId
+				data.answers = data.answers.map((answer: SubmissionAnswer, index: number) => {
+					// Question IDs are 1-indexed, so add 1 to the index
+					const questionId = (index + 1).toString();
+					const result = questionResults.find(q => q.questionId === questionId);
+					
+					return {
+						...answer,
+						status: result ? result.status : 'not_submitted'
+					};
+				});
+				
 				setSubmission(data);
 			} catch (err) {
 				setError(
@@ -66,7 +127,7 @@ export default function ReviewClient({
 		};
 
 		fetchSubmission();
-	}, []);
+	}, [submissionId]);
 
 	if (loading) {
 		return (
@@ -125,16 +186,14 @@ export default function ReviewClient({
 					const questionNumber = index + 1;
 					const parts = processMarkdown(question.question);
 					const submissionAnswer = submission?.answers[index];
-					const isCorrect = submissionAnswer?.isCorrect;
+					const status = submissionAnswer?.status;
 
 					return (
 						<div
 							key={index}
 							className={cn(
 								"border rounded-lg p-4 md:p-6 bg-white",
-								isCorrect
-									? "border-green-200"
-									: "border-red-200"
+								status === 'correct' ? "border-green-200" : status === 'incorrect' ? "border-red-200" : "border-gray-200"
 							)}
 						>
 							<div className="flex items-center gap-3 mb-4">
@@ -144,12 +203,10 @@ export default function ReviewClient({
 								<span
 									className={cn(
 										"text-sm px-2 py-1 rounded-full",
-										isCorrect
-											? "bg-green-100 text-green-700"
-											: "bg-red-100 text-red-700"
+										status === 'correct' ? "bg-green-100 text-green-700" : status === 'incorrect' ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-700"
 									)}
 								>
-									{isCorrect ? "+10 points" : "0 points"}
+									{status === 'correct' ? "+10 points" : status === 'incorrect' ? "0 points" : "Not submitted"}
 								</span>
 							</div>
 
@@ -204,20 +261,16 @@ export default function ReviewClient({
 								<div
 									className={cn(
 										"p-4 rounded-lg",
-										isCorrect ? "bg-green-50" : "bg-red-50"
+										status === 'correct' ? "bg-green-50" : status === 'incorrect' ? "bg-red-50" : "bg-gray-50"
 									)}
 								>
 									<p
 										className={cn(
 											"font-medium mb-2",
-											isCorrect
-												? "text-green-700"
-												: "text-red-700"
+											status === 'correct' ? "text-green-700" : status === 'incorrect' ? "text-red-700" : "text-gray-700"
 										)}
 									>
-										{isCorrect
-											? "✓ Correct Answer"
-											: "✗ Incorrect Answer"}
+										{status === 'correct' ? "✓ Correct Answer" : status === 'incorrect' ? "✗ Incorrect Answer" : "Not submitted"}
 									</p>
 
 									{/* Multiple Choice Answer */}
@@ -228,9 +281,7 @@ export default function ReviewClient({
 												<p
 													className={cn(
 														"text-sm",
-														isCorrect
-															? "text-green-600"
-															: "text-red-600"
+														status === 'correct' ? "text-green-600" : status === 'incorrect' ? "text-red-600" : "text-gray-600"
 													)}
 												>
 													Your answer:{" "}
@@ -248,9 +299,7 @@ export default function ReviewClient({
 											<p
 												className={cn(
 													"text-sm mb-2",
-													isCorrect
-														? "text-green-600"
-														: "text-red-600"
+													status === 'correct' ? "text-green-600" : status === 'incorrect' ? "text-red-600" : "text-gray-600"
 												)}
 											>
 												Your{" "}
@@ -260,9 +309,7 @@ export default function ReviewClient({
 											<pre
 												className={cn(
 													"p-3 rounded-lg overflow-x-auto text-sm font-mono",
-													isCorrect
-														? "bg-green-100 border border-green-200"
-														: "bg-red-100 border border-red-200"
+													status === 'correct' ? "bg-green-100 border border-green-200" : status === 'incorrect' ? "bg-red-100 border border-red-200" : "bg-gray-100 border border-gray-200"
 												)}
 											>
 												<code>
@@ -272,7 +319,7 @@ export default function ReviewClient({
 										</div>
 									)}
 
-									{!isCorrect && (
+									{status === 'incorrect' && (
 										<p
 											className={cn(
 												"text-sm mt-3",
