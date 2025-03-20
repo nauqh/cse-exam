@@ -5,14 +5,17 @@ import ReactMarkdown from "react-markdown";
 import { ExamContent } from "@/lib/questions";
 import { cn } from "@/lib/utils";
 import TableDisplay from "@/components/problem/TableDisplay";
+import {FileData, LinkData} from "@/types/exam";
 
 type SubmissionAnswer = {
 	answer: string;
-	type: "multichoice" | "sql" | "python" | "pandas";
+	type: "multichoice" | "sql" | "python" | "pandas" | "file";
 	status?: 'correct' | 'incorrect' | 'partial' | 'not_submitted';
+	files?: FileData[];
+	links?: LinkData[];
 };
 
-type Submission = {
+export type Submission = {
 	email: string;
 	answers: SubmissionAnswer[];
 	exam_id: string;
@@ -79,55 +82,46 @@ const parseExamSummary = (summaryMarkdown: string): { questionId: string; status
 
 export default function ReviewClient({
 	data,
-	submissionId,
+	submission,
 }: {
 	data: ExamContent;
-	submissionId: number;
+	submission: Submission;
 }) {
-	const [submission, setSubmission] = useState<Submission | null>(null);
+	const [processedSubmission, setProcessedSubmission] = useState<Submission | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		const fetchSubmission = async () => {
-			try {
-				const response = await fetch(
-					`https://cspyclient.up.railway.app/submissions/${submissionId}`
-				);
-
-				if (!response.ok) {
-					throw new Error("Failed to fetch submission");
-				}
-
-				const data = await response.json();
+		try {
+			// Process the submission to add status to each answer
+			const questionResults = parseExamSummary(submission.summary);
+			
+			// Map the answers with the correct status value based on questionId
+			const processedAnswers = submission.answers.map((answer: SubmissionAnswer, index: number) => {
+				// Question IDs are 1-indexed, so add 1 to the index
+				const questionId = (index + 1).toString();
+				const result = questionResults.find(q => q.questionId === questionId);
 				
-				// Parse the exam summary to get correctness for each question
-				const questionResults = parseExamSummary(data.summary);
-				
-				// Map the answers with the correct status value based on questionId
-				data.answers = data.answers.map((answer: SubmissionAnswer, index: number) => {
-					// Question IDs are 1-indexed, so add 1 to the index
-					const questionId = (index + 1).toString();
-					const result = questionResults.find(q => q.questionId === questionId);
-					
-					return {
-						...answer,
-						status: result ? result.status : 'not_submitted'
-					};
-				});
-				
-				setSubmission(data);
-			} catch (err) {
-				setError(
-					err instanceof Error ? err.message : "Something went wrong"
-				);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchSubmission();
-	}, [submissionId]);
+				return {
+					...answer,
+					status: result ? result.status : 'not_submitted'
+				};
+			});
+			
+			const updatedSubmission = {
+				...submission,
+				answers: processedAnswers
+			};
+			
+			setProcessedSubmission(updatedSubmission);
+		} catch (err) {
+			setError(
+				err instanceof Error ? err.message : "Error processing submission data"
+			);
+		} finally {
+			setLoading(false);
+		}
+	}, [submission]);
 
 	if (loading) {
 		return (
@@ -150,14 +144,14 @@ export default function ReviewClient({
 			<div className="bg-white rounded-lg py-6 mb-8">
 				<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 					<h1 className="text-2xl font-bold">Exam Review</h1>
-					{submission && (
+					{processedSubmission && (
 						<div className="flex gap-6 text-sm">
 							<div className="flex flex-col">
 								<span className="text-muted-foreground">
 									Score
 								</span>
 								<span className="font-semibold">
-									{submission.score}/100
+									{processedSubmission.score}/100
 								</span>
 							</div>
 							<div className="flex flex-col">
@@ -166,7 +160,7 @@ export default function ReviewClient({
 								</span>
 								<span className="font-semibold">
 									{new Date(
-										submission.submitted_at
+										processedSubmission.submitted_at
 									).toLocaleString("en-US", {
 										day: "2-digit",
 										month: "short",
@@ -185,7 +179,7 @@ export default function ReviewClient({
 				{data.content.map((question, index) => {
 					const questionNumber = index + 1;
 					const parts = processMarkdown(question.question);
-					const submissionAnswer = submission?.answers[index];
+					const submissionAnswer = processedSubmission?.answers[index];
 					const status = submissionAnswer?.status;
 
 					return (
@@ -316,6 +310,73 @@ export default function ReviewClient({
 													{submissionAnswer.answer}
 												</code>
 											</pre>
+										</div>
+									)}
+									
+									{/* File Upload Answer */}
+									{submissionAnswer?.type === "file" && (
+										<div className="mt-2">
+											<p
+												className={cn(
+													"text-sm mb-2",
+													status === 'correct' ? "text-green-600" : status === 'incorrect' ? "text-red-600" : "text-gray-600"
+												)}
+											>
+												Your uploaded files:
+											</p>
+											<div
+												className={cn(
+													"p-3 rounded-lg",
+													status === 'correct' ? "bg-green-100 border border-green-200" : status === 'incorrect' ? "bg-red-100 border border-red-200" : "bg-gray-100 border border-gray-200"
+												)}
+											>
+												{submissionAnswer.files?.length ? (
+													<ul className="space-y-1">
+														{submissionAnswer.files.map((file, idx) => (
+															<li key={idx} className="text-sm">
+																{file.name} <span className="text-xs text-gray-500">({(file.size / 1024).toFixed(1)} KB)</span>
+															</li>
+														))}
+													</ul>
+												) : (
+													<p className="text-sm text-gray-500">No files submitted</p>
+												)}
+											</div>
+										</div>
+									)}
+
+									{/* Link Answer */}
+									{submissionAnswer?.links && submissionAnswer.links.length > 0 && (
+										<div className="mt-2">
+											<p
+												className={cn(
+													"text-sm mb-2",
+													status === 'correct' ? "text-green-600" : status === 'incorrect' ? "text-red-600" : "text-gray-600"
+												)}
+											>
+												Your submitted links:
+											</p>
+											<div
+												className={cn(
+													"p-3 rounded-lg",
+													status === 'correct' ? "bg-green-100 border border-green-200" : status === 'incorrect' ? "bg-red-100 border border-red-200" : "bg-gray-100 border border-gray-200"
+												)}
+											>
+												<ul className="space-y-1">
+													{submissionAnswer.links.map((link, idx) => (
+														<li key={idx} className="text-sm">
+															<a 
+																href={link.url} 
+																target="_blank" 
+																rel="noopener noreferrer"
+																className="text-blue-600 hover:underline"
+															>
+																{link.description || link.url}
+															</a>
+														</li>
+													))}
+												</ul>
+											</div>
 										</div>
 									)}
 
