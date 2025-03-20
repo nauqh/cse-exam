@@ -37,6 +37,7 @@ type Submission = {
 	exam_name: string;
 	submitted_at: string;
 	summary: string;
+	feedback?: string;
 	score: number;
 	channel: string | null;
 	status: string;
@@ -75,6 +76,9 @@ export default function MarkingClient({
 	const [activeTab, setActiveTab] = useState("submission");
 	const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 	const [copiedSolutionLink, setCopiedSolutionLink] = useState(false);
+	const [feedback, setFeedback] = useState<string>("");
+	const [savingFeedback, setSavingFeedback] = useState(false);
+	const [feedbackSaved, setFeedbackSaved] = useState(false);
 
 	const getSolutionFileUrl = () => {
 		if (!examId) return "";
@@ -95,6 +99,7 @@ export default function MarkingClient({
 				const data = await response.json();
 				setSubmission(data);
 				setExamId(data.exam_id);
+				setFeedback(data.feedback || "");
 			} catch (err) {
 				setError(
 					err instanceof Error
@@ -126,6 +131,35 @@ export default function MarkingClient({
 		setTimeout(() => setCopiedSolutionLink(false), 2000);
 	};
 
+	const handleSaveFeedback = async () => {
+		if (!submission) return;
+		
+		setSavingFeedback(true);
+		try {
+			const response = await fetch(
+				`https://cspyclient.up.railway.app/submissions/${submissionId}/feedback`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ feedback }),
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error("Failed to save feedback");
+			}
+
+			setFeedbackSaved(true);
+			setTimeout(() => setFeedbackSaved(false), 2000);
+		} catch (err) {
+			console.error("Error saving feedback:", err);
+		} finally {
+			setSavingFeedback(false);
+		}
+	};
+
 	if (loading) {
 		return (
 			<div className="container mx-auto py-12 max-w-6xl flex justify-center">
@@ -148,58 +182,48 @@ export default function MarkingClient({
 	}
 
 	return (
-		<div className="container mx-auto p-2 py-8 max-w-5xl">
+		<div className="container mx-auto p-2 py-8 max-w-4xl">
 			<div className="flex flex-col gap-6">
-				<Card className="shadow-sm">
-					<CardHeader className="pb-3">
-						<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-							<div>
-								<CardTitle className="text-2xl font-bold">
-									Submission review
-								</CardTitle>
-								<div className="text-muted-foreground mt-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-									<span className="font-medium">
-										{submission.exam_name}
-									</span>
-									<span className="hidden sm:inline">•</span>
-									<span>{submission.email}</span>
-									<span className="hidden sm:inline">•</span>
-									<span className="text-sm">
-										{new Date(
-											submission.submitted_at
-										).toLocaleString()}
-									</span>
-								</div>
-							</div>
-							<div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-								<Badge
-									variant={
-										submission.status === "completed"
-											? "default"
-											: "outline"
-									}
-									className="px-3 py-1 uppercase text-xs tracking-wider"
-								>
-									{submission.status}
-								</Badge>
-								<div className="flex items-center gap-2 font-medium">
-									<span>Score:</span>
-									<span
-										className={`text-lg font-bold ${
-											submission.score >= 70
-												? "text-green-600"
-												: submission.score >= 50
-												? "text-amber-600"
-												: "text-red-600"
-										}`}
-									>
-										{submission.score}/100
-									</span>
-								</div>
+				<div className="bg-white rounded-lg py-6 mb-8">
+					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+						<div>
+							<h1 className="text-2xl font-bold">Submission Review</h1>
+							<div className="text-muted-foreground mt-1">
+								<span className="font-medium">{submission.exam_name}</span>
+								<span className="mx-2">•</span>
+								<span>{submission.email}</span>
 							</div>
 						</div>
-					</CardHeader>
-				</Card>
+						<div className="flex gap-6 text-sm">
+							<div className="flex flex-col">
+								<span className="font-semibold">
+									<Badge
+										variant={submission.status === "completed" ? "default" : "outline"}
+										className="px-3 py-1 uppercase text-xs tracking-wider mt-1"
+									>
+										{submission.status}
+									</Badge>
+								</span>
+							</div>
+							<div className="flex flex-col">
+								<span className="text-muted-foreground">Score</span>
+								<span className="font-semibold">{submission.score}/100</span>
+							</div>
+							<div className="flex flex-col">
+								<span className="text-muted-foreground">Submitted</span>
+								<span className="font-semibold">
+									{new Date(submission.submitted_at).toLocaleString("en-US", {
+										day: "2-digit",
+										month: "short",
+										year: "numeric",
+										hour: "2-digit",
+										minute: "2-digit",
+									})}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<Tabs
 					value={activeTab}
@@ -218,6 +242,12 @@ export default function MarkingClient({
 							className="flex-1 sm:flex-initial"
 						>
 							Summary
+						</TabsTrigger>
+						<TabsTrigger
+							value="feedback"
+							className="flex-1 sm:flex-initial"
+						>
+							Feedback
 						</TabsTrigger>
 					</TabsList>
 
@@ -311,6 +341,60 @@ export default function MarkingClient({
 								</CardContent>
 							</Card>
 						</div>
+					</TabsContent>
+
+					<TabsContent
+						value="feedback"
+						className="animate-in fade-in-50 duration-300"
+					>
+						<Card className="shadow-sm">
+							<CardHeader className="pb-3 border-b">
+								<div className="flex justify-between items-center">
+									<CardTitle className="text-lg">
+										Feedback
+									</CardTitle>
+									<div className="flex items-center gap-2">
+										<button
+											onClick={handleSaveFeedback}
+											disabled={savingFeedback}
+											className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md bg-primary text-white hover:bg-primary/90 transition-colors"
+											title="Save feedback"
+										>
+											{savingFeedback ? (
+												<div className="h-3.5 w-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+											) : (
+												<FileText size={14} />
+											)}
+											<span>
+												{feedbackSaved
+													? "Saved!"
+													: savingFeedback
+													? "Saving..."
+													: "Save"}
+											</span>
+										</button>
+										<button
+											onClick={() =>
+												handleCopyToClipboard(feedback)
+											}
+											className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
+											title="Copy feedback to clipboard"
+										>
+											<Copy size={14} />
+											<span>Copy</span>
+										</button>
+									</div>
+								</div>
+							</CardHeader>
+							<CardContent className="pt-4">
+								<textarea
+									value={feedback}
+									onChange={(e) => setFeedback(e.target.value)}
+									className="w-full min-h-[300px] font-mono text-sm p-4 bg-slate-50 rounded-md border focus:outline-none focus:ring-0 resize-y"
+									placeholder="Add your feedback here. This will be stored alongside the autograded summary."
+								/>
+							</CardContent>
+						</Card>
 					</TabsContent>
 				</Tabs>
 			</div>
