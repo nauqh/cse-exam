@@ -133,7 +133,7 @@ export default function MarkingClient({
 
 	const handleSaveFeedback = async () => {
 		if (!submission) return;
-		
+
 		setSavingFeedback(true);
 		try {
 			const response = await fetch(
@@ -182,14 +182,18 @@ export default function MarkingClient({
 	}
 
 	return (
-		<div className="container mx-auto p-2 py-8 max-w-4xl">
+		<div className="container mx-auto p-6 max-w-4xl">
 			<div className="flex flex-col gap-6">
 				<div className="bg-white rounded-lg py-6 mb-8">
 					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 						<div>
-							<h1 className="text-2xl font-bold">Submission Review</h1>
+							<h1 className="text-2xl font-bold">
+								Submission Review
+							</h1>
 							<div className="text-muted-foreground mt-1">
-								<span className="font-medium">{submission.exam_name}</span>
+								<span className="font-medium">
+									{submission.exam_name}
+								</span>
 								<span className="mx-2">•</span>
 								<span>{submission.email}</span>
 							</div>
@@ -198,7 +202,11 @@ export default function MarkingClient({
 							<div className="flex flex-col">
 								<span className="font-semibold">
 									<Badge
-										variant={submission.status === "completed" ? "default" : "outline"}
+										variant={
+											submission.status === "completed"
+												? "default"
+												: "outline"
+										}
 										className="px-3 py-1 uppercase text-xs tracking-wider mt-1"
 									>
 										{submission.status}
@@ -206,13 +214,21 @@ export default function MarkingClient({
 								</span>
 							</div>
 							<div className="flex flex-col">
-								<span className="text-muted-foreground">Score</span>
-								<span className="font-semibold">{submission.score}/100</span>
+								<span className="text-muted-foreground">
+									Score
+								</span>
+								<span className="font-semibold">
+									{submission.score}/100
+								</span>
 							</div>
 							<div className="flex flex-col">
-								<span className="text-muted-foreground">Submitted</span>
+								<span className="text-muted-foreground">
+									Submitted
+								</span>
 								<span className="font-semibold">
-									{new Date(submission.submitted_at).toLocaleString("en-US", {
+									{new Date(
+										submission.submitted_at
+									).toLocaleString("en-US", {
 										day: "2-digit",
 										month: "short",
 										year: "numeric",
@@ -389,7 +405,9 @@ export default function MarkingClient({
 							<CardContent className="pt-4">
 								<textarea
 									value={feedback}
-									onChange={(e) => setFeedback(e.target.value)}
+									onChange={(e) =>
+										setFeedback(e.target.value)
+									}
 									className="w-full min-h-[300px] font-mono text-sm p-4 bg-slate-50 rounded-md border focus:outline-none focus:ring-0 resize-y"
 									placeholder="Add your feedback here. This will be stored alongside the autograded summary."
 								/>
