@@ -4,9 +4,9 @@ import { getExamQuestions, getExamProblemQuestions } from "@/lib/questions";
 export default async function ReviewPage({
 	params,
 }: {
-	params: Promise<{ examId: string; submissionId: number }>;
+	params: Promise<{ submissionId: number }>;
 }) {
-	const { examId, submissionId } = await params;
+	const { submissionId } = await params;
 
 	// First fetch the submission using submissionId
 	const submissionResponse = await fetch(
