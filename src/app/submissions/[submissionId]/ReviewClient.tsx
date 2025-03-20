@@ -165,10 +165,17 @@ export default function ReviewClient({
 	}
 
 	return (
-		<div className="max-w-4xl mx-auto p-4 md:p-6">
+		<div className="container mx-auto p-2 py-8 max-w-4xl">
 			<div className="bg-white rounded-lg py-6 mb-8">
 				<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-					<h1 className="text-2xl font-bold">Exam Review</h1>
+					<div>
+						<h1 className="text-2xl font-bold">Exam Review</h1>
+						<div className="text-muted-foreground mt-1">
+							<span className="font-medium">{submission.exam_name}</span>
+							<span className="mx-2">•</span>
+							<span>{submission.email}</span>
+						</div>
+					</div>
 					{processedSubmission && (
 						<div className="flex gap-6 text-sm">
 							<div className="flex flex-col">
