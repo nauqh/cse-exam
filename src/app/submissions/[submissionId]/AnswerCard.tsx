@@ -153,7 +153,7 @@ export default function AnswerCard({
 										: "text-gray-600"
 								)}
 							>
-								Your solution:
+								Your submission:
 							</p>
 							<pre
 								className={cn(
