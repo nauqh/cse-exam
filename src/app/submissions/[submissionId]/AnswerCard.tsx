@@ -18,6 +18,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import { Question } from "@/lib/questions";
+
 type SubmissionAnswer = {
   answer: string;
   type: "multichoice" | "sql" | "python" | "pandas" | "file";
@@ -53,7 +55,7 @@ export default function AnswerCard({
 }: {
   answer: SubmissionAnswer;
   questionNumber: number;
-  question: any;
+  question: Question;
 }) {
   const renderAnswerContent = () => {
     const status = answer.status;
