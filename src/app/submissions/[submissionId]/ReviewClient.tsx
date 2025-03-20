@@ -6,6 +6,10 @@ import { ExamContent } from "@/lib/questions";
 import { cn } from "@/lib/utils";
 import TableDisplay from "@/components/problem/TableDisplay";
 import { FileData, LinkData } from "@/types/exam";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { FileText, LinkIcon } from "lucide-react";
+import CodeOutput from "@/components/CodeOutput";
 
 type SubmissionAnswer = {
 	answer: string;
@@ -29,6 +33,19 @@ export type Submission = {
 const processMarkdown = (content: string) => {
 	const processedContent = content.replace(/<br\/>/g, "\n\n");
 	return processedContent.split(/(```[^`]*```)/g);
+};
+
+// Function to decode base64 file content
+const decodeBase64File = (content: string): string => {
+	const base64Content = content.split(",")[1];
+	if (!base64Content) return "Error decoding file content";
+
+	try {
+		return atob(base64Content);
+	} catch (error) {
+		console.error("Error decoding base64:", error);
+		return "Error decoding file content";
+	}
 };
 
 // Function to parse the exam summary markdown string and extract question correctness
@@ -98,6 +115,374 @@ const parseExamSummary = (
 	return results;
 };
 
+// AnswerCard component for displaying individual answers
+function AnswerCard({
+	answer,
+	questionNumber,
+	question,
+}: {
+	answer: SubmissionAnswer;
+	questionNumber: number;
+	question: any;
+}) {
+	const renderAnswerContent = () => {
+		const status = answer.status;
+
+		switch (answer.type) {
+			case "multichoice":
+				return (
+					<div className={cn(
+						"p-4 rounded-lg",
+						status === "correct"
+							? "bg-green-50"
+							: status === "incorrect"
+							? "bg-red-50"
+							: "bg-gray-50"
+					)}>
+						<p
+							className={cn(
+								"font-medium mb-2",
+								status === "correct"
+									? "text-green-700"
+									: status === "incorrect"
+									? "text-red-700"
+									: "text-gray-700"
+							)}
+						>
+							{status === "correct"
+								? "✓ Correct"
+								: status === "incorrect"
+								? "✗ Incorrect"
+								: "Not submitted"}
+						</p>
+						<div className="mt-2">
+							<p
+								className={cn(
+									"text-sm",
+									status === "correct"
+										? "text-green-600"
+										: status === "incorrect"
+										? "text-red-600"
+										: "text-gray-600"
+								)}
+							>
+								Your answer: {answer.answer}
+							</p>
+						</div>
+						{status === "incorrect" && (
+							<p className="text-sm mt-3 text-red-600">
+								Please review the correct option for this question.
+							</p>
+						)}
+					</div>
+				);
+
+			case "python":
+			case "sql":
+			case "pandas":
+				return (
+					<div className={cn(
+						"p-4 rounded-lg",
+						status === "correct"
+							? "bg-green-50"
+							: status === "incorrect"
+							? "bg-red-50"
+							: "bg-gray-50"
+					)}>
+						<p
+							className={cn(
+								"font-medium mb-2",
+								status === "correct"
+									? "text-green-700"
+									: status === "incorrect"
+									? "text-red-700"
+									: "text-gray-700"
+							)}
+						>
+							{status === "correct"
+								? "✓ Correct"
+								: status === "incorrect"
+								? "✗ Incorrect"
+								: "Not submitted"}
+						</p>
+						<div className="mt-2">
+							<p
+								className={cn(
+									"text-sm mb-2",
+									status === "correct"
+										? "text-green-600"
+										: status === "incorrect"
+										? "text-red-600"
+										: "text-gray-600"
+								)}
+							>
+								Your {answer.type.toUpperCase()} solution:
+							</p>
+							<pre
+								className={cn(
+									"p-3 rounded-lg overflow-x-auto text-sm font-mono",
+									status === "correct"
+										? "bg-green-100 border border-green-200"
+										: status === "incorrect"
+										? "bg-red-100 border border-red-200"
+										: "bg-gray-100 border border-gray-200"
+								)}
+							>
+								<code>{answer.answer}</code>
+							</pre>
+						</div>
+						{status === "incorrect" && (
+							<p className="text-sm mt-3 text-red-600">
+								Check your logic and try to identify any errors in your code.
+							</p>
+						)}
+					</div>
+				);
+
+			case "file":
+				return (
+					<div className={cn(
+						"p-4 rounded-lg",
+						status === "correct"
+							? "bg-green-50"
+							: status === "incorrect"
+							? "bg-red-50"
+							: "bg-gray-50"
+					)}>
+						<p
+							className={cn(
+								"font-medium mb-2",
+								status === "correct"
+									? "text-green-700"
+									: status === "incorrect"
+									? "text-red-700"
+									: "text-gray-700"
+							)}
+						>
+							{status === "correct"
+								? "✓ Correct"
+								: status === "incorrect"
+								? "✗ Incorrect"
+								: "Not submitted"}
+						</p>
+						<div className="mt-2">
+							<p
+								className={cn(
+									"text-sm mb-2",
+									status === "correct"
+										? "text-green-600"
+										: status === "incorrect"
+										? "text-red-600"
+										: "text-gray-600"
+								)}
+							>
+								Your uploaded files:
+							</p>
+							<div
+								className={cn(
+									"p-3 rounded-lg",
+									status === "correct"
+										? "bg-green-100 border border-green-200"
+										: status === "incorrect"
+										? "bg-red-100 border border-red-200"
+										: "bg-gray-100 border border-gray-200"
+								)}
+							>
+								{answer.files?.length ? (
+									<ul className="space-y-3">
+										{answer.files.map((file, idx) => (
+											<li key={idx} className="border rounded-md overflow-hidden shadow-sm">
+												<div className="bg-slate-100 px-4 py-3 flex items-center justify-between">
+													<div className="flex items-center gap-2">
+														<FileText className="h-4 w-4 text-blue-500" />
+														<span className="font-medium">{file.name}</span>
+													</div>
+													<Badge variant="outline" className="text-xs">
+														{(file.size / 1024).toFixed(1)} KB
+													</Badge>
+												</div>
+												<div className="overflow-hidden">
+													<CodeOutput data={decodeBase64File(file.content)} />
+												</div>
+											</li>
+										))}
+									</ul>
+								) : (
+									<p className="text-sm text-gray-500">No files submitted</p>
+								)}
+							</div>
+						</div>
+					</div>
+				);
+
+			default:
+				if (answer.links && answer.links.length > 0) {
+					return (
+						<div className={cn(
+							"p-4 rounded-lg",
+							status === "correct"
+								? "bg-green-50"
+								: status === "incorrect"
+								? "bg-red-50"
+								: "bg-gray-50"
+						)}>
+							<p
+								className={cn(
+									"font-medium mb-2",
+									status === "correct"
+										? "text-green-700"
+										: status === "incorrect"
+										? "text-red-700"
+										: "text-gray-700"
+								)}
+							>
+								{status === "correct"
+									? "✓ Correct"
+									: status === "incorrect"
+									? "✗ Incorrect"
+									: "Not submitted"}
+							</p>
+							<div className="mt-2">
+								<p
+									className={cn(
+										"text-sm mb-2",
+										status === "correct"
+											? "text-green-600"
+											: status === "incorrect"
+											? "text-red-600"
+											: "text-gray-600"
+									)}
+								>
+									Your submitted links:
+								</p>
+								<div className="space-y-3">
+									{answer.links.map((link) => (
+										<div
+											key={link.url}
+											className="flex flex-col p-3 bg-slate-50 border rounded-md"
+										>
+											<a
+												href={link.url}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-blue-600 hover:underline flex items-center gap-2"
+											>
+												<LinkIcon className="h-4 w-4" />
+												{link.url}
+											</a>
+											{link.description && (
+												<p className="text-sm text-muted-foreground ml-6 mt-1">
+													{link.description}
+												</p>
+											)}
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+					);
+				}
+
+				return <p>Unsupported answer type: {answer.type}</p>;
+		}
+	};
+
+	const renderQuestionContent = () => {
+		const parts = processMarkdown(question.question);
+		
+		return (
+			<div className="prose dark:prose-invert max-w-none mb-6">
+				{parts.map((part, idx) => {
+					if (!part.startsWith("```")) {
+						return (
+							<ReactMarkdown
+								key={idx}
+								components={{
+									img: ({ src }) =>
+										src && <ZoomableImage src={src} />,
+									code: ({ children }) => (
+										<code className="bg-muted px-1.5 py-0.5 rounded-sm font-mono text-sm">
+											{children}
+										</code>
+									),
+								}}
+							>
+								{part}
+							</ReactMarkdown>
+						);
+					} else {
+						return (
+							<pre
+								key={idx}
+								className="bg-zinc-950 text-zinc-50 p-4 rounded-lg my-4"
+							>
+								<code>
+									{part
+										.replace(/```/g, "")
+										.replace("...", "")
+										.trim()}
+								</code>
+							</pre>
+						);
+					}
+				})}
+				{question.tableData && (
+					<TableDisplay tableData={question.tableData} />
+				)}
+			</div>
+		);
+	};
+
+	const status = answer.status;
+
+	return (
+		<Card className={cn(
+			"shadow-sm",
+			status === "correct"
+				? "border-green-200"
+				: status === "incorrect"
+				? "border-red-200"
+				: "border-gray-200"
+		)}>
+			<CardHeader className="pb-3 flex flex-row justify-between items-center border-b">
+				<div className="flex items-center gap-3">
+					<div className="flex items-center justify-center bg-slate-100 w-8 h-8 rounded-full">
+						<CardTitle className="text-sm font-bold">
+							{questionNumber}
+						</CardTitle>
+					</div>
+					<Badge
+						variant="outline"
+						className="capitalize text-xs px-2 py-0.5"
+					>
+						{answer.type}
+					</Badge>
+					<span
+						className={cn(
+							"text-sm px-2 py-1 rounded-full",
+							status === "correct"
+								? "bg-green-100 text-green-700"
+								: status === "incorrect"
+								? "bg-red-100 text-red-700"
+								: "bg-gray-100 text-gray-700"
+						)}
+					>
+						{status === "correct"
+							? "+10 points"
+							: status === "incorrect"
+							? "0 points"
+							: "Not submitted"}
+					</span>
+				</div>
+			</CardHeader>
+			<CardContent className="pt-4">
+				{renderQuestionContent()}
+				{renderAnswerContent()}
+			</CardContent>
+		</Card>
+	);
+}
+
 export default function ReviewClient({
 	data,
 	submission,
@@ -151,7 +536,12 @@ export default function ReviewClient({
 	if (loading) {
 		return (
 			<div className="flex justify-center items-center h-screen">
-				Loading submission data...
+				<div className="flex flex-col items-center gap-4">
+					<div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+					<p className="text-muted-foreground">
+						Loading submission data...
+					</p>
+				</div>
 			</div>
 		);
 	}
@@ -210,307 +600,17 @@ export default function ReviewClient({
 			<div className="space-y-6">
 				{data.content.map((question, index) => {
 					const questionNumber = index + 1;
-					const parts = processMarkdown(question.question);
-					const submissionAnswer =
-						processedSubmission?.answers[index];
-					const status = submissionAnswer?.status;
+					const submissionAnswer = processedSubmission?.answers[index];
+					
+					if (!submissionAnswer) return null;
 
 					return (
-						<div
+						<AnswerCard
 							key={index}
-							className={cn(
-								"border rounded-lg p-4 md:p-6 bg-white",
-								status === "correct"
-									? "border-green-200"
-									: status === "incorrect"
-									? "border-red-200"
-									: "border-gray-200"
-							)}
-						>
-							<div className="flex items-center gap-3 mb-4">
-								<h2 className="text-lg font-semibold">
-									Question {questionNumber}
-								</h2>
-								<span
-									className={cn(
-										"text-sm px-2 py-1 rounded-full",
-										status === "correct"
-											? "bg-green-100 text-green-700"
-											: status === "incorrect"
-											? "bg-red-100 text-red-700"
-											: "bg-gray-100 text-gray-700"
-									)}
-								>
-									{status === "correct"
-										? "+10 points"
-										: status === "incorrect"
-										? "0 points"
-										: "Not submitted"}
-								</span>
-							</div>
-
-							<div className="prose dark:prose-invert max-w-none mb-6">
-								{parts.map((part, idx) => {
-									if (!part.startsWith("```")) {
-										return (
-											<ReactMarkdown
-												key={idx}
-												components={{
-													img: ({ src }) =>
-														src && (
-															<ZoomableImage
-																src={src}
-															/>
-														),
-													code: ({ children }) => (
-														<code className="bg-muted px-1.5 py-0.5 rounded-sm font-mono text-sm">
-															{children}
-														</code>
-													),
-												}}
-											>
-												{part}
-											</ReactMarkdown>
-										);
-									} else {
-										return (
-											<pre
-												key={idx}
-												className="bg-zinc-950 text-zinc-50 p-4 rounded-lg my-4"
-											>
-												<code>
-													{part
-														.replace(/```/g, "")
-														.replace("...", "")
-														.trim()}
-												</code>
-											</pre>
-										);
-									}
-								})}
-								{question.tableData && (
-									<TableDisplay
-										tableData={question.tableData}
-									/>
-								)}
-							</div>
-
-							{/* Unified Answer Display Section */}
-							<div className="mt-4">
-								<div
-									className={cn(
-										"p-4 rounded-lg",
-										status === "correct"
-											? "bg-green-50"
-											: status === "incorrect"
-											? "bg-red-50"
-											: "bg-gray-50"
-									)}
-								>
-									<p
-										className={cn(
-											"font-medium mb-2",
-											status === "correct"
-												? "text-green-700"
-												: status === "incorrect"
-												? "text-red-700"
-												: "text-gray-700"
-										)}
-									>
-										{status === "correct"
-											? "✓ Correct"
-											: status === "incorrect"
-											? "✗ Incorrect"
-											: "Not submitted"}
-									</p>
-
-									{/* Multiple Choice Answer */}
-									{question.choices &&
-										submissionAnswer?.type ===
-											"multichoice" && (
-											<div className="mt-2">
-												<p
-													className={cn(
-														"text-sm",
-														status === "correct"
-															? "text-green-600"
-															: status ===
-															  "incorrect"
-															? "text-red-600"
-															: "text-gray-600"
-													)}
-												>
-													Your answer:{" "}
-													{submissionAnswer.answer}
-												</p>
-											</div>
-										)}
-
-									{/* Code Answer */}
-									{(submissionAnswer?.type === "sql" ||
-										submissionAnswer?.type === "python" ||
-										submissionAnswer?.type ===
-											"pandas") && (
-										<div className="mt-2">
-											<p
-												className={cn(
-													"text-sm mb-2",
-													status === "correct"
-														? "text-green-600"
-														: status === "incorrect"
-														? "text-red-600"
-														: "text-gray-600"
-												)}
-											>
-												Your{" "}
-												{submissionAnswer.type.toUpperCase()}{" "}
-												solution:
-											</p>
-											<pre
-												className={cn(
-													"p-3 rounded-lg overflow-x-auto text-sm font-mono",
-													status === "correct"
-														? "bg-green-100 border border-green-200"
-														: status === "incorrect"
-														? "bg-red-100 border border-red-200"
-														: "bg-gray-100 border border-gray-200"
-												)}
-											>
-												<code>
-													{submissionAnswer.answer}
-												</code>
-											</pre>
-										</div>
-									)}
-
-									{/* File Upload Answer */}
-									{submissionAnswer?.type === "file" && (
-										<div className="mt-2">
-											<p
-												className={cn(
-													"text-sm mb-2",
-													status === "correct"
-														? "text-green-600"
-														: status === "incorrect"
-														? "text-red-600"
-														: "text-gray-600"
-												)}
-											>
-												Your uploaded files:
-											</p>
-											<div
-												className={cn(
-													"p-3 rounded-lg",
-													status === "correct"
-														? "bg-green-100 border border-green-200"
-														: status === "incorrect"
-														? "bg-red-100 border border-red-200"
-														: "bg-gray-100 border border-gray-200"
-												)}
-											>
-												{submissionAnswer.files
-													?.length ? (
-													<ul className="space-y-1">
-														{submissionAnswer.files.map(
-															(file, idx) => (
-																<li
-																	key={idx}
-																	className="text-sm"
-																>
-																	{file.name}{" "}
-																	<span className="text-xs text-gray-500">
-																		(
-																		{(
-																			file.size /
-																			1024
-																		).toFixed(
-																			1
-																		)}{" "}
-																		KB)
-																	</span>
-																</li>
-															)
-														)}
-													</ul>
-												) : (
-													<p className="text-sm text-gray-500">
-														No files submitted
-													</p>
-												)}
-											</div>
-										</div>
-									)}
-
-									{/* Link Answer */}
-									{submissionAnswer?.links &&
-										submissionAnswer.links.length > 0 && (
-											<div className="mt-2">
-												<p
-													className={cn(
-														"text-sm mb-2",
-														status === "correct"
-															? "text-green-600"
-															: status ===
-															  "incorrect"
-															? "text-red-600"
-															: "text-gray-600"
-													)}
-												>
-													Your submitted links:
-												</p>
-												<div
-													className={cn(
-														"p-3 rounded-lg",
-														status === "correct"
-															? "bg-green-100 border border-green-200"
-															: status ===
-															  "incorrect"
-															? "bg-red-100 border border-red-200"
-															: "bg-gray-100 border border-gray-200"
-													)}
-												>
-													<ul className="space-y-1">
-														{submissionAnswer.links.map(
-															(link, idx) => (
-																<li
-																	key={idx}
-																	className="text-sm"
-																>
-																	<a
-																		href={
-																			link.url
-																		}
-																		target="_blank"
-																		rel="noopener noreferrer"
-																		className="text-blue-600 hover:underline"
-																	>
-																		{link.description ||
-																			link.url}
-																	</a>
-																</li>
-															)
-														)}
-													</ul>
-												</div>
-											</div>
-										)}
-
-									{status === "incorrect" && (
-										<p
-											className={cn(
-												"text-sm mt-3",
-												"text-red-600"
-											)}
-										>
-											{submissionAnswer?.type ===
-											"multichoice"
-												? "Please review the correct option for this question."
-												: "Check your logic and try to identify any errors in your code."}
-										</p>
-									)}
-								</div>
-							</div>
-						</div>
+							answer={submissionAnswer}
+							questionNumber={questionNumber}
+							question={question}
+						/>
 					);
 				})}
 			</div>
