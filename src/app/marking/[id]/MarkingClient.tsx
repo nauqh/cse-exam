@@ -413,7 +413,11 @@ export default function MarkingClient({
 											title="Copy feedback to clipboard"
 										>
 											<Copy size={14} />
-											<span>Copy</span>
+											<span>
+											{copiedToClipboard
+												? "Copied!"
+												: "Copy"}
+										</span>
 										</button>
 									</div>
 								</div>

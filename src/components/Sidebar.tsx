@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { BsHouseDoorFill, BsClock, BsGear, BsDiscord } from "react-icons/bs";
+import { BsClock, BsGear, BsDiscord } from "react-icons/bs";
 import { BiLogIn } from "react-icons/bi";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";

@@ -495,7 +495,7 @@ export default function AnswerCard({
 					>
 						{answer.type}
 					</Badge>
-					<span
+					{/* <span
 						className={cn(
 							"text-sm px-2 py-1 rounded-full",
 							status === "correct"
@@ -510,7 +510,7 @@ export default function AnswerCard({
 							: status === "incorrect"
 							? "0 points"
 							: "Not submitted"}
-					</span>
+					</span> */}
 				</div>
 			</CardHeader>
 			<CardContent className="pt-4">

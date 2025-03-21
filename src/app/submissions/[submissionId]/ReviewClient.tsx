@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ExamContent } from "@/lib/questions";
 import { FileData, LinkData } from "@/types/exam";
 import AnswerCard from "./AnswerCard";
+import { BsListUl } from "react-icons/bs";
 
 type SubmissionAnswer = {
 	answer: string;
@@ -21,6 +22,7 @@ export type Submission = {
 	summary: string;
 	score: number;
 	status: string;
+	feedback: string;
 };
 
 // Function to parse the exam summary markdown string and extract question correctness
@@ -105,7 +107,9 @@ export default function ReviewClient({
 	useEffect(() => {
 		try {
 			// Process the submission to add status to each answer
-			const questionResults = parseExamSummary(submission.summary);
+			// NOTE: feedback is finalized results from summary
+			// const questionResults = parseExamSummary(submission.summary);
+			const questionResults = parseExamSummary(submission.feedback);
 
 			// Map the answers with the correct status value based on questionId
 			const processedAnswers = submission.answers.map(
@@ -204,6 +208,22 @@ export default function ReviewClient({
 						</div>
 					)}
 				</div>
+			</div>
+
+			{/* Raw Summary Markdown Section */}
+			<div className="mb-6">
+				<details className="w-full group rounded-md overflow-hidden bg-white ring-1 ring-gray-200">
+					<summary className="cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-between p-3 text-sm">
+						<span className="flex items-center gap-1.5">
+							<BsListUl className="inline-block text-muted-foreground" />
+							Summary
+						</span>
+						<span className="text-xs text-muted-foreground opacity-60">Click to view</span>
+					</summary>
+					<div className="p-4 bg-gray-50 border-t border-gray-200 overflow-auto max-h-[400px]">
+						<pre className="whitespace-pre-wrap text-sm leading-relaxed text-gray-700">{submission.feedback}</pre>
+					</div>
+				</details>
 			</div>
 
 			<div className="space-y-6">

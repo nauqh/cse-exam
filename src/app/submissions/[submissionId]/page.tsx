@@ -44,6 +44,5 @@ export default async function ReviewPage({
 	}
 	console.log(submission.answers);
 
-	// Pass the full submission object to ReviewClient
 	return <ReviewClient data={combinedData} submission={submission} />;
 }
