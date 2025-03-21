@@ -454,7 +454,7 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 													: "Save"}
 											</span>
 										</button>
-										<button
+										{/* <button
 											onClick={() =>
 												handleCopyToClipboard(feedback)
 											}
@@ -467,7 +467,7 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 												? "Copied!"
 												: "Copy"}
 										</span>
-										</button>
+										</button> */}
 									</div>
 								</div>
 							</CardHeader>
