@@ -180,7 +180,7 @@ export default function ReviewClient({
 						</div>
 					</div>
 					{processedSubmission && (
-						<div className="flex gap-6 text-sm">
+						<div className="flex gap-6">
 							<div className="flex flex-col">
 								<span className="text-muted-foreground">
 									Score

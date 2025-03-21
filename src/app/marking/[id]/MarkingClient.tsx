@@ -86,9 +86,11 @@ export default function MarkingClient({
 	const [activeTab, setActiveTab] = useState("submission");
 	const [copiedToClipboard, setCopiedToClipboard] = useState(false);
 	const [copiedSolutionLink, setCopiedSolutionLink] = useState(false);
+	const [copiedFullFeedback, setCopiedFullFeedback] = useState(false);
 	const [feedback, setFeedback] = useState<string>("");
 	const [savingFeedback, setSavingFeedback] = useState(false);
 	const [feedbackSaved, setFeedbackSaved] = useState(false);
+	const [feedbackChanged, setFeedbackChanged] = useState(false);
 	const { toast } = useToast();
 
 	const getSolutionFileUrl = () => {
@@ -111,6 +113,7 @@ export default function MarkingClient({
 				setSubmission(data);
 				setExamId(data.exam_id);
 				setFeedback(data.feedback || "");
+				setFeedbackChanged(false);
 			} catch (err) {
 				setError(
 					err instanceof Error
@@ -124,6 +127,14 @@ export default function MarkingClient({
 
 		fetchSubmission();
 	}, [submissionId]);
+
+	// Check if feedback differs from summary
+	useEffect(() => {
+		if (submission) {
+			const feedbackDiffersFromSummary = feedback !== submission.summary && feedback !== (submission.feedback || "");
+			setFeedbackChanged(feedbackDiffersFromSummary);
+		}
+	}, [feedback, submission]);
 
 	const handleCopyToClipboard = (text: string) => {
 		navigator.clipboard.writeText(text);
@@ -140,6 +151,43 @@ export default function MarkingClient({
 		navigator.clipboard.writeText(shareableUrl);
 		setCopiedSolutionLink(true);
 		setTimeout(() => setCopiedSolutionLink(false), 2000);
+	};
+
+	const handleCopyFullFeedback = () => {
+		// Check if feedback has unsaved changes before copying
+		if (feedbackChanged) {
+			toast({
+				title: "Warning",
+				description: "You have unsaved feedback changes. Please save your feedback first.",
+				className: "bg-yellow-100 text-yellow-900",
+				duration: 5000,
+			});
+			return;
+		}
+		
+		// Get the shareable URL for the solution
+		const shareableUrl = getSolutionFileUrl().replace(
+			"/preview",
+			"/view?usp=drive_link"
+		);
+		
+		// Use feedback or fall back to submission summary if feedback is empty
+		const feedbackContent = feedback || (submission?.summary || "");
+		
+		// Format the full feedback message
+		const fullFeedbackMessage = `
+
+\`\`\`
+${feedbackContent}
+\`\`\`
+Solution: ${shareableUrl}
+
+View your submission: https://csassessment.it.com/submissions/${submissionId}
+		`.trim();
+		
+		navigator.clipboard.writeText(fullFeedbackMessage);
+		setCopiedFullFeedback(true);
+		setTimeout(() => setCopiedFullFeedback(false), 2000);
 	};
 
 	const handleSaveFeedback = async () => {
@@ -163,6 +211,7 @@ export default function MarkingClient({
 			}
 
 			setFeedbackSaved(true);
+			setFeedbackChanged(false);
 			toast({
 				description: "Feedback saved successfully!",
 				className: "bg-green-100 text-green-900",
@@ -214,7 +263,7 @@ export default function MarkingClient({
 								<span>{submission.email}</span>
 							</div>
 						</div>
-						<div className="flex gap-6 text-sm">
+						<div className="flex gap-6">
 							<div className="flex flex-col">
 								<span className="font-semibold">
 									<Badge
@@ -425,12 +474,34 @@ export default function MarkingClient({
 							<CardContent className="pt-4">
 								<textarea
 									value={feedback}
-									onChange={(e) =>
-										setFeedback(e.target.value)
-									}
-									className="w-full min-h-[300px] font-mono text-sm p-4 bg-slate-50 rounded-md border focus:outline-none focus:ring-0 resize-y"
+									onChange={(e) => {
+										setFeedback(e.target.value);
+									}}
+									className="w-full min-h-[500px] font-mono text-sm p-4 bg-slate-50 rounded-md border focus:outline-none focus:ring-0 resize-y"
 									placeholder="Add your feedback here. This will be stored alongside the autograded summary."
 								/>
+								
+								{feedbackChanged && (
+									<div className="mt-2 p-2 bg-yellow-50 border border-yellow-300 rounded-md text-yellow-700 text-sm flex items-center gap-2">
+										<AlertCircle size={16} />
+										<span>You have unsaved changes. Don't forget to save your feedback.</span>
+									</div>
+								)}
+								
+								<div className="mt-6 flex justify-end">
+									<button
+										onClick={handleCopyFullFeedback}
+										className="flex items-center gap-2 text-sm px-4 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors"
+										title="Copy full feedback message to send to learner"
+									>
+										<Copy size={16} />
+										<span>
+											{copiedFullFeedback
+												? "Copied!"
+												: "Copy Feedback to Send to Learner"}
+										</span>
+									</button>
+								</div>
 							</CardContent>
 						</Card>
 					</TabsContent>
