@@ -4,8 +4,18 @@ import React, { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertCircle, FileText, Link as LinkIcon, Copy } from "lucide-react";
+import { AlertCircle, FileText, Link as LinkIcon, Copy, Maximize2, Download } from "lucide-react";
 import CodeOutput from "@/components/CodeOutput";
+import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 type Link = {
 	id: string;
@@ -79,6 +89,7 @@ export default function MarkingClient({
 	const [feedback, setFeedback] = useState<string>("");
 	const [savingFeedback, setSavingFeedback] = useState(false);
 	const [feedbackSaved, setFeedbackSaved] = useState(false);
+	const { toast } = useToast();
 
 	const getSolutionFileUrl = () => {
 		if (!examId) return "";
@@ -139,7 +150,7 @@ export default function MarkingClient({
 			const response = await fetch(
 				`https://cspyclient.up.railway.app/submissions/${submissionId}/feedback`,
 				{
-					method: "POST",
+					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -152,6 +163,11 @@ export default function MarkingClient({
 			}
 
 			setFeedbackSaved(true);
+			toast({
+				description: "Feedback saved successfully!",
+				className: "bg-green-100 text-green-900",
+				duration: 3000,
+			});
 			setTimeout(() => setFeedbackSaved(false), 2000);
 		} catch (err) {
 			console.error("Error saving feedback:", err);
@@ -416,6 +432,7 @@ export default function MarkingClient({
 					</TabsContent>
 				</Tabs>
 			</div>
+			<Toaster />
 		</div>
 	);
 }
@@ -519,14 +536,79 @@ function AnswerCard({
 												{file.name}
 											</span>
 										</div>
-										<Badge
-											variant="outline"
-											className="text-xs"
-										>
-											{(file.size / 1024).toFixed(1)} KB
-										</Badge>
+										<div className="flex items-center gap-2">
+											<Badge
+												variant="outline"
+												className="text-xs"
+											>
+												{(file.size / 1024).toFixed(1)} KB
+											</Badge>
+											<Dialog>
+												<DialogTrigger asChild>
+													<Button
+														variant="ghost"
+														size="icon"
+														className="h-8 w-8"
+													>
+														<Maximize2 className="h-4 w-4" />
+													</Button>
+												</DialogTrigger>
+												<DialogContent className="max-w-4xl w-[90vw] p-5">
+													<DialogHeader className="mb-4">
+														<DialogTitle className="flex items-center gap-2">
+															<FileText className="h-5 w-5 text-blue-500" />
+															{file.name}
+														</DialogTitle>
+													</DialogHeader>
+													<div className="border rounded-md overflow-auto h-[60vh]">
+														<CodeOutput
+															data={decodeBase64File(
+																file.content
+															)}
+														/>
+													</div>
+													<div className="mt-5 flex justify-end">
+														<Button
+															variant="outline"
+															className="flex items-center gap-2"
+															onClick={() => {
+																const blob =
+																	new Blob(
+																		[
+																			decodeBase64File(
+																				file.content
+																			),
+																		],
+																		{
+																			type: "text/plain",
+																		}
+																	);
+																const url =
+																	URL.createObjectURL(
+																		blob
+																	);
+																const a =
+																	document.createElement(
+																		"a"
+																	);
+																a.href = url;
+																a.download = file.name;
+																document.body.appendChild(a);
+																a.click();
+																document.body.removeChild(a);
+																URL.revokeObjectURL(url);
+															}}
+														>
+															<Download className="h-4 w-4" />
+															Download
+														</Button>
+													</div>
+												</DialogContent>
+											</Dialog>
+										</div>
 									</div>
-									<div className="overflow-hidden">
+									<div className="overflow-hidden max-h-[200px] relative">
+										<div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-gray-100 to-transparent pointer-events-none"></div>
 										<CodeOutput
 											data={decodeBase64File(
 												file.content
@@ -542,7 +624,6 @@ function AnswerCard({
 						)}
 					</div>
 				);
-
 			default:
 				return <p>Unsupported answer type: {answer.type}</p>;
 		}
