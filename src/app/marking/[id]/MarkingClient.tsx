@@ -250,8 +250,8 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 		<div className="container mx-auto p-6 max-w-4xl">
 			<div className="flex flex-col gap-6">
 				<div className="bg-white rounded-lg py-6 mb-8">
-					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-						<div>
+					<div className="flex flex-col justify-between items-start gap-4 w-full">
+						<div className="w-full">
 							<h1 className="text-2xl font-bold">
 								Submission Review
 							</h1>
@@ -263,8 +263,8 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 								<span>{submission.email}</span>
 							</div>
 						</div>
-						<div className="flex gap-6">
-							<div className="flex flex-col">
+						<div className="flex flex-wrap gap-4 w-full">
+							{/* <div className="flex flex-col min-w-[80px]">
 								<span className="font-semibold">
 									<Badge
 										variant={
@@ -277,9 +277,9 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 										{submission.status}
 									</Badge>
 								</span>
-							</div>
-							<div className="flex flex-col">
-								<span className="text-muted-foreground">
+							</div> */}
+							<div className="flex flex-col min-w-[80px]">
+								<span className="text-muted-foreground text-sm">
 									Score
 								</span>
 								<span className="font-semibold">
@@ -287,10 +287,10 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 								</span>
 							</div>
 							<div className="flex flex-col">
-								<span className="text-muted-foreground">
+								<span className="text-muted-foreground text-sm">
 									Submitted
 								</span>
-								<span className="font-semibold">
+								<span className="font-semibold text-sm sm:text-base">
 									{new Date(
 										submission.submitted_at
 									).toLocaleString("en-US", {
