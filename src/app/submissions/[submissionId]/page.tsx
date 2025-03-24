@@ -42,7 +42,5 @@ export default async function ReviewPage({
 			</div>
 		);
 	}
-	console.log(submission.answers);
-
 	return <ReviewClient data={combinedData} submission={submission} />;
 }

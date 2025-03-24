@@ -2,12 +2,10 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import CodeMirror from "@uiw/react-codemirror";
+import { keymap } from "@codemirror/view";
+import { Prec } from "@codemirror/state";
 import { BiHelpCircle, BiNetworkChart, BiX, BiUpload, BiLinkAlt, BiPlus, BiEdit } from "react-icons/bi";
-import {
-	ResizableHandle,
-	ResizablePanel,
-	ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { useRouter } from "next/navigation";
 import {
 	Select,
@@ -17,13 +15,13 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import ProblemDescription from "@/components/problem/ProblemDescription";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { ExamContent } from "@/lib/questions";
 import CodeOutput from "@/components/CodeOutput";
 import type { EditorView } from "@uiw/react-codemirror";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type OutputType = {
 	output: Record<string, string>[] | string;
@@ -421,24 +419,6 @@ export default function ProblemClient({
 		router.push(`/v0/${examId}/final`);
 	};
 
-	// Add keybinding: Ctrl+Enter to run code
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.ctrlKey && event.key === "Enter") {
-				event.preventDefault();
-				handleRunCode();
-			} else if (event.shiftKey && event.key === "Enter") {
-				event.preventDefault();
-				handleSubmit();
-			}
-		};
-
-		window.addEventListener("keydown", handleKeyDown);
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown);
-		};
-	}, [handleRunCode, handleSubmit]);
-
 	// Add keyboard event listener for editor focus
 	useEffect(() => {
 		const handleGlobalKeyPress = (event: KeyboardEvent) => {
@@ -459,6 +439,28 @@ export default function ProblemClient({
 			window.removeEventListener("keydown", handleGlobalKeyPress);
 		};
 	}, []);
+
+	// Custom keymap to override Shift+Enter and Ctrl+Enter behavior
+	const customKeymap = useCallback(() => {
+		return Prec.highest(keymap.of([
+			{
+				key: "Shift-Enter",
+				preventDefault: true,
+				run: () => {
+					handleSubmit();
+					return true;
+				}
+			},
+			{
+				key: "Mod-Enter", // Mod is Ctrl on Windows/Linux and Cmd on Mac
+				preventDefault: true,
+				run: () => {
+					handleRunCode();
+					return true;
+				}
+			}
+		]));
+	}, [handleSubmit, handleRunCode]);
 
 	// Add memoization for code output
 	const memoizedOutput = React.useMemo(
@@ -826,6 +828,7 @@ export default function ProblemClient({
 										height="100%"
 										onChange={handleCodeChange}
 										className="h-full 2xl:text-xl"
+										extensions={[customKeymap()]}
 									/>
 								)}
 							</div>
