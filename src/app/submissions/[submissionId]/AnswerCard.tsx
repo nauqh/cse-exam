@@ -70,6 +70,8 @@ export default function AnswerCard({
 								? "bg-green-50"
 								: status === "incorrect"
 								? "bg-red-50"
+								: status === "partial"
+								? "bg-yellow-50"
 								: "bg-gray-50"
 						)}
 					>
@@ -80,6 +82,8 @@ export default function AnswerCard({
 									? "text-green-700"
 									: status === "incorrect"
 									? "text-red-700"
+									: status === "partial"
+									? "text-yellow-700"
 									: "text-gray-700"
 							)}
 						>
@@ -87,6 +91,8 @@ export default function AnswerCard({
 								? "✓ Correct"
 								: status === "incorrect"
 								? "✗ Incorrect"
+								: status === "partial"
+								? "◑ Partial"
 								: "Not submitted"}
 						</p>
 						<div className="mt-2">
@@ -97,6 +103,8 @@ export default function AnswerCard({
 										? "text-green-600"
 										: status === "incorrect"
 										? "text-red-600"
+										: status === "partial"
+										? "text-yellow-600"
 										: "text-gray-600"
 								)}
 							>
@@ -107,6 +115,11 @@ export default function AnswerCard({
 							<p className="text-sm mt-3 text-red-600">
 								Please review the correct option for this
 								question.
+							</p>
+						)}
+						{status === "partial" && (
+							<p className="text-sm mt-3 text-yellow-600">
+								Your solution is partially correct. Review the feedback to improve.
 							</p>
 						)}
 					</div>
@@ -123,6 +136,8 @@ export default function AnswerCard({
 								? "bg-green-50"
 								: status === "incorrect"
 								? "bg-red-50"
+								: status === "partial"
+								? "bg-yellow-50"
 								: "bg-gray-50"
 						)}
 					>
@@ -133,6 +148,8 @@ export default function AnswerCard({
 									? "text-green-700"
 									: status === "incorrect"
 									? "text-red-700"
+									: status === "partial"
+									? "text-yellow-700"
 									: "text-gray-700"
 							)}
 						>
@@ -140,6 +157,8 @@ export default function AnswerCard({
 								? "✓ Correct"
 								: status === "incorrect"
 								? "✗ Incorrect"
+								: status === "partial"
+								? "◑ Partial"
 								: "Not submitted"}
 						</p>
 						<div className="mt-2">
@@ -150,6 +169,8 @@ export default function AnswerCard({
 										? "text-green-600"
 										: status === "incorrect"
 										? "text-red-600"
+										: status === "partial"
+										? "text-yellow-600"
 										: "text-gray-600"
 								)}
 							>
@@ -162,6 +183,8 @@ export default function AnswerCard({
 										? "bg-green-100 border border-green-200"
 										: status === "incorrect"
 										? "bg-red-100 border border-red-200"
+										: status === "partial"
+										? "bg-yellow-100 border border-yellow-200"
 										: "bg-gray-100 border border-gray-200"
 								)}
 							>
@@ -172,6 +195,11 @@ export default function AnswerCard({
 							<p className="text-sm mt-3 text-red-600">
 								Check your logic and try to identify any errors
 								in your code.
+							</p>
+						)}
+						{status === "partial" && (
+							<p className="text-sm mt-3 text-yellow-600">
+								Your solution is partially correct. Review the feedback to improve.
 							</p>
 						)}
 					</div>
@@ -186,6 +214,8 @@ export default function AnswerCard({
 								? "bg-green-50"
 								: status === "incorrect"
 								? "bg-red-50"
+								: status === "partial"
+								? "bg-yellow-50"
 								: "bg-gray-50"
 						)}
 					>
@@ -196,6 +226,8 @@ export default function AnswerCard({
 									? "text-green-700"
 									: status === "incorrect"
 									? "text-red-700"
+									: status === "partial"
+									? "text-yellow-700"
 									: "text-gray-700"
 							)}
 						>
@@ -203,6 +235,8 @@ export default function AnswerCard({
 								? "✓ Correct"
 								: status === "incorrect"
 								? "✗ Incorrect"
+								: status === "partial"
+								? "◑ Partial"
 								: "Not submitted"}
 						</p>
 						<div className="mt-2">
@@ -213,6 +247,8 @@ export default function AnswerCard({
 										? "text-green-600"
 										: status === "incorrect"
 										? "text-red-600"
+										: status === "partial"
+										? "text-yellow-600"
 										: "text-gray-600"
 								)}
 							>
@@ -225,6 +261,8 @@ export default function AnswerCard({
 										? "bg-green-100 border border-green-200"
 										: status === "incorrect"
 										? "bg-red-100 border border-red-200"
+										: status === "partial"
+										? "bg-yellow-100 border border-yellow-200"
 										: "bg-gray-100 border border-gray-200"
 								)}
 							>
@@ -359,6 +397,8 @@ export default function AnswerCard({
 									? "bg-green-50"
 									: status === "incorrect"
 									? "bg-red-50"
+									: status === "partial"
+									? "bg-yellow-50"
 									: "bg-gray-50"
 							)}
 						>
@@ -369,6 +409,8 @@ export default function AnswerCard({
 										? "text-green-700"
 										: status === "incorrect"
 										? "text-red-700"
+										: status === "partial"
+										? "text-yellow-700"
 										: "text-gray-700"
 								)}
 							>
@@ -376,6 +418,8 @@ export default function AnswerCard({
 									? "✓ Correct"
 									: status === "incorrect"
 									? "✗ Incorrect"
+									: status === "partial"
+									? "◑ Partial"
 									: "Not submitted"}
 							</p>
 							<div className="mt-2">
@@ -386,6 +430,8 @@ export default function AnswerCard({
 											? "text-green-600"
 											: status === "incorrect"
 											? "text-red-600"
+											: status === "partial"
+											? "text-yellow-600"
 											: "text-gray-600"
 									)}
 								>
@@ -479,6 +525,8 @@ export default function AnswerCard({
 					? "border-green-200"
 					: status === "incorrect"
 					? "border-red-200"
+					: status === "partial"
+					? "border-yellow-200"
 					: "border-gray-200"
 			)}
 		>
@@ -502,6 +550,8 @@ export default function AnswerCard({
 								? "bg-green-100 text-green-700"
 								: status === "incorrect"
 								? "bg-red-100 text-red-700"
+								: status === "partial"
+								? "bg-yellow-100 text-yellow-700"
 								: "bg-gray-100 text-gray-700"
 						)}
 					>

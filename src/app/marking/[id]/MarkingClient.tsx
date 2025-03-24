@@ -477,7 +477,7 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 									onChange={(e) => {
 										setFeedback(e.target.value);
 									}}
-									className="w-full min-h-[500px] font-mono text-sm p-4 bg-slate-50 rounded-md border focus:outline-none focus:ring-0 resize-y"
+									className="w-full min-h-[500px] font-mono text-sm p-4 bg-slate-50 rounded-md focus:outline-none focus:ring-0 resize-y"
 									placeholder="Add your feedback here. This will be stored alongside the autograded summary."
 								/>
 								
