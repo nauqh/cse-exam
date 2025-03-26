@@ -84,11 +84,6 @@ export default function ExamContent({
 						<p>The passing grade for this exam is 80%.</p>
 
 						<p>
-							Make sure to create a copy of the exam notebook to
-							work on, and use your correct email to submit.
-						</p>
-
-						<p>
 							Exam will be graded within 1 working day. For sooner
 							grading, please send your request (including your
 							email and exam title) to{" "}
@@ -107,34 +102,31 @@ export default function ExamContent({
 					</h2>
 					<ol className="space-y-4 list-decimal list-inside text-lg">
 						<li>
+							The exam begins once you submit your email.
+							Submissions made after the time limit will not be
+							processed. Your final grade will be based on the
+							total score of all <b>correctly submitted</b> answers.
+							Answers that are not submitted or are submitted in
+							the wrong format will be marked as incorrect.
+						</li>
+						<li>
+							Once you completed your exam, a <b>copy of your submission</b> will be made available. Please ensure you keep this record for future reference, as we will not be responsible for any submission-related issues without it.
+						</li>
+						<li>
 							You may request to retake an exam multiple times. To
-							retake an exam, simply make a new copy of the exam
-							notebook and resubmit using the /submit command on
+							retake an exam, simply click on the exam link to proceed and resubmit using the <code className="bg-gray-100 rounded px-1">/submit</code> command on
 							Discord. You will be able to re-attempt the exam
 							once the result of your previous submission has been
 							released.
 						</li>
 						<li>
-							The exam begins once you submit your email.
-							Submissions made after the time limit will not be
-							processed. Your final grade will be based on the
-							total score of all correctly submitted answers.
-							Answers that are not submitted or are submitted in
-							the wrong format will be marked as incorrect.
-						</li>
-						<li>
-							It is your responsibility to ensure that all answers
-							are included in the submission summary generated at
-							the end of the notebook.
-						</li>
-						<li>
 							After finishing all of the sections in the module
 							and passing the exam, you will be able to claim the
 							certificate, which will automatically allow you to
-							access the next Module.
+							access the next module.
 						</li>
 						<li>
-							Opening the exam notebook is your acknowledgement
+							By clicking on the START EXAM button, you acknowledge
 							that you have carefully read and understood these
 							policies, and that you shall accept your grade as a
 							fair result of your performance on the exam.
