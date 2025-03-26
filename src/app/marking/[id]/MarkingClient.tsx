@@ -250,7 +250,7 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 		<div className="container mx-auto p-6 max-w-4xl">
 			<div className="flex flex-col gap-6">
 				<div className="bg-white rounded-lg py-6 mb-8">
-					<div className="flex flex-col justify-between items-start gap-4 w-full">
+					<div className="flex flex-col sm:flex-row justify-between items-start gap-4 w-full">
 						<div className="w-full">
 							<h1 className="text-2xl font-bold">
 								Submission Review
@@ -263,7 +263,7 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 								<span>{submission.email}</span>
 							</div>
 						</div>
-						<div className="flex flex-wrap gap-4 w-full">
+						<div className="flex flex-wrap gap-4 w-full sm:justify-end">
 							{/* <div className="flex flex-col min-w-[80px]">
 								<span className="font-semibold">
 									<Badge
@@ -392,7 +392,6 @@ View your submission: https://csassessment.it.com/submissions/${submissionId}
 											onClick={handleCopySolutionLink}
 											className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
 											title="Copy solution link to clipboard"
-											disabled={!getSolutionFileUrl()}
 										>
 											<Copy size={14} />
 											<span>

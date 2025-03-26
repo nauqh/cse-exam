@@ -168,7 +168,7 @@ export default function ReviewClient({
 	return (
 		<div className="container mx-auto p-6 max-w-4xl">
 			<div className="bg-white rounded-lg py-6 mb-8">
-				<div className="flex flex-col justify-between items-start gap-4 w-full">
+				<div className="flex flex-col sm:flex-row justify-between items-start gap-4 w-full">
 					<div className="w-full">
 						<h1 className="text-2xl font-bold">Exam Review</h1>
 						<div className="text-muted-foreground mt-1">
@@ -180,7 +180,7 @@ export default function ReviewClient({
 						</div>
 					</div>
 					{processedSubmission && (
-						<div className="flex flex-wrap gap-4 w-full">
+						<div className="flex flex-wrap gap-4 w-full sm:justify-end">
 							<div className="flex flex-col min-w-[80px]">
 								<span className="text-muted-foreground text-sm">
 									Score
