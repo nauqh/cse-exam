@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import TableDisplay from "@/components/problem/TableDisplay";
@@ -19,14 +18,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Question } from "@/lib/questions";
-
-type SubmissionAnswer = {
-	answer: string;
-	type: "multichoice" | "sql" | "python" | "pandas" | "file";
-	status?: "correct" | "incorrect" | "partial" | "not_submitted";
-	files?: FileData[];
-	links?: LinkData[];
-};
+import { SubmissionAnswer } from "./ReviewClient";
 
 // Function to process markdown content
 const processMarkdown = (content: string) => {

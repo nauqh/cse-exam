@@ -5,7 +5,7 @@ import { FileData, LinkData } from "@/types/exam";
 import AnswerCard from "./AnswerCard";
 import { BsListUl } from "react-icons/bs";
 
-type SubmissionAnswer = {
+export type SubmissionAnswer = {
 	answer: string;
 	type: "multichoice" | "sql" | "python" | "pandas" | "file";
 	status?: "correct" | "incorrect" | "partial" | "not_submitted";
