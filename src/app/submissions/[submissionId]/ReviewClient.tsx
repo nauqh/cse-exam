@@ -170,7 +170,7 @@ export default function ReviewClient({
 			<div className="bg-white rounded-lg py-6 mb-8">
 				<div className="flex flex-col sm:flex-row justify-between items-start gap-4 w-full">
 					<div className="w-full">
-						<h1 className="text-2xl font-bold">Exam Review</h1>
+						<h1 className="text-2xl font-bold">Your Exam Results</h1>
 						<div className="text-muted-foreground mt-1">
 							<span className="font-medium">
 								{submission.exam_name}
