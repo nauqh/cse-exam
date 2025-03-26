@@ -938,7 +938,7 @@ export default function ProblemClient({
 											</p> */}
 										</div>
 									) : (
-										<pre className="bg-gray-50 p-2 mt-1 rounded">
+										<pre className="bg-gray-50 p-2 mt-1 rounded overflow-x-auto whitespace-pre-wrap">
 											{answeredProblems[index + 1]?.code ||
 												"No code submitted"}
 										</pre>
@@ -959,7 +959,7 @@ export default function ProblemClient({
 														(file, fileIndex) => (
 															<div
 																key={fileIndex}
-																className="text-xs bg-gray-100 p-1 px-2 rounded-md"
+																className="text-xs bg-gray-100 p-1 px-2 rounded-md text-ellipsis overflow-hidden"
 															>
 																{file.name} (
 																{Math.round(
@@ -981,7 +981,7 @@ export default function ProblemClient({
 												<p className="text-sm font-medium">
 													Solution links:
 												</p>
-												<ul className="list-disc pl-5 mt-1 space-y-1">
+												<ul className="list-disc pl-5 mt-1 space-y-1 overflow-hidden">
 													{answeredProblems[
 														index + 1
 													]?.links!.map((link) => (
@@ -995,7 +995,7 @@ export default function ProblemClient({
 																{link.url}
 															</a>
 															{link.description && (
-																<span className="block text-gray-500 italic text-xs ml-2">
+																<span className="block text-gray-500 italic text-xs ml-2 overflow-hidden text-ellipsis">
 																	"{link.description}"
 																</span>
 															)}

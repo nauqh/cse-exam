@@ -533,7 +533,7 @@ export default function AnswerCard({
 						variant="outline"
 						className="capitalize text-xs px-2 py-0.5"
 					>
-						{answer.type}
+						{answer.type.toUpperCase()}
 					</Badge>
 					{/* <span
 						className={cn(

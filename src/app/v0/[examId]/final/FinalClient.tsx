@@ -240,7 +240,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 													<p className="text-sm font-medium">
 														Solution links:
 													</p>
-													<ul className="list-disc pl-5 mt-1 space-y-1">
+													<ul className="list-disc pl-5 mt-1 space-y-1 overflow-hidden">
 														{data.links.map(
 															(
 																link: LinkData,
@@ -260,7 +260,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 																		}
 																	</a>
 																	{link.description && (
-																		<span className="block text-gray-500 italic text-xs ml-2">
+																		<span className="block text-gray-500 italic text-xs ml-2 overflow-hidden text-ellipsis">
 																			"
 																			{
 																				link.description
@@ -280,7 +280,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 											)}
 										</div>
 									) : (
-										<pre className="bg-gray-50 p-3 rounded mt-2 overflow-x-auto">
+										<pre className="bg-gray-50 p-3 rounded mt-2 overflow-x-auto whitespace-pre-wrap">
 											<code>{data.code}</code>
 										</pre>
 									)}
@@ -296,7 +296,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 													(file, index) => (
 														<div
 															key={index}
-															className="text-xs bg-gray-100 p-1 px-2 rounded-md"
+															className="text-xs bg-gray-100 p-1 px-2 rounded-md text-ellipsis overflow-hidden"
 														>
 															{file.name} (
 															{Math.round(
