@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function PythonProblemIntro() {
 	return (
 		<div className="bg-muted p-6 rounded-lg space-y-4">
-			<p className="text-lg">
+			<p>
 				This part requires you to write, test, and submit the function
 				definition that follows the requirements of the question. You
 				may name your function as anything you'd like, as long as Python
