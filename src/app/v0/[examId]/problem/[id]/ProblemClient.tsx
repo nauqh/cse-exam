@@ -175,7 +175,7 @@ export default function ProblemClient({
 		try {
 			setOutput({ output: "Executing...", language });
 			const response = await fetch(
-				"http://127.0.0.1:8000/execute",
+				"https://cspyclient.up.railway.app/execute",
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
