@@ -68,11 +68,8 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 			const valueData = outputData.data;
 			
 			return (
-				<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg flex items-center justify-center 2xl:text-xl">
-					<div className="text-center">
-						<div className="text-xl font-semibold mb-2">Result</div>
-						<div className="text-3xl">{formatValue(valueData)}</div>
-					</div>
+				<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto 2xl:text-xl">
+					{formatValue(valueData)}
 				</div>
 			);
 		}
@@ -219,11 +216,8 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 		const valueData = data.data;
 		
 		return (
-			<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg flex items-center justify-center 2xl:text-xl">
-				<div className="text-center">
-					<div className="text-xl font-semibold mb-2">Result</div>
-					<div className="text-3xl">{formatValue(valueData)}</div>
-				</div>
+			<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto 2xl:text-xl">
+				{formatValue(valueData)}
 			</div>
 		);
 	}
