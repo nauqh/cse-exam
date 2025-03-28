@@ -26,8 +26,33 @@ interface ValueOutput {
   data: string | number | boolean | null | undefined;
 }
 
+// Adding interface for PivotTable type
+interface PivotTableOutput {
+  type: "pivot_table";
+  data: {
+    flat: Record<string, unknown>[];
+    structured: Record<string, unknown>[];
+    nested: Record<string, Record<string, unknown>>;
+  };
+  metadata: {
+    index_hierarchy: Array<{
+      level: number;
+      name: string;
+      values: string[];
+    }>;
+    column_hierarchy: Array<{
+      level: number;
+      name: string;
+      values: string[];
+    }>;
+    shape: number[];
+    columns: string[];
+    index: string[];
+  };
+}
+
 // Define the possible output types
-type OutputData = string | Record<string, unknown>[] | DataframeOutput | SeriesOutput | ValueOutput;
+type OutputData = string | Record<string, unknown>[] | DataframeOutput | SeriesOutput | ValueOutput | PivotTableOutput;
 
 // Extending the component's props type to handle the new format
 const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, language: string } }) => {
@@ -81,6 +106,12 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 				{formatValue(valueData)}
 			</div>
 		);
+	}
+
+	// Handle pivot table type
+	if (typeof data === "object" && !Array.isArray(data) && 'type' in data && data.type === "pivot_table") {
+		const pivotData = data as PivotTableOutput;
+		return <PivotTable data={pivotData.data} metadata={pivotData.metadata} />;
 	}
 
 	// Handle dataframe type directly
@@ -166,7 +197,7 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 		return (
 			<div className="min-h-[150px] flex items-center justify-center text-gray-500 2xl:text-xl">
 				No data available
-			</div>
+				</div>
 		);
 	}
 
@@ -192,6 +223,134 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 									{formatValue(row[column])}
 								</TableCell>
 							))}
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+		</div>
+	);
+};
+
+// Custom PivotTable component to render hierarchical pivot table data
+const PivotTable = ({ 
+  data, 
+  metadata 
+}: { 
+  data: PivotTableOutput["data"], 
+  metadata: PivotTableOutput["metadata"] 
+}) => {
+	// Check if data is available
+	if (!data || (!data.flat?.length && !data.structured?.length && !Object.keys(data.nested || {}).length)) {
+		return (
+			<div className="min-h-[150px] flex items-center justify-center text-gray-500 2xl:text-xl">
+				No pivot table data available
+			</div>
+		);
+	}
+
+	// Format a numeric value with proper formatting
+	const formatValue = (value: unknown): string => {
+		if (value === null || value === undefined) return "-";
+		if (typeof value === 'number') {
+			return Number.isInteger(value) ? 
+				value.toString() : 
+				value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+		}
+		if (typeof value === 'object') {
+			try {
+				return JSON.stringify(value);
+			} catch {
+				return "[Object]";
+			}
+		}
+		return String(value);
+	};
+
+	// Extract metadata
+	const { index_hierarchy, column_hierarchy } = metadata;
+	
+	// Get row index field name (typically "JobTitle" or similar)
+	const rowIndexField = index_hierarchy?.[0]?.name || "";
+	const rowIndexValues = metadata.index || [];
+	
+	// Get column hierarchies
+	const metrics = column_hierarchy?.[0]?.values || [];
+	const years = column_hierarchy?.[1]?.values || [];
+  
+	return (
+		<div className="overflow-auto">
+			<Table>
+				<TableHeader>
+					{/* First header row - Metrics (BasePay, OvertimePay, TotalPay) */}
+					<TableRow>
+						{/* Empty cell for row index column */}
+						<TableHead className="border bg-zinc-50 font-bold">{rowIndexField}</TableHead>
+						
+						{/* Render metric headers that span across years */}
+						{metrics.map((metric) => (
+							<TableHead 
+								key={metric} 
+								colSpan={years.length}
+								className="text-center border bg-zinc-100 font-bold"
+							>
+								{metric}
+							</TableHead>
+						))}
+					</TableRow>
+					
+					{/* Second header row - Years (2011, 2012, 2013, 2014) */}
+					<TableRow>
+						{/* Empty cell for row index column */}
+						<TableHead className="border bg-zinc-50"></TableHead>
+						
+						{/* Render year headers under each metric */}
+						{metrics.flatMap((metric) => 
+							years.map((year) => (
+								<TableHead 
+									key={`${metric}_${year}`}
+									className="text-center border bg-zinc-100"
+								>
+									{year}
+								</TableHead>
+							))
+						)}
+					</TableRow>
+				</TableHeader>
+				
+				<TableBody>
+					{/* Map through each row (job title) */}
+					{rowIndexValues.map((rowIndex, idx) => (
+						<TableRow key={rowIndex}>
+							{/* Row index cell (job title) */}
+							<TableCell className="font-medium border bg-gray-50">{rowIndex}</TableCell>
+							
+							{/* Render data cells for each metric and year combination */}
+							{metrics.flatMap((metric) => 
+								years.map((year) => {
+									// Get value from the appropriate data structure
+									let value;
+									
+									if (data.flat && data.flat[idx]) {
+										// For flat data format
+										value = data.flat[idx][`${metric}_${year}`];
+									} else if (data.structured && data.structured[idx]) {
+										// For structured data format
+										value = data.structured[idx][`${metric}_${year}`];
+									} else if (data.nested && data.nested[rowIndex]) {
+										// For nested data format
+										value = data.nested[rowIndex][`('${metric}', ${year})`];
+									}
+									
+									return (
+										<TableCell 
+											key={`${rowIndex}_${metric}_${year}`}
+											className="text-right border"
+										>
+											{formatValue(value)}
+										</TableCell>
+									);
+								})
+							)}
 						</TableRow>
 					))}
 				</TableBody>
