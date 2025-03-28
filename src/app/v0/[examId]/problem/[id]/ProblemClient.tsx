@@ -19,7 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { ExamContent } from "@/lib/questions";
 import CodeOutput from "@/components/CodeOutput";
-import type { EditorView } from "@uiw/react-codemirror";
+import { EditorView } from "@codemirror/view";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -827,7 +827,7 @@ export default function ProblemClient({
 										height="100%"
 										onChange={handleCodeChange}
 										className="h-full 2xl:text-xl"
-										extensions={[customKeymap()]}
+										extensions={[customKeymap(), EditorView.lineWrapping]}
 									/>
 								)}
 							</div>
