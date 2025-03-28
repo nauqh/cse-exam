@@ -11,23 +11,26 @@ import {
 // Adding interface for the new dataframe type
 interface DataframeOutput {
   type: "dataframe";
-  data: Record<string, any>[];
+  data: Record<string, unknown>[];
 }
 
 // Adding interface for pandas Series type
 interface SeriesOutput {
   type: "series";
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 
 // Adding interface for single value type
 interface ValueOutput {
   type: "value";
-  data: any;
+  data: string | number | boolean | null | undefined;
 }
 
 // Define the possible output types
-type OutputData = string | Record<string, any>[] | DataframeOutput | SeriesOutput | ValueOutput;
+type OutputData = string | Record<string, unknown>[] | DataframeOutput | SeriesOutput | ValueOutput;
+
+// Define the valid value types that can be displayed
+type DisplayValueType = string | number | boolean | null | undefined | object;
 
 // Extending the component's props type to handle the new format
 const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, language: string } }) => {
@@ -39,12 +42,19 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 	}
 
 	// Format a value for display based on its type
-	const formatValue = (value: any): string => {
+	const formatValue = (value: unknown): string => {
 		if (value === null || value === undefined) return "-";
 		if (typeof value === 'number') {
 			return Number.isInteger(value) ? 
 				value.toString() : 
 				value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 });
+		}
+		if (typeof value === 'object') {
+			try {
+				return JSON.stringify(value);
+			} catch {
+				return "[Object]";
+			}
 		}
 		return String(value);
 	};
