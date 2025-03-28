@@ -29,9 +29,6 @@ interface ValueOutput {
 // Define the possible output types
 type OutputData = string | Record<string, unknown>[] | DataframeOutput | SeriesOutput | ValueOutput;
 
-// Define the valid value types that can be displayed
-type DisplayValueType = string | number | boolean | null | undefined | object;
-
 // Extending the component's props type to handle the new format
 const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, language: string } }) => {
 	// Handle empty data
@@ -62,144 +59,8 @@ const CodeOutput = ({ data }: { data: OutputData | { output: OutputData, languag
 	// Handle SQL dataframe format
 	if (typeof data === "object" && !Array.isArray(data) && 'output' in data) {
 		const outputData = data.output;
-		
-		// Check if it's a single value output
-		if (typeof outputData === "object" && !Array.isArray(outputData) && 'type' in outputData && outputData.type === "value") {
-			const valueData = outputData.data;
-			
-			return (
-				<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto 2xl:text-xl">
-					{formatValue(valueData)}
-				</div>
-			);
-		}
-		
-		// Check if it's the new dataframe format
-		if (typeof outputData === "object" && !Array.isArray(outputData) && 'type' in outputData && outputData.type === "dataframe") {
-			const dataframeData = outputData.data;
-			
-			if (!Array.isArray(dataframeData) || dataframeData.length === 0) {
-				return (
-					<div className="min-h-[150px] flex items-center justify-center text-gray-500 2xl:text-xl">
-						No data available
-					</div>
-				);
-			}
-
-			const columns = Object.keys(dataframeData[0]);
-
-			return (
-				<div className="overflow-auto">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead></TableHead>
-								{columns.map((column) => (
-									<TableHead key={column}>{column}</TableHead>
-								))}
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{dataframeData.map((row, rowIndex) => (
-								<TableRow key={rowIndex}>
-									<TableCell>{rowIndex + 1}</TableCell>
-									{columns.map((column) => (
-										<TableCell key={`${rowIndex}-${column}`}>
-											{formatValue(row[column])}
-										</TableCell>
-									))}
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</div>
-			);
-		}
-		
-		// Check if it's a pandas Series format
-		if (typeof outputData === "object" && !Array.isArray(outputData) && 'type' in outputData && outputData.type === "series") {
-			const seriesData = outputData.data;
-			
-			if (!seriesData || Object.keys(seriesData).length === 0) {
-				return (
-					<div className="min-h-[150px] flex items-center justify-center text-gray-500 2xl:text-xl">
-						No data available
-					</div>
-				);
-			}
-
-			return (
-				<div className="overflow-auto">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead>Index</TableHead>
-								<TableHead>Value</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{Object.entries(seriesData).map(([index, value], rowIndex) => (
-								<TableRow key={rowIndex}>
-									<TableCell>{index}</TableCell>
-									<TableCell>
-										{formatValue(value)}
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</div>
-			);
-		}
-		
-		// Handle string or array output directly
-		if (typeof outputData === "string") {
-			return (
-				<div className="h-full bg-zinc-900 text-emerald-300/90 font-mono text-sm p-3 rounded-lg whitespace-pre-wrap flex overflow-y-auto 2xl:text-xl">
-					{outputData}
-				</div>
-			);
-		}
-		
-		// Handle array output
-		if (Array.isArray(outputData)) {
-			if (outputData.length === 0) {
-				return (
-					<div className="min-h-[150px] flex items-center justify-center text-gray-500 2xl:text-xl">
-						No data available
-					</div>
-				);
-			}
-			
-			const columns = Object.keys(outputData[0]);
-
-			return (
-				<div className="overflow-auto">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead></TableHead>
-								{columns.map((column) => (
-									<TableHead key={column}>{column}</TableHead>
-								))}
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{outputData.map((row, rowIndex) => (
-								<TableRow key={rowIndex}>
-									<TableCell>{rowIndex + 1}</TableCell>
-									{columns.map((column) => (
-										<TableCell key={`${rowIndex}-${column}`}>
-											{formatValue(row[column])}
-										</TableCell>
-									))}
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</div>
-			);
-		}
+		// Simply pass the output data to the same component for processing
+		return <CodeOutput data={outputData} />;
 	}
 
 	// Handle plain text output
