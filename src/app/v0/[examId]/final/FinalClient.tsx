@@ -158,7 +158,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 		try {
 			console.log(JSON.stringify(examResults));
 			const response = await fetch(
-				"http://127.0.0.1:8000/submissions",
+				"https://cspyclient.up.railway.app/submissions",
 				{
 					method: "POST",
 					headers: {

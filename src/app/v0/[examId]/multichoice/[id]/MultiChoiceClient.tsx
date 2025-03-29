@@ -132,13 +132,26 @@ export default function MultiChoiceClient({
 
 	useEffect(() => {
 		const handleKeyPress = (event: KeyboardEvent) => {
-			if (!currentQuestion?.choices || isMultipleSelectionQuestion) return;
+			if (!currentQuestion?.choices) return;
 
 			const key = event.key.toLowerCase();
-			if (["a", "b", "c", "d"].includes(key)) {
+			if (["a", "b", "c", "d", "e", "f", "g", "h"].includes(key)) {
 				const index = key.charCodeAt(0) - "a".charCodeAt(0);
 				if (index < currentQuestion.choices.length) {
-					setSelectedOption(currentQuestion.choices[index]);
+					if (isMultipleSelectionQuestion) {
+						// Toggle the option for multichoice_many
+						setSelectedOptions(prev => {
+							const optionId = key;
+							if (prev.includes(optionId)) {
+								return prev.filter(item => item !== optionId);
+							} else {
+								return [...prev, optionId].sort(); // Sort to maintain alphabetical order
+							}
+						});
+					} else {
+						// For single choice questions, just select the option
+						setSelectedOption(currentQuestion.choices[index]);
+					}
 				}
 			}
 			if (event.key === "Enter") {
@@ -150,7 +163,7 @@ export default function MultiChoiceClient({
 		return () => {
 			window.removeEventListener("keydown", handleKeyPress);
 		};
-	}, [currentQuestion, selectedOption, handleSubmit, isMultipleSelectionQuestion]);
+	}, [currentQuestion, selectedOption, handleSubmit, isMultipleSelectionQuestion, setSelectedOptions]);
 
 	const handleReset = () => {
 		const newAnswers = { ...answeredQuestions };
@@ -301,8 +314,8 @@ export default function MultiChoiceClient({
 							<div className="bg-white rounded-lg p-4 overflow-y-auto">
 								<div className="text-sm text-muted-foreground mb-2">
 									{isMultipleSelectionQuestion 
-										? "Select all applicable options. Multiple answers can be selected." 
-										: "Press any key to select an option. Press Enter to submit."}
+										? "Press any keys to select/deselect • Press Enter to submit" 
+										: "Press any key to select • Press Enter to submit"}
 								</div>
 
 								{isMultipleSelectionQuestion ? (
