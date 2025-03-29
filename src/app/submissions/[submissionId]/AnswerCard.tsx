@@ -2,7 +2,6 @@
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import TableDisplay from "@/components/problem/TableDisplay";
-import { FileData, LinkData } from "@/types/exam";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FileText, LinkIcon, Maximize2, Download } from "lucide-react";
@@ -88,7 +87,7 @@ export default function AnswerCard({
 								: "Not submitted"}
 						</p>
 						<div className="mt-2">
-							<p
+							<div
 								className={cn(
 									"text-sm",
 									status === "correct"
@@ -100,8 +99,29 @@ export default function AnswerCard({
 										: "text-gray-600"
 								)}
 							>
-								Your answer: {answer.answer}
-							</p>
+								<span>Your answer:</span>
+								{Array.isArray(answer.answer) ? (
+									<span className="flex flex-wrap gap-1 mt-1">
+										{answer.answer.map((choice, index) => (
+											<Badge key={index} variant="outline" className="text-xs">
+												{choice.trim()}
+											</Badge>
+										))}
+									</span>
+								) : (
+									typeof answer.answer === 'string' && answer.answer.includes(',') ? (
+										<span className="flex flex-wrap gap-1 mt-1">
+											{answer.answer.split(',').map((choice, index) => (
+												<Badge key={index} variant="outline" className="text-xs">
+													{choice.trim()}
+												</Badge>
+											))}
+										</span>
+									) : (
+										<span>{answer.answer}</span>
+									)
+								)}
+							</div>
 						</div>
 						{status === "incorrect" && (
 							<p className="text-sm mt-3 text-red-600">
@@ -154,7 +174,7 @@ export default function AnswerCard({
 								: "Not submitted"}
 						</p>
 						<div className="mt-2">
-							<p
+							<div
 								className={cn(
 									"text-sm mb-2",
 									status === "correct"
@@ -167,7 +187,7 @@ export default function AnswerCard({
 								)}
 							>
 								Your submission:
-							</p>
+							</div>
 							<pre
 								className={cn(
 									"p-3 rounded-lg overflow-x-auto text-sm font-mono",
@@ -180,7 +200,7 @@ export default function AnswerCard({
 										: "bg-gray-100 border border-gray-200"
 								)}
 							>
-								<code>{answer.answer}</code>
+								<code>{Array.isArray(answer.answer) ? answer.answer.join('\n') : answer.answer}</code>
 							</pre>
 						</div>
 						{status === "incorrect" && (

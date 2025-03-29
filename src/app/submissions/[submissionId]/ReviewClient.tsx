@@ -6,7 +6,7 @@ import AnswerCard from "./AnswerCard";
 import { BsListUl } from "react-icons/bs";
 
 export type SubmissionAnswer = {
-	answer: string;
+	answer: string | string[];
 	type: "multichoice" | "sql" | "python" | "pandas" | "file";
 	status?: "correct" | "incorrect" | "partial" | "not_submitted";
 	files?: FileData[];

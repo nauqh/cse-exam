@@ -33,7 +33,7 @@ type File = {
 };
 
 type Answer = {
-	answer: string;
+	answer: string | string[];
 	type: string;
 	links?: Link[];
 	files?: File[];
@@ -540,19 +540,35 @@ function AnswerCard({
 		switch (answer.type) {
 			case "multichoice":
 				return (
-					<div className="flex items-center gap-2">
-						<Badge
-							variant="outline"
-							className="px-3 py-1 text-base"
-						>
-							{answer.answer}
-						</Badge>
+					<div className="flex flex-wrap items-center gap-2">
+						{Array.isArray(answer.answer) ? (
+							answer.answer.map((choice, index) => (
+								<Badge
+									key={index}
+									variant="outline"
+									className="px-3 py-1 text-base"
+								>
+									{choice.trim()}
+								</Badge>
+							))
+						) : (
+							<Badge
+								variant="outline"
+								className="px-3 py-1 text-base"
+							>
+								{answer.answer}
+							</Badge>
+						)}
 					</div>
 				);
 
 			case "python":
 			case "sql":
-				return <CodeOutput data={answer.answer} />;
+				// Handle array case for code output
+				const codeContent = Array.isArray(answer.answer) 
+					? answer.answer.join('\n') 
+					: answer.answer;
+				return <CodeOutput data={codeContent} />;
 
 			case "text":
 				return (
