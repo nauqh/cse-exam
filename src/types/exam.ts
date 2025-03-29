@@ -13,8 +13,7 @@ export const statusFilters: StatusFilter[] = [
 ];
 
 export type MultiChoiceAnswer = {
-  question: string;
-  answer: string;
+  [questionId: string]: string | string[];
 };
 
 export type FileData = {
@@ -41,7 +40,7 @@ export type ExamResults = {
   exam_id: string;
   exam_name: string;
   answers: Array<{
-    answer: string;
+    answer: string | string[];
     type: string;
     files?: FileData[];
     links?: LinkData[];

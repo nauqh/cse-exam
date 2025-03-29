@@ -42,13 +42,20 @@ export default function FinalClient({ examId }: { examId: string }) {
 		// Multiple choice answers
 		markdown += `## MULTICHOICE\n\n`;
 		const multichoiceAnswers = Object.entries(examResults.answers)
-			.filter(([_, answer]: [string, { type: string; answer: string }]) => answer.type === "multichoice")
-			.map(([index, answer]: [string, { type: string; answer: string }]) => ({ index, answer: answer.answer as string }));
+			.filter(([_, answer]: [string, { type: string; answer: string | string[] }]) => answer.type === "multichoice")
+			.map(([index, answer]: [string, { type: string; answer: string | string[] }]) => ({ 
+				index, 
+				answer: answer.answer 
+			}));
 		
 		if (multichoiceAnswers.length > 0) {
-			multichoiceAnswers.forEach((item: { index: string, answer: string }, index: number) => {
+			multichoiceAnswers.forEach((item: { index: string, answer: string | string[] }, index: number) => {
 				markdown += `### Question ${index + 1}\n`;
-				markdown += `Answer: ${item.answer}\n`;
+				if (Array.isArray(item.answer)) {
+					markdown += `Answer: ${item.answer.join(", ")}\n`;
+				} else {
+					markdown += `Answer: ${item.answer}\n`;
+				}
 			});
 		} else {
 			markdown += `No multiple choice answers submitted.\n\n`;
@@ -133,7 +140,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 			exam_id: examId,
 			exam_name: examDict[examId],
 			answers: [
-				...Object.entries(multichoiceAnswers).map(([key, answer]: [string, string]) => ({
+				...Object.entries(multichoiceAnswers).map(([key, answer]: [string, string | string[]]) => ({
 					answer,
 					type: "multichoice",
 					files: undefined,
@@ -151,7 +158,7 @@ export default function FinalClient({ examId }: { examId: string }) {
 		try {
 			console.log(JSON.stringify(examResults));
 			const response = await fetch(
-				"https://cspyclient.up.railway.app/submissions",
+				"http://127.0.0.1:8000/submissions",
 				{
 					method: "POST",
 					headers: {
@@ -209,7 +216,9 @@ export default function FinalClient({ examId }: { examId: string }) {
 										Question {question}
 									</p>
 									<p className="text-gray-600">
-										Answer: {answer}
+										Answer: {Array.isArray(answer) 
+											? answer.join(", ")
+											: answer}
 									</p>
 								</div>
 							)

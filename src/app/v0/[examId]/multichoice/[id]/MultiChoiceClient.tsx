@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import ZoomableImage from "@/components/ZoomableImage";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
@@ -29,14 +30,17 @@ export default function MultiChoiceClient({
 	const router = useRouter();
 	const [id, setId] = useState(initialQuestionId);
 	const [selectedOption, setSelectedOption] = useState<string>("");
+	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 	const [answeredQuestions, setAnsweredQuestions] = useState<{
-		[questionId: number]: string;
+		[questionId: number]: string | string[];
 	}>({});
 	const [showSummary, setShowSummary] = useState(false);
 
 	const currentQuestion = data.content[id - 1];
 	const totalQuestions = data.content.length;
 	const { toast, dismiss } = useToast();
+	
+	const isMultipleSelectionQuestion = currentQuestion?.resultType === "MULTICHOICE_MANY";
 
 	useEffect(() => {
 		if (id < data.content.length) {
@@ -45,21 +49,39 @@ export default function MultiChoiceClient({
 	}, [id, data.content.length, examId, router]);
 
 	const handleSubmit = useCallback(() => {
-		if (!selectedOption) {
-			toast({
-				description: "Please choose an option",
-				className: "bg-yellow-100 text-yellow-900 border-none",
-			});
-			return;
+		if (isMultipleSelectionQuestion) {
+			if (selectedOptions.length === 0) {
+				toast({
+					description: "Please select at least one option",
+					className: "bg-yellow-100 text-yellow-900 border-none",
+				});
+				return;
+			}
+
+			const newAnswers = {
+				...answeredQuestions,
+				[id]: selectedOptions.sort(), // Sort to maintain alphabetical order
+			};
+
+			setAnsweredQuestions(newAnswers);
+			localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
+		} else {
+			if (!selectedOption) {
+				toast({
+					description: "Please choose an option",
+					className: "bg-yellow-100 text-yellow-900 border-none",
+				});
+				return;
+			}
+
+			const newAnswers = {
+				...answeredQuestions,
+				[id]: selectedOption,
+			};
+
+			setAnsweredQuestions(newAnswers);
+			localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
 		}
-
-		const newAnswers = {
-			...answeredQuestions,
-			[id]: selectedOption,
-		};
-
-		setAnsweredQuestions(newAnswers);
-		localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
 
 		if (id < data.content.length) {
 			setId(id + 1);
@@ -69,12 +91,14 @@ export default function MultiChoiceClient({
 		}
 	}, [
 		selectedOption,
+		selectedOptions,
 		answeredQuestions,
 		id,
 		data.content.length,
 		examId,
 		router,
 		toast,
+		isMultipleSelectionQuestion,
 	]);
 
 	useEffect(() => {
@@ -86,9 +110,17 @@ export default function MultiChoiceClient({
 
 	useEffect(() => {
 		if (answeredQuestions[id]) {
-			setSelectedOption(answeredQuestions[id]);
+			const answer = answeredQuestions[id];
+			if (Array.isArray(answer)) {
+				setSelectedOptions(answer.sort()); // Sort to maintain alphabetical order
+				setSelectedOption("");
+			} else {
+				setSelectedOption(answer);
+				setSelectedOptions([]);
+			}
 		} else {
 			setSelectedOption("");
+			setSelectedOptions([]);
 		}
 	}, [id, answeredQuestions]);
 
@@ -100,7 +132,7 @@ export default function MultiChoiceClient({
 
 	useEffect(() => {
 		const handleKeyPress = (event: KeyboardEvent) => {
-			if (!currentQuestion?.choices) return;
+			if (!currentQuestion?.choices || isMultipleSelectionQuestion) return;
 
 			const key = event.key.toLowerCase();
 			if (["a", "b", "c", "d"].includes(key)) {
@@ -118,13 +150,14 @@ export default function MultiChoiceClient({
 		return () => {
 			window.removeEventListener("keydown", handleKeyPress);
 		};
-	}, [currentQuestion, selectedOption, handleSubmit]);
+	}, [currentQuestion, selectedOption, handleSubmit, isMultipleSelectionQuestion]);
 
 	const handleReset = () => {
 		const newAnswers = { ...answeredQuestions };
 		delete newAnswers[id];
 		setAnsweredQuestions(newAnswers);
 		setSelectedOption("");
+		setSelectedOptions([]);
 		localStorage.setItem("multichoiceAnswers", JSON.stringify(newAnswers));
 	};
 
@@ -170,6 +203,17 @@ export default function MultiChoiceClient({
 					</Button>
 				</div>
 			),
+		});
+	};
+
+	const toggleOption = (option: string, index: number) => {
+		const optionId = String.fromCharCode(97 + index); // Convert index to a, b, c, etc.
+		setSelectedOptions(prev => {
+			if (prev.includes(optionId)) {
+				return prev.filter(item => item !== optionId);
+			} else {
+				return [...prev, optionId].sort(); // Sort to maintain alphabetical order
+			}
 		});
 	};
 
@@ -256,41 +300,77 @@ export default function MultiChoiceClient({
 						{currentQuestion.choices && (
 							<div className="bg-white rounded-lg p-4 overflow-y-auto">
 								<div className="text-sm text-muted-foreground mb-2">
-									Press any key to select an option. Press
-									Enter to submit.
+									{isMultipleSelectionQuestion 
+										? "Select all applicable options. Multiple answers can be selected." 
+										: "Press any key to select an option. Press Enter to submit."}
 								</div>
-								<RadioGroup
-									value={selectedOption}
-									onValueChange={setSelectedOption}
-									className={cn(
-										"grid gap-2",
-										currentQuestion.choices.length > 4
-											? "grid-cols-2"
-											: "grid-cols-1"
-									)}
-								>
-									{currentQuestion.choices.map(
-										(choice, index) => (
-											<div
-												key={choice}
-												className="flex items-center space-x-2"
-											>
-												<RadioGroupItem
-													value={choice}
-													id={choice}
-												/>
-												<Label
-													htmlFor={choice}
-													className="text-base"
+
+								{isMultipleSelectionQuestion ? (
+									<div 
+										className={cn(
+											"grid gap-2",
+											currentQuestion.choices.length > 4
+												? "grid-cols-2"
+												: "grid-cols-1"
+										)}
+									>
+										{currentQuestion.choices.map(
+											(choice, index) => (
+												<div
+													key={choice}
+													className="flex items-center space-x-2"
 												>
-													<ReactMarkdown>
-														{choice}
-													</ReactMarkdown>
-												</Label>
-											</div>
-										)
-									)}
-								</RadioGroup>
+													<Checkbox
+														id={`checkbox-${choice}`}
+														checked={selectedOptions.includes(String.fromCharCode(97 + index))}
+														onChange={() => toggleOption(choice, index)}
+													/>
+													<Label
+														htmlFor={`checkbox-${choice}`}
+														className="text-base"
+													>
+														<ReactMarkdown>
+															{choice}
+														</ReactMarkdown>
+													</Label>
+												</div>
+											)
+										)}
+									</div>
+								) : (
+									<RadioGroup
+										value={selectedOption}
+										onValueChange={setSelectedOption}
+										className={cn(
+											"grid gap-2",
+											currentQuestion.choices.length > 4
+												? "grid-cols-2"
+												: "grid-cols-1"
+										)}
+									>
+										{currentQuestion.choices.map(
+											(choice, index) => (
+												<div
+													key={choice}
+													className="flex items-center space-x-2"
+												>
+													<RadioGroupItem
+														value={choice}
+														id={choice}
+													/>
+													<Label
+														htmlFor={choice}
+														className="text-base"
+													>
+														<ReactMarkdown>
+															{choice}
+														</ReactMarkdown>
+													</Label>
+												</div>
+											)
+										)}
+									</RadioGroup>
+								)}
 							</div>
 						)}
 					</div>
@@ -375,8 +455,9 @@ export default function MultiChoiceClient({
 											</p>
 											<p className="text-gray-600">
 												Selected:{" "}
-												{answeredQuestions[index + 1] ||
-													"Not answered"}
+												{Array.isArray(answeredQuestions[index + 1])
+													? `${(answeredQuestions[index + 1] as string[]).join(", ")}`
+													: answeredQuestions[index + 1] || "Not answered"}
 											</p>
 										</div>
 									))}
